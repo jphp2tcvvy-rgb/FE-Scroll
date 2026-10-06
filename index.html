@@ -51,7 +51,7 @@ main{padding:8px 16px 24px}.view{display:none}.view.active{display:block}
 .feedback{margin-top:14px;background:#0a1a2c;border:1px solid var(--line);border-radius:16px;padding:15px}.feedback strong{display:block;font-size:18px;margin-bottom:8px}.feedback.correct strong{color:var(--green)}.feedback.wrong strong{color:var(--orange)}.feedback p{margin:6px 0;color:#c8d4e1;line-height:1.45}.solution{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);white-space:pre-line}.next-btn{margin-top:14px;width:100%;border:0;background:var(--blue);color:#051321;font-weight:850;font-size:18px;border-radius:16px;padding:16px}
 .intro{line-height:1.45;margin-top:-2px;margin-bottom:14px}.progress-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.progress-summary div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}.progress-summary strong{display:block;font-size:22px}.progress-summary span{font-size:12px;color:var(--muted)}
 .formula-card strong{display:block;margin-bottom:7px}.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#d8eaff;background:#08182a;padding:10px;border-radius:10px;overflow-x:auto}.formula-card p{color:var(--muted);margin:7px 0 0;line-height:1.4;font-size:14px}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;max-width:760px;margin:0 auto;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(6,19,33,.96);backdrop-filter:blur(18px);display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #17304c;z-index:10}.nav-btn{border:0;background:transparent;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px}.nav-btn span{font-size:22px;font-weight:800}.nav-btn small{font-size:11px}.nav-btn.active{color:var(--blue)}
+.handbook-card{background:linear-gradient(145deg,#163653,#0b1f34);border:1px solid #315a7f;border-radius:18px;padding:16px;margin-bottom:12px}.handbook-card h3{margin:0 0 6px;font-size:19px}.handbook-card p{color:var(--muted);line-height:1.4;margin:6px 0 12px}.handbook-actions{display:flex;gap:9px;flex-wrap:wrap}.handbook-btn{border:1px solid var(--line);background:#12345b;border-radius:13px;padding:11px 13px;font-weight:800}.handbook-btn.primary{background:var(--blue);color:#051321;border-color:var(--blue)}.handbook-btn:disabled{opacity:.45}.handbook-status{font-size:12px;color:var(--muted);margin-top:10px}.bottom-nav{position:fixed;bottom:0;left:0;right:0;max-width:760px;margin:0 auto;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(6,19,33,.96);backdrop-filter:blur(18px);display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #17304c;z-index:10}.nav-btn{border:0;background:transparent;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px}.nav-btn span{font-size:22px;font-weight:800}.nav-btn small{font-size:11px}.nav-btn.active{color:var(--blue)}
 @media (max-width:390px){.mode-grid{grid-template-columns:1fr}.question-card h2{font-size:21px}}
 
 </style>
@@ -154,6 +154,17 @@ main{padding:8px 16px 24px}.view{display:none}.view.active{display:block}
       <section id="referenceView" class="view">
         <div class="section-title-row"><h2>Quick Reference</h2><span class="pill">High-yield</span></div>
         <p class="muted intro">This is a compact study aid, not a replacement for the current official NCEES FE Reference Handbook.</p>
+        <div class="handbook-card">
+          <h3>Official FE Reference Handbook</h3>
+          <p>Load your personal NCEES handbook on this device. The PDF stays in this browser and is not uploaded to the public FE Scroll site.</p>
+          <input id="handbookFile" type="file" accept="application/pdf,.pdf" class="hidden" />
+          <div class="handbook-actions">
+            <button id="chooseHandbook" class="handbook-btn primary">Load Handbook PDF</button>
+            <button id="openHandbook" class="handbook-btn" disabled>Open Handbook</button>
+            <button id="removeHandbook" class="handbook-btn hidden">Remove</button>
+          </div>
+          <div id="handbookStatus" class="handbook-status">No handbook loaded on this device.</div>
+        </div>
         <div id="formulaList" class="formula-list"></div>
       </section>
     </main>
@@ -441,8 +452,54 @@ document.getElementById('exitQuiz').onclick=exitQuiz;
 document.getElementById('nextBtn').onclick=()=>nextQuestion();
 document.getElementById('resetBtn').onclick=()=>{if(confirm('Reset all FE Scroll progress and restore your diagnostic baseline?')){state=initialState();saveState();renderAll();}};
 
+// Personal FE Reference Handbook storage. The PDF remains local to this browser/device.
+const HANDBOOK_DB='feScrollHandbookDB';
+const HANDBOOK_STORE='files';
+let handbookBlob=null;
+let handbookName='';
+function handbookDb(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(HANDBOOK_DB,1);
+    req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains(HANDBOOK_STORE))req.result.createObjectStore(HANDBOOK_STORE);};
+    req.onsuccess=()=>resolve(req.result); req.onerror=()=>reject(req.error);
+  });
+}
+async function loadSavedHandbook(){
+  try{
+    const db=await handbookDb();
+    const val=await new Promise((resolve,reject)=>{const tx=db.transaction(HANDBOOK_STORE,'readonly');const r=tx.objectStore(HANDBOOK_STORE).get('handbook');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});
+    if(val?.blob){handbookBlob=val.blob;handbookName=val.name||'FE Reference Handbook.pdf';}
+  }catch(e){console.warn('Handbook storage unavailable',e);}
+  renderHandbookStatus();
+}
+function renderHandbookStatus(){
+  const status=document.getElementById('handbookStatus'),open=document.getElementById('openHandbook'),remove=document.getElementById('removeHandbook');
+  if(handbookBlob){status.textContent=`Loaded on this device: ${handbookName}`;open.disabled=false;remove.classList.remove('hidden');}
+  else{status.textContent='No handbook loaded on this device.';open.disabled=true;remove.classList.add('hidden');}
+}
+async function saveHandbook(file){
+  const db=await handbookDb();
+  await new Promise((resolve,reject)=>{const tx=db.transaction(HANDBOOK_STORE,'readwrite');tx.objectStore(HANDBOOK_STORE).put({blob:file,name:file.name,updated:Date.now()},'handbook');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});
+  handbookBlob=file;handbookName=file.name;renderHandbookStatus();
+}
+async function deleteHandbook(){
+  try{const db=await handbookDb();await new Promise((resolve,reject)=>{const tx=db.transaction(HANDBOOK_STORE,'readwrite');tx.objectStore(HANDBOOK_STORE).delete('handbook');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}catch{}
+  handbookBlob=null;handbookName='';renderHandbookStatus();
+}
+document.getElementById('chooseHandbook').onclick=()=>document.getElementById('handbookFile').click();
+document.getElementById('handbookFile').addEventListener('change',async e=>{
+  const file=e.target.files?.[0]; if(!file)return;
+  if(file.type!=='application/pdf' && !file.name.toLowerCase().endsWith('.pdf')){alert('Choose a PDF file.');return;}
+  try{await saveHandbook(file);}catch{alert('Safari could not save the handbook locally. You can still choose it again later.');handbookBlob=file;handbookName=file.name;renderHandbookStatus();}
+  e.target.value='';
+});
+document.getElementById('openHandbook').onclick=()=>{
+  if(!handbookBlob)return; const url=URL.createObjectURL(handbookBlob); const w=window.open(url,'_blank'); if(!w)window.location.href=url; setTimeout(()=>URL.revokeObjectURL(url),120000);
+};
+document.getElementById('removeHandbook').onclick=()=>{if(confirm('Remove the saved handbook from this device?'))deleteHandbook();};
 
 renderAll();
+loadSavedHandbook();
 
 </script>
 </body>
