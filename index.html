@@ -51,6 +51,7 @@ main{padding:8px 16px 24px}.view{display:none}.view.active{display:block}
 .feedback{margin-top:14px;background:#0a1a2c;border:1px solid var(--line);border-radius:16px;padding:15px}.feedback strong{display:block;font-size:18px;margin-bottom:8px}.feedback.correct strong{color:var(--green)}.feedback.wrong strong{color:var(--orange)}.feedback p{margin:6px 0;color:#c8d4e1;line-height:1.45}.solution{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);white-space:pre-line}.next-btn{margin-top:14px;width:100%;border:0;background:var(--blue);color:#051321;font-weight:850;font-size:18px;border-radius:16px;padding:16px}
 .intro{line-height:1.45;margin-top:-2px;margin-bottom:14px}.progress-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.progress-summary div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}.progress-summary strong{display:block;font-size:22px}.progress-summary span{font-size:12px;color:var(--muted)}
 .formula-card strong{display:block;margin-bottom:7px}.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#d8eaff;background:#08182a;padding:10px;border-radius:10px;overflow-x:auto}.formula-card p{color:var(--muted);margin:7px 0 0;line-height:1.4;font-size:14px}
+.reference-tools{display:grid;grid-template-columns:1fr;gap:9px;margin:12px 0}.reference-tools input,.reference-tools select{width:100%;box-sizing:border-box;background:#08182a;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px 13px;font-size:15px}.reference-meta{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 2px 12px;color:var(--muted);font-size:13px}.formula-section{margin-top:16px}.formula-section h3{font-size:16px;margin:0 0 8px;color:#8fc3ff;position:sticky;top:0;background:linear-gradient(var(--bg),var(--bg));padding:6px 0;z-index:2}.formula-card .formula-source{font-size:11px;color:#6f8aa6;margin-top:6px}.formula-card mark{background:transparent;color:inherit}
 .handbook-card{background:linear-gradient(145deg,#163653,#0b1f34);border:1px solid #315a7f;border-radius:18px;padding:16px;margin-bottom:12px}.handbook-card h3{margin:0 0 6px;font-size:19px}.handbook-card p{color:var(--muted);line-height:1.4;margin:6px 0 12px}.handbook-actions{display:flex;gap:9px;flex-wrap:wrap}.handbook-btn{border:1px solid var(--line);background:#12345b;border-radius:13px;padding:11px 13px;font-weight:800}.handbook-btn.primary{background:var(--blue);color:#051321;border-color:var(--blue)}.handbook-btn:disabled{opacity:.45}.handbook-status{font-size:12px;color:var(--muted);margin-top:10px}.bottom-nav{position:fixed;bottom:0;left:0;right:0;max-width:760px;margin:0 auto;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(6,19,33,.96);backdrop-filter:blur(18px);display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #17304c;z-index:10}.nav-btn{border:0;background:transparent;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px}.nav-btn span{font-size:22px;font-weight:800}.nav-btn small{font-size:11px}.nav-btn.active{color:var(--blue)}
 @media (max-width:390px){.mode-grid{grid-template-columns:1fr}.question-card h2{font-size:21px}}
 
@@ -152,8 +153,8 @@ main{padding:8px 16px 24px}.view{display:none}.view.active{display:block}
       </section>
 
       <section id="referenceView" class="view">
-        <div class="section-title-row"><h2>Quick Reference</h2><span class="pill">High-yield</span></div>
-        <p class="muted intro">This is a compact study aid, not a replacement for the current official NCEES FE Reference Handbook.</p>
+        <div class="section-title-row"><h2>Formula Library</h2><span class="pill" id="formulaCountPill">100+ refs</span></div>
+        <p class="muted intro">Searchable FE Electrical &amp; Computer equations and high-yield relationships. Use this to learn where formulas live; use the official handbook during realistic practice.</p>
         <div class="handbook-card">
           <h3>Official FE Reference Handbook</h3>
           <p>Load your personal NCEES handbook on this device. The PDF stays in this browser and is not uploaded to the public FE Scroll site.</p>
@@ -165,6 +166,11 @@ main{padding:8px 16px 24px}.view{display:none}.view.active{display:block}
           </div>
           <div id="handbookStatus" class="handbook-status">No handbook loaded on this device.</div>
         </div>
+        <div class="reference-tools">
+          <input id="formulaSearch" type="search" placeholder="Search: Thevenin, transformer, op amp, probability…" autocomplete="off" />
+          <select id="formulaCategory" aria-label="Filter formula category"><option value="All">All FE topics</option></select>
+        </div>
+        <div class="reference-meta"><span id="formulaResultCount"></span><span>Tap Search on your handbook for exam-speed practice.</span></div>
         <div id="formulaList" class="formula-list"></div>
       </section>
     </main>
@@ -199,20 +205,219 @@ const CATEGORIES = [
 ];
 
 const FORMULAS = [
-  ['Complex numbers','e^(jθ) = cos θ + j sin θ','Use degrees or radians consistently.'],
-  ['Future value','FV = PV(1+i)^n','i is the interest rate per compounding period.'],
-  ['Present value','PV = FV/(1+i)^n','Discount a future amount back n periods.'],
-  ['Effective annual rate','EAR = (1 + r/m)^m − 1','r = nominal annual rate, m = periods/year.'],
-  ['Ohm / power','V = IR;  P = VI = I²R = V²/R','Pick the form that matches the known values.'],
-  ['Capacitor / inductor impedance','Zc = 1/(jωC);  ZL = jωL','Capacitors are negative imaginary; inductors positive.'],
-  ['RC / RL time constant','τRC = RC;  τRL = L/R','First-order response is essentially settled after ~5τ.'],
-  ['Three-phase real power','P = √3 VLL IL pf','Balanced three-phase system.'],
-  ['Synchronous speed','ns = 120f/P','rpm; P is number of poles.'],
-  ['Transformer reflected impedance','Zp = (Np/Ns)² Zs','Impedance transforms by the square of turns ratio.'],
-  ['Long straight wire','B = μ₀I/(2πr)','Magnetic flux density around an ideal long conductor.'],
-  ['Closed-loop transfer','T = G/(1 + GH)','Standard negative-feedback form.'],
-  ['Nyquist sampling','fs > 2 fmax','Sample faster than twice the highest retained frequency.'],
-  ['AM bandwidth','BW = 2 fm(max)','For conventional AM with a highest modulating frequency fm.']
+// Mathematics
+{c:'Mathematics',n:'Quadratic formula',f:'x = [−b ± √(b² − 4ac)]/(2a)',note:'For ax² + bx + c = 0.'},
+{c:'Mathematics',n:'Euler relation',f:'e^(jθ) = cos θ + j sin θ',note:'Connects exponential and rectangular/polar phasor forms.'},
+{c:'Mathematics',n:'Complex rectangular → polar',f:'|z| = √(a²+b²);  θ = atan2(b,a)',note:'For z = a + jb.'},
+{c:'Mathematics',n:'Complex polar multiply/divide',f:'(A∠α)(B∠β)=AB∠(α+β);  (A∠α)/(B∠β)=(A/B)∠(α−β)',note:'Very useful for phasors.'},
+{c:'Mathematics',n:'Power rule derivative',f:'d(xⁿ)/dx = n x^(n−1)',note:'Core calculus rule.'},
+{c:'Mathematics',n:'Product rule',f:'d(uv)/dx = u dv/dx + v du/dx',note:'Differentiate products.'},
+{c:'Mathematics',n:'Chain rule',f:'dy/dx = (dy/du)(du/dx)',note:'Differentiate composite functions.'},
+{c:'Mathematics',n:'Basic exponential derivative',f:'d(e^(ax))/dx = a e^(ax)',note:'Common in transient and control problems.'},
+{c:'Mathematics',n:'Basic sine/cosine derivatives',f:'d(sin ax)/dx = a cos ax;  d(cos ax)/dx = −a sin ax',note:'Common in signals and machines.'},
+{c:'Mathematics',n:'Power integral',f:'∫xⁿ dx = x^(n+1)/(n+1) + C,  n ≠ −1',note:'Core integration rule.'},
+{c:'Mathematics',n:'Exponential integral',f:'∫e^(ax) dx = e^(ax)/a + C',note:'Useful for first-order systems.'},
+{c:'Mathematics',n:'2×2 determinant',f:'det([[a,b],[c,d]]) = ad − bc',note:'Used in matrix inverses and linear systems.'},
+{c:'Mathematics',n:'2×2 inverse',f:'A⁻¹ = (1/(ad−bc)) [[d,−b],[−c,a]]',note:'Valid when ad−bc ≠ 0.'},
+{c:'Mathematics',n:'Dot product',f:'a·b = |a||b|cosθ = axbx + ayby + azbz',note:'Scalar projection relationship.'},
+{c:'Mathematics',n:'Cross-product magnitude',f:'|a×b| = |a||b|sinθ',note:'Direction follows the right-hand rule.'},
+
+// Probability and Statistics
+{c:'Probability & Statistics',n:'Arithmetic mean',f:'x̄ = (1/n) Σxi',note:'Average of n observations.'},
+{c:'Probability & Statistics',n:'Population variance',f:'σ² = (1/N) Σ(xi−μ)²',note:'Population measure of dispersion.'},
+{c:'Probability & Statistics',n:'Sample variance',f:'s² = [1/(n−1)] Σ(xi−x̄)²',note:'Unbiased sample variance estimator.'},
+{c:'Probability & Statistics',n:'Standard deviation',f:'σ = √(σ²);  s = √(s²)',note:'Same units as the original variable.'},
+{c:'Probability & Statistics',n:'Expected value — discrete',f:'E[X] = Σ xk p(xk)',note:'Probability-weighted average. Handbook probability section.'},
+{c:'Probability & Statistics',n:'Variance identity',f:'Var(X) = E[X²] − (E[X])²',note:'Often faster than direct deviation calculation.'},
+{c:'Probability & Statistics',n:'Conditional probability',f:'P(A|B) = P(A∩B)/P(B)',note:'Requires P(B) > 0.'},
+{c:'Probability & Statistics',n:'Bayes theorem',f:'P(A|B) = P(B|A)P(A)/P(B)',note:'Reverse conditional probability.'},
+{c:'Probability & Statistics',n:'Independent events',f:'P(A∩B) = P(A)P(B)',note:'Only when A and B are independent.'},
+{c:'Probability & Statistics',n:'Permutations',f:'P(n,r) = n!/(n−r)!',note:'Order matters.'},
+{c:'Probability & Statistics',n:'Combinations',f:'C(n,r) = n!/[r!(n−r)!]',note:'Order does not matter.'},
+{c:'Probability & Statistics',n:'Binomial probability',f:'P(X=x)=C(n,x)p^x(1−p)^(n−x)',note:'n independent Bernoulli trials.'},
+{c:'Probability & Statistics',n:'Binomial mean / variance',f:'μ=np;  σ²=np(1−p)',note:'Direct binomial properties.'},
+{c:'Probability & Statistics',n:'Normal z-score',f:'z = (x−μ)/σ',note:'Standardize a normal variable.'},
+
+// Ethics and Professional Practice
+{c:'Ethics & Professional Practice',n:'Primary duty',f:'Public health, safety, and welfare → first priority',note:'Not an equation, but a high-yield FE rule from the NCEES professional conduct material.'},
+{c:'Ethics & Professional Practice',n:'Competence rule',f:'Accept/sign work only within demonstrated competence',note:'High-yield ethics decision rule.'},
+
+// Engineering Economics
+{c:'Engineering Economics',n:'Single-payment compound amount',f:'F = P(1+i)^n',note:'Future value from present value.'},
+{c:'Engineering Economics',n:'Single-payment present worth',f:'P = F(1+i)^(−n)',note:'Present value from future value.'},
+{c:'Engineering Economics',n:'Uniform series future worth',f:'F = A[(1+i)^n − 1]/i',note:'Future value of equal end-of-period payments.'},
+{c:'Engineering Economics',n:'Sinking fund',f:'A = F·i/[(1+i)^n − 1]',note:'Uniform payment required to reach F.'},
+{c:'Engineering Economics',n:'Capital recovery',f:'A = P·[i(1+i)^n]/[(1+i)^n − 1]',note:'Uniform annual amount equivalent to P.'},
+{c:'Engineering Economics',n:'Uniform series present worth',f:'P = A[(1+i)^n − 1]/[i(1+i)^n]',note:'Present worth of equal payments.'},
+{c:'Engineering Economics',n:'Effective annual interest rate',f:'i_eff = (1 + r/m)^m − 1',note:'r nominal annual rate, m compounding periods/year.'},
+{c:'Engineering Economics',n:'Breakeven quantity',f:'Q_BE = Fixed Cost/(Price − Variable Cost/unit)',note:'Contribution-margin breakeven.'},
+{c:'Engineering Economics',n:'Net present value',f:'NPV = Σ CF_t/(1+i)^t',note:'Project is economically attractive when NPV exceeds the decision threshold.'},
+
+// Electrical Materials
+{c:'Properties of Electrical Materials',n:'Conductor resistance',f:'R = ρL/A',note:'ρ resistivity, L length, A cross-sectional area. HB ECE p.362.'},
+{c:'Properties of Electrical Materials',n:'Conductivity / resistivity',f:'σ = 1/ρ',note:'Conductivity is the reciprocal of resistivity.'},
+{c:'Properties of Electrical Materials',n:'Resistance vs temperature',f:'R = R₀[1 + α(T−T₀)]',note:'Linear temperature model for metallic conductors. HB ECE p.362.'},
+{c:'Properties of Electrical Materials',n:'Semiconductor conductivity',f:'σ = q(nμn + pμp)',note:'Carrier concentrations and mobilities. HB ECE p.387.'},
+{c:'Properties of Electrical Materials',n:'Carrier equilibrium',f:'np = nᵢ²',note:'Thermal equilibrium relation. HB ECE p.387.'},
+{c:'Properties of Electrical Materials',n:'PN built-in potential',f:'V₀ = (kT/q) ln(NaNd/nᵢ²)',note:'Ideal p-n junction contact potential.'},
+
+// Circuit Analysis
+{c:'Circuit Analysis',n:'Ohm law',f:'V = IR',note:'HB ECE p.362.'},
+{c:'Circuit Analysis',n:'Resistive power',f:'P = VI = I²R = V²/R',note:'Power absorbed by a resistor. HB ECE p.363.'},
+{c:'Circuit Analysis',n:'Series resistance',f:'Req = R1 + R2 + …',note:'Same current through all series elements.'},
+{c:'Circuit Analysis',n:'Parallel resistance',f:'1/Req = 1/R1 + 1/R2 + …',note:'Same voltage across all parallel branches.'},
+{c:'Circuit Analysis',n:'Two resistors in parallel',f:'Req = R1R2/(R1+R2)',note:'Shortcut for exactly two resistors.'},
+{c:'Circuit Analysis',n:'Voltage divider',f:'Vx = Vs·Rx/(Rtotal)',note:'Series resistors.'},
+{c:'Circuit Analysis',n:'Current divider — two branches',f:'I1 = It·R2/(R1+R2)',note:'Current divides inversely with resistance.'},
+{c:'Circuit Analysis',n:'Kirchhoff voltage law',f:'ΣV around a closed loop = 0',note:'Equivalent to rises = drops. HB ECE p.363.'},
+{c:'Circuit Analysis',n:'Kirchhoff current law',f:'ΣI into a node = ΣI out',note:'Charge conservation. HB ECE p.363.'},
+{c:'Circuit Analysis',n:'Thevenin / Norton relation',f:'RTh = RN;  IN = VTh/RTh',note:'VTh is open-circuit voltage; IN is short-circuit current.'},
+{c:'Circuit Analysis',n:'Maximum power — DC resistive load',f:'RL = RTh;  Pmax = VTh²/(4RTh)',note:'HB ECE p.366.'},
+{c:'Circuit Analysis',n:'Maximum power — AC load',f:'ZL = ZTh*',note:'Load equals complex conjugate of Thevenin impedance. HB ECE p.367.'},
+{c:'Circuit Analysis',n:'Capacitor charge',f:'q = Cv',note:'HB ECE p.364.'},
+{c:'Circuit Analysis',n:'Capacitor current',f:'iC = C dvC/dt',note:'Capacitor voltage cannot change instantaneously in an ideal circuit.'},
+{c:'Circuit Analysis',n:'Capacitor energy',f:'W = ½Cv²',note:'Equivalent forms: q²/(2C), qv/2.'},
+{c:'Circuit Analysis',n:'Inductor voltage',f:'vL = L diL/dt',note:'Inductor current cannot change instantaneously in an ideal circuit.'},
+{c:'Circuit Analysis',n:'Inductor energy',f:'W = ½Li²',note:'HB ECE p.364.'},
+{c:'Circuit Analysis',n:'Capacitors parallel / series',f:'Cparallel = ΣC;  1/Cseries = Σ(1/C)',note:'Opposite pattern from inductors/resistors.'},
+{c:'Circuit Analysis',n:'Inductors series / parallel',f:'Lseries = ΣL;  1/Lparallel = Σ(1/L)',note:'Uncoupled ideal inductors.'},
+{c:'Circuit Analysis',n:'Frequency / period',f:'f = 1/T = ω/(2π)',note:'HB ECE p.365.'},
+{c:'Circuit Analysis',n:'Sinusoid RMS',f:'Xrms = Xmax/√2',note:'For sine waves and full-wave rectified sine magnitude.'},
+{c:'Circuit Analysis',n:'Impedance',f:'Z = V/I = R + jX',note:'Phasor-domain voltage/current ratio.'},
+{c:'Circuit Analysis',n:'Admittance',f:'Y = 1/Z = G + jB',note:'Conductance + susceptance.'},
+{c:'Circuit Analysis',n:'Capacitor impedance',f:'ZC = 1/(jωC) = −j/(ωC)',note:'Negative imaginary reactance.'},
+{c:'Circuit Analysis',n:'Inductor impedance',f:'ZL = jωL',note:'Positive imaginary reactance.'},
+{c:'Circuit Analysis',n:'RC time constant',f:'τ = RC',note:'First-order capacitor circuit. HB ECE p.367.'},
+{c:'Circuit Analysis',n:'RL time constant',f:'τ = L/R',note:'First-order inductor circuit. HB ECE p.367.'},
+{c:'Circuit Analysis',n:'First-order natural response',f:'x(t) = x(∞) + [x(0+)−x(∞)]e^(−t/τ)',note:'Reusable RC/RL form.'},
+{c:'Circuit Analysis',n:'Resonant frequency',f:'ω₀ = 1/√(LC);  f₀ = 1/(2π√(LC))',note:'Series or parallel ideal resonance. HB ECE p.367.'},
+{c:'Circuit Analysis',n:'Series RLC quality factor',f:'Q = ω₀L/R = 1/(ω₀CR)',note:'Series resonance.'},
+{c:'Circuit Analysis',n:'AC real/reactive power',f:'P = VrmsIrms cosθ;  Q = VrmsIrms sinθ',note:'HB ECE p.368.'},
+{c:'Circuit Analysis',n:'Complex power',f:'S = VI* = P + jQ;  |S|=VrmsIrms',note:'Use RMS phasors.'},
+{c:'Circuit Analysis',n:'Power factor',f:'pf = cosθ = P/|S|',note:'Current lagging voltage → lagging PF.'},
+
+// Linear Systems
+{c:'Linear Systems',n:'Transfer function',f:'H(s) = Y(s)/X(s)',note:'Zero initial conditions unless stated otherwise.'},
+{c:'Linear Systems',n:'Laplace — derivative',f:'L{dx/dt} = sX(s) − x(0−)',note:'Core transform for differential equations.'},
+{c:'Linear Systems',n:'Laplace — exponential',f:'L{e^(−at)} = 1/(s+a)',note:'For t ≥ 0.'},
+{c:'Linear Systems',n:'Laplace — sine',f:'L{sin ωt} = ω/(s²+ω²)',note:'Common transform pair.'},
+{c:'Linear Systems',n:'Laplace — cosine',f:'L{cos ωt} = s/(s²+ω²)',note:'Common transform pair.'},
+{c:'Linear Systems',n:'Continuous convolution',f:'y(t)=x(t)*h(t)=∫x(τ)h(t−τ)dτ',note:'LTI output relationship.'},
+{c:'Linear Systems',n:'Frequency response',f:'H(jω) = H(s)|s=jω',note:'Evaluate a transfer function on the imaginary axis.'},
+{c:'Linear Systems',n:'Gain in decibels',f:'GdB = 20 log10|Vout/Vin|',note:'For voltage/current amplitude ratios with equal impedance context.'},
+
+// Signal Processing
+{c:'Signal Processing',n:'Nyquist sampling criterion',f:'fs > 2fmax',note:'Avoid aliasing for an ideally band-limited signal.'},
+{c:'Signal Processing',n:'Sampling period',f:'Ts = 1/fs',note:'Time spacing between uniform samples.'},
+{c:'Signal Processing',n:'Discrete convolution',f:'y[n] = Σ x[k]h[n−k]',note:'DTLTI output relation. HB ECE p.375.'},
+{c:'Signal Processing',n:'Z-transform',f:'X(z) = Σ x[k] z^(−k)',note:'Core discrete-system transform.'},
+{c:'Signal Processing',n:'First-order difference equation',f:'y[k] + a₁y[k−1] = x[k]',note:'HB ECE p.374.'},
+{c:'Signal Processing',n:'Second-order difference equation',f:'y[k] + a₁y[k−1] + a₂y[k−2] = x[k]',note:'HB ECE p.374.'},
+{c:'Signal Processing',n:'RC low-pass cutoff',f:'fc = 1/(2πRC)',note:'First-order passive RC cutoff.'},
+{c:'Signal Processing',n:'3-dB bandwidth',f:'BW = fU − fL',note:'Band-pass/band-reject bandwidth between cutoff frequencies.'},
+
+// Electronics
+{c:'Electronics',n:'Ideal op amp rules',f:'i+ = i− = 0;  v+ = v− (linear negative-feedback operation)',note:'HB ECE p.386.'},
+{c:'Electronics',n:'Inverting op amp',f:'Vout/Vin = −R2/R1',note:'Ideal op amp.'},
+{c:'Electronics',n:'Non-inverting op amp',f:'Vout/Vin = 1 + R2/R1',note:'Ideal op amp.'},
+{c:'Electronics',n:'CMRR',f:'CMRR = Ad/Acm;  CMRRdB = 20log10(Ad/Acm)',note:'Differential gain vs common-mode gain.'},
+{c:'Electronics',n:'Diode Shockley equation',f:'ID = IS[e^(VD/(ηVT)) − 1]',note:'Ideal junction-diode exponential model.'},
+{c:'Electronics',n:'Thermal voltage',f:'VT = kT/q ≈ 25.9 mV at 300 K',note:'Used in diode/BJT small-signal equations.'},
+{c:'Electronics',n:'BJT current gain',f:'IC ≈ βIB;  IE = IC + IB',note:'Forward-active approximation.'},
+{c:'Electronics',n:'BJT transconductance',f:'gm ≈ ICQ/VT',note:'Small-signal forward-active model.'},
+{c:'Electronics',n:'Enhancement NMOS saturation',f:'ID = K(VGS−Vt)²',note:'Handbook convention; saturation when device conditions are met.'},
+{c:'Electronics',n:'MOSFET transconductance',f:'gm = 2K(VGS−Vt)',note:'Using the handbook K convention in saturation.'},
+{c:'Electronics',n:'Buck converter ideal gain',f:'Vout/Vin = D',note:'D = duty ratio. HB ECE power conversion.'},
+{c:'Electronics',n:'Boost converter ideal gain',f:'Vout/Vin = 1/(1−D)',note:'Ideal continuous-conduction model.'},
+{c:'Electronics',n:'Buck-boost ideal gain',f:'Vout/Vin = −D/(1−D)',note:'Inverting buck-boost.'},
+
+// Power Systems
+{c:'Power Systems',n:'Balanced 3φ real power',f:'P = √3 VLL IL cosθ',note:'Balanced wye or delta load.'},
+{c:'Power Systems',n:'Balanced 3φ reactive power',f:'Q = √3 VLL IL sinθ',note:'Balanced wye or delta load.'},
+{c:'Power Systems',n:'Balanced 3φ apparent power',f:'|S| = √3 VLL IL',note:'VA magnitude.'},
+{c:'Power Systems',n:'Wye line/phase relations',f:'VL = √3 VP;  IL = IP',note:'Balanced wye.'},
+{c:'Power Systems',n:'Delta line/phase relations',f:'VL = VP;  IL = √3 IP',note:'Balanced delta.'},
+{c:'Power Systems',n:'Delta ↔ wye impedance',f:'ZΔ = 3ZY;  ZY = ZΔ/3',note:'Balanced loads.'},
+{c:'Power Systems',n:'Ideal transformer voltage/current ratios',f:'a=N1/N2=V1/V2=I2/I1',note:'Current ratio is inverse of voltage/turns ratio.'},
+{c:'Power Systems',n:'Transformer reflected impedance',f:'Zin = a² Zload',note:'HB ECE p.369.'},
+{c:'Power Systems',n:'Efficiency',f:'η = Pout/Pin',note:'Multiply by 100% when reporting percent efficiency.'},
+{c:'Power Systems',n:'Rotating mechanical power',f:'Pmech = Tωm',note:'HB ECE p.371.'},
+{c:'Power Systems',n:'rpm ↔ rad/s',f:'ωm = (2π/60)n',note:'n in rpm.'},
+{c:'Power Systems',n:'Synchronous speed',f:'ns = 120f/p',note:'rpm; p = number of poles.'},
+{c:'Power Systems',n:'Synchronous machine power (Ra≈0)',f:'Pd = 3(EaVa/Xs) sinδ',note:'Y-connected per-phase equivalent. HB ECE p.371.'},
+{c:'Power Systems',n:'Synchronous machine maximum power',f:'Pd,max = 3EaVa/Xs',note:'Occurs at δ=90° in the simplified model.'},
+{c:'Power Systems',n:'Induction-machine slip',f:'s = (ns−n)/ns',note:'Motor operation normally 0<s<1. HB ECE p.371.'},
+{c:'Power Systems',n:'DC armature electrical power',f:'P = VT Ia',note:'Motor input or generator output at armature terminals.'},
+{c:'Power Systems',n:'DC generated/back voltage',f:'Va = Ka n φ',note:'Handbook speed form uses n in rpm.'},
+{c:'Power Systems',n:'DC motor torque',f:'Tm = (60/(2π))Ka φ Ia',note:'N·m with handbook rpm-based Ka convention.'},
+{c:'Power Systems',n:'DC servomotor steady state',f:'V = IR + KEω;  T = KT I',note:'With consistent SI units KT = KE.'},
+{c:'Power Systems',n:'Voltage regulation',f:'%VR = 100(VNL−VFL)/VFL',note:'HB ECE p.373.'},
+
+// Electromagnetics
+{c:'Electromagnetics',n:'Coulomb force',f:'F = (1/(4πε))·(Q1Q2/r²) a_r',note:'Point-charge electrostatic force. HB ECE p.361.'},
+{c:'Electromagnetics',n:'Electric field of point charge',f:'E = (1/(4πε))·(Q/r²) a_r',note:'V/m.'},
+{c:'Electromagnetics',n:'Electric force',f:'F = QE',note:'Point charge in an electric field.'},
+{c:'Electromagnetics',n:'Parallel-plate field',f:'E = V/d',note:'Ideal uniform field between plates.'},
+{c:'Electromagnetics',n:'Gauss law',f:'∮D·dS = Qenclosed',note:'D = εE.'},
+{c:'Electromagnetics',n:'Long straight conductor',f:'H = I/(2πr);  B = μH = μI/(2πr)',note:'HB ECE p.362.'},
+{c:'Electromagnetics',n:'Force on current conductor',f:'F = I L × B',note:'Vector cross product.'},
+{c:'Electromagnetics',n:'Faraday law — N turns',f:'v = −N dΦ/dt',note:'Induced voltage opposes flux change.'},
+{c:'Electromagnetics',n:'Wavelength',f:'λ = u/f',note:'Propagation speed divided by frequency. HB ECE p.374.'},
+{c:'Electromagnetics',n:'Lossless line characteristic impedance',f:'Z0 = √(L′/C′)',note:'Per-unit-length L′ and C′.'},
+{c:'Electromagnetics',n:'Load reflection coefficient',f:'ΓL = (ZL−Z0)/(ZL+Z0)',note:'HB ECE p.374.'},
+{c:'Electromagnetics',n:'Standing-wave ratio',f:'SWR = (1+|Γ|)/(1−|Γ|)',note:'≥1 for passive loads.'},
+{c:'Electromagnetics',n:'Propagation constant — lossless phase',f:'β = 2π/λ',note:'rad/m.'},
+{c:'Electromagnetics',n:'Transmission-line input impedance',f:'Zin = Z0 [ZL + jZ0 tan(βl)]/[Z0 + jZL tan(βl)]',note:'Lossless line of length l.'},
+
+// Control Systems
+{c:'Control Systems',n:'Negative-feedback closed loop',f:'T(s)=G(s)/[1+G(s)H(s)]',note:'Standard negative-feedback form.'},
+{c:'Control Systems',n:'First-order transfer function',f:'G(s)=K/(τs+1)',note:'HB Instrumentation/Control section.'},
+{c:'Control Systems',n:'First-order unit-step response',f:'y(t)=K[1−e^(−t/τ)]',note:'Zero initial output, unit step.'},
+{c:'Control Systems',n:'Standard second-order form',f:'G(s)=Kωn²/[s²+2ζωn s+ωn²]',note:'ζ damping ratio, ωn natural frequency.'},
+{c:'Control Systems',n:'Damped natural frequency',f:'ωd = ωn√(1−ζ²)',note:'Underdamped case 0<ζ<1.'},
+{c:'Control Systems',n:'Peak time',f:'tp = π/ωd',note:'Underdamped second-order step response.'},
+{c:'Control Systems',n:'Percent overshoot',f:'%OS = 100 e^[−ζπ/√(1−ζ²)]',note:'Standard underdamped second-order step response.'},
+{c:'Control Systems',n:'2% settling time',f:'Ts ≈ 4/(ζωn)',note:'HB control model relationship.'},
+{c:'Control Systems',n:'DC gain',f:'Kdc = lim(s→0) G(s)',note:'For stable systems where the limit exists.'},
+
+// Communications
+{c:'Communications',n:'Shannon capacity',f:'C = BW log₂(1 + S/N)',note:'Maximum ideal channel rate. HB ECE p.384.'},
+{c:'Communications',n:'Sampling criterion',f:'fs > 2W',note:'W = highest message frequency.'},
+{c:'Communications',n:'Conventional AM bandwidth',f:'B = 2W',note:'Two sidebands around the carrier.'},
+{c:'Communications',n:'SSB bandwidth',f:'B = W',note:'One sideband only.'},
+{c:'Communications',n:'FM narrowband approximation',f:'B ≈ 2W  (D ≪ 1)',note:'98% power bandwidth approximation.'},
+{c:'Communications',n:'Carson rule',f:'B ≈ 2(D+1)W',note:'Wideband FM using deviation ratio D.'},
+{c:'Communications',n:'PCM quantization levels',f:'q = 2ⁿ',note:'n bits/sample.'},
+{c:'Communications',n:'PCM minimum pulse rate',f:'Rb ≥ 2nW',note:'n bits/sample at Nyquist-rate sampling.'},
+
+// Computer Networks
+{c:'Computer Networks',n:'Transmission delay',f:'dtrans = L/R',note:'Packet length L bits, link rate R bps. HB ECE p.383.'},
+{c:'Computer Networks',n:'Propagation delay',f:'dprop = d/s',note:'Distance d, propagation speed s.'},
+{c:'Computer Networks',n:'Ideal end-to-end nodal delay',f:'dtotal ≈ dproc + dqueue + dtrans + dprop',note:'Sum the four standard per-node/link delays.'},
+
+// Digital Systems
+{c:'Digital Systems',n:'Base-r positional value',f:'D = Σ ak r^k',note:'General positional number representation.'},
+{c:'Digital Systems',n:'Two’s complement',f:'2’s complement(M) = 2^N − M',note:'Equivalent to bitwise inversion + 1 for an N-bit value.'},
+{c:'Digital Systems',n:'AND / OR / XOR',f:'AND: AB;  OR: A+B;  XOR: A⊕B',note:'Boolean operators.'},
+{c:'Digital Systems',n:'De Morgan',f:'¬(A+B)=¬A·¬B;  ¬(AB)=¬A+¬B',note:'Convert NOR/NAND forms.'},
+{c:'Digital Systems',n:'D flip-flop',f:'Q(n+1)=D',note:'Next state equals D at the active clock edge.'},
+{c:'Digital Systems',n:'JK flip-flop characteristic',f:'Q(n+1)=J·¬Qn + ¬K·Qn',note:'J=K=1 toggles.'},
+{c:'Digital Systems',n:'Counter capacity',f:'Nstates = 2^m',note:'m flip-flops provide up to 2^m binary states.'},
+{c:'Digital Systems',n:'Bits required',f:'m = ceil(log₂ Nstates)',note:'Minimum flip-flop/address bits.'},
+
+// Computer Systems
+{c:'Computer Systems',n:'Cache size',f:'C = S·A·B',note:'Sets × associativity × block size. HB ECE p.413.'},
+{c:'Computer Systems',n:'Cache index bits',f:'index bits = log₂(S)',note:'S = number of sets.'},
+{c:'Computer Systems',n:'Cache block-offset bits',f:'offset bits = log₂(B)',note:'B = block size in bytes.'},
+{c:'Computer Systems',n:'Cache tag bits',f:'tag = address bits − index bits − offset bits',note:'HB ECE p.413.'},
+{c:'Computer Systems',n:'Addressable locations',f:'locations = 2^N',note:'N address bits.'},
+{c:'Computer Systems',n:'CPU execution time',f:'CPU time = Instruction Count × CPI × Clock Cycle Time',note:'Equivalent to IC×CPI/clock rate.'},
+
+// Software Engineering
+{c:'Software Engineering',n:'Binary search complexity',f:'T(n) = O(log n)',note:'Requires sorted data.'},
+{c:'Software Engineering',n:'Linear search complexity',f:'T(n) = O(n)',note:'Worst-case sequential search.'},
+{c:'Software Engineering',n:'Merge sort complexity',f:'T(n) = O(n log n)',note:'Typical worst-case complexity.'},
+{c:'Software Engineering',n:'Nested full loops',f:'n × n operations → O(n²)',note:'Useful quick Big-O recognition.'}
 ];
 
 const STORE_KEY='feScrollStateV1';
@@ -440,13 +645,39 @@ function renderProgress(){
   document.getElementById('totalAnswered').textContent=state.totalAnswered;document.getElementById('totalCorrect').textContent=state.totalCorrect;document.getElementById('totalAccuracy').textContent=state.totalAnswered?`${Math.round(state.totalCorrect/state.totalAnswered*100)}%`:'—';
   const box=document.getElementById('progressList');box.innerHTML='';[...CATEGORIES].sort((a,b)=>getMastery(a.name)-getMastery(b.name)).forEach(c=>box.appendChild(progressRow(c,false)));
 }
-function renderReference(){const box=document.getElementById('formulaList');box.innerHTML='';FORMULAS.forEach(([name,f,note])=>{const d=document.createElement('div');d.className='formula-card';d.innerHTML=`<strong>${name}</strong><div class="formula">${f}</div><p>${note}</p>`;box.appendChild(d);});}
+function renderReference(){
+  const box=document.getElementById('formulaList');
+  const search=(document.getElementById('formulaSearch')?.value||'').trim().toLowerCase();
+  const cat=document.getElementById('formulaCategory')?.value||'All';
+  const filtered=FORMULAS.filter(x=>{
+    const inCat=cat==='All'||x.c===cat;
+    const hay=`${x.c} ${x.n} ${x.f} ${x.note}`.toLowerCase();
+    return inCat && (!search || hay.includes(search));
+  });
+  box.innerHTML='';
+  let last='';
+  filtered.forEach(x=>{
+    if(x.c!==last){const sec=document.createElement('div');sec.className='formula-section';sec.innerHTML=`<h3>${x.c}</h3>`;box.appendChild(sec);last=x.c;}
+    const d=document.createElement('div');d.className='formula-card';
+    d.innerHTML=`<strong>${x.n}</strong><div class="formula">${x.f}</div><p>${x.note}</p>`;
+    box.appendChild(d);
+  });
+  const rc=document.getElementById('formulaResultCount'); if(rc) rc.textContent=`Showing ${filtered.length} of ${FORMULAS.length} references`;
+  const pill=document.getElementById('formulaCountPill'); if(pill) pill.textContent=`${FORMULAS.length} refs`;
+}
 function renderAll(){renderHome();renderTopics();renderProgress();renderReference();}
 
 document.querySelectorAll('.mode-card').forEach(b=>b.addEventListener('click',()=>{
   if(b.dataset.mode==='missed'&&!state.missedConcepts.length){alert('No missed concepts yet. Answer some questions first.');return;}startSession(b.dataset.mode);
 }));
 document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+const formulaCategory=document.getElementById('formulaCategory');
+if(formulaCategory){
+  [...new Set(FORMULAS.map(x=>x.c))].forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;formulaCategory.appendChild(o);});
+  formulaCategory.addEventListener('change',renderReference);
+}
+const formulaSearch=document.getElementById('formulaSearch');
+if(formulaSearch) formulaSearch.addEventListener('input',renderReference);
 document.getElementById('showProgress').onclick=()=>showView('progressView');
 document.getElementById('exitQuiz').onclick=exitQuiz;
 document.getElementById('nextBtn').onclick=()=>nextQuestion();
