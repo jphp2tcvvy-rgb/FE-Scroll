@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#071525" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="FE Scroll" />
+  
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  
+  <title>FE Scroll — Electrical & Computer</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg:#061321;
+  --panel:#0d2035;
+  --panel2:#112a45;
+  --line:#28415f;
+  --text:#f5f8fc;
+  --muted:#9eb0c4;
+  --blue:#5ca8ff;
+  --blue2:#2d86ea;
+  --green:#49d889;
+  --red:#ff5a68;
+  --orange:#ffad4e;
+  --shadow:0 12px 30px rgba(0,0,0,.28);
+  --radius:22px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;min-height:100%;}
+body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+button{font:inherit;color:inherit}
+#app{max-width:760px;margin:0 auto;min-height:100vh;padding-bottom:90px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 20px 10px;position:sticky;top:0;background:linear-gradient(180deg,var(--bg) 72%,rgba(6,19,33,0));z-index:5}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.13em;color:var(--blue)}
+h1{font-size:28px;margin:2px 0 0}.icon-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel);font-size:22px}
+main{padding:8px 16px 24px}.view{display:none}.view.active{display:block}
+.hero-card,.question-card,.note-card{background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.hero-card{padding:20px}.hero-row{display:flex;justify-content:space-between;gap:16px;align-items:center}.focus-text{font-size:22px;font-weight:800;margin-top:4px}.muted{color:var(--muted)}
+.streak-box{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);padding:10px 12px;border-radius:16px}.streak-icon{font-size:26px}.streak-box strong{display:block;font-size:20px}.streak-box span:last-child{display:block;font-size:11px;color:var(--muted)}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}.stat{background:rgba(255,255,255,.045);border-radius:14px;padding:12px;text-align:center}.stat span{font-weight:800;font-size:20px;display:block}.stat small{color:var(--muted)}
+.section-title-row{display:flex;justify-content:space-between;align-items:center;margin:24px 2px 12px}.section-title-row h2{margin:0;font-size:20px}.pill{font-size:12px;color:#b8d7ff;background:#12345b;border:1px solid #275c95;border-radius:999px;padding:5px 9px;font-weight:700}.text-btn{border:0;background:transparent;color:var(--blue);padding:8px 0;font-weight:700}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mode-card{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:16px;text-align:left;min-height:145px}.mode-card.primary{background:linear-gradient(145deg,#164b7f,#0c2c4c);border-color:#3b83c9}.mode-card strong{display:block;font-size:17px;margin:8px 0 6px}.mode-card small{display:block;color:var(--muted);line-height:1.35}.mode-icon{font-size:25px}
+.weak-list,.topic-list,.progress-list,.formula-list{display:flex;flex-direction:column;gap:9px}.weak-row,.topic-row,.progress-row,.formula-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}.weak-top,.topic-top,.progress-top{display:flex;justify-content:space-between;gap:10px;align-items:center}.weak-name,.topic-name,.progress-name{font-weight:750}.weak-score,.progress-score{font-variant-numeric:tabular-nums;color:var(--muted)}
+.bar{height:8px;border-radius:999px;background:#07101d;margin-top:9px;overflow:hidden}.bar>div{height:100%;background:linear-gradient(90deg,var(--blue2),var(--green));border-radius:inherit}.topic-row{cursor:pointer}.topic-row small{display:block;color:var(--muted);margin-top:5px}.topic-row:active,.mode-card:active,.answer-btn:active{transform:scale(.99)}
+.note-card{padding:16px;margin-top:20px}.note-card p{color:var(--muted);line-height:1.45;margin:6px 0 0}
+.quiz-head{display:grid;grid-template-columns:80px 1fr 80px;align-items:center;margin:2px 0 8px}.quiz-head-center{text-align:center}.quiz-head-center span{display:block;font-weight:800}.quiz-head-center small{display:block;color:var(--muted);margin-top:2px}.timer{text-align:right;font-weight:800;font-variant-numeric:tabular-nums}.hidden{display:none!important}.progress-track{height:5px;background:#10233a;border-radius:999px;margin-bottom:14px;overflow:hidden}.progress-fill{height:100%;width:0;background:var(--blue);transition:width .2s}
+.question-card{padding:18px}.question-meta{display:flex;align-items:center;justify-content:space-between;gap:10px}.difficulty{font-size:12px;color:var(--muted);font-weight:700}.question-card h2{font-size:23px;line-height:1.28;margin:18px 0 10px}.question-detail{color:#d6e0ea;line-height:1.5;white-space:pre-line;margin-bottom:14px}.answers{display:flex;flex-direction:column;gap:10px}.answer-btn{width:100%;border:1px solid var(--line);background:#10253d;border-radius:16px;padding:15px;text-align:left;font-size:17px;display:flex;gap:12px;align-items:flex-start}.answer-btn .letter{width:28px;height:28px;border-radius:50%;background:#1a3a60;display:grid;place-items:center;font-weight:800;flex:0 0 auto}.answer-btn.correct{border-color:var(--green);background:rgba(73,216,137,.16)}.answer-btn.wrong{border-color:var(--red);background:rgba(255,90,104,.15)}.answer-btn.disabled{pointer-events:none;opacity:.88}
+.feedback{margin-top:14px;background:#0a1a2c;border:1px solid var(--line);border-radius:16px;padding:15px}.feedback strong{display:block;font-size:18px;margin-bottom:8px}.feedback.correct strong{color:var(--green)}.feedback.wrong strong{color:var(--orange)}.feedback p{margin:6px 0;color:#c8d4e1;line-height:1.45}.solution{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);white-space:pre-line}.next-btn{margin-top:14px;width:100%;border:0;background:var(--blue);color:#051321;font-weight:850;font-size:18px;border-radius:16px;padding:16px}
+.intro{line-height:1.45;margin-top:-2px;margin-bottom:14px}.progress-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.progress-summary div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}.progress-summary strong{display:block;font-size:22px}.progress-summary span{font-size:12px;color:var(--muted)}
+.formula-card strong{display:block;margin-bottom:7px}.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#d8eaff;background:#08182a;padding:10px;border-radius:10px;overflow-x:auto}.formula-card p{color:var(--muted);margin:7px 0 0;line-height:1.4;font-size:14px}
+.reference-tools{display:grid;grid-template-columns:1fr;gap:9px;margin:12px 0}.reference-tools input,.reference-tools select{width:100%;box-sizing:border-box;background:#08182a;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px 13px;font-size:15px}.reference-meta{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 2px 12px;color:var(--muted);font-size:13px}.formula-section{margin-top:16px}.formula-section h3{font-size:16px;margin:0 0 8px;color:#8fc3ff;position:sticky;top:0;background:linear-gradient(var(--bg),var(--bg));padding:6px 0;z-index:2}.formula-card .formula-source{font-size:11px;color:#6f8aa6;margin-top:6px}.formula-card mark{background:transparent;color:inherit}
+.handbook-card{background:linear-gradient(145deg,#163653,#0b1f34);border:1px solid #315a7f;border-radius:18px;padding:16px;margin-bottom:12px}.handbook-card h3{margin:0 0 6px;font-size:19px}.handbook-card p{color:var(--muted);line-height:1.4;margin:6px 0 12px}.handbook-actions{display:flex;gap:9px;flex-wrap:wrap}.handbook-btn{border:1px solid var(--line);background:#12345b;border-radius:13px;padding:11px 13px;font-weight:800}.handbook-btn.primary{background:var(--blue);color:#051321;border-color:var(--blue)}.handbook-btn:disabled{opacity:.45}.handbook-status{font-size:12px;color:var(--muted);margin-top:10px}.bottom-nav{position:fixed;bottom:0;left:0;right:0;max-width:760px;margin:0 auto;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(6,19,33,.96);backdrop-filter:blur(18px);display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #17304c;z-index:10}.nav-btn{border:0;background:transparent;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px}.nav-btn span{font-size:22px;font-weight:800}.nav-btn small{font-size:11px}.nav-btn.active{color:var(--blue)}
+
+/* In-session FE equation drawer */
+.eq-session-btn{width:100%;margin:0 0 12px;border:1px solid #3b83c9;background:#0f2d4d;color:#e9f4ff;border-radius:14px;padding:12px 14px;font-weight:850;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.eq-session-fixed{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));width:min(700px,calc(100% - 28px));margin:0;z-index:28;box-shadow:0 10px 28px rgba(0,0,0,.45);background:linear-gradient(145deg,#174f84,#0d3156);border-color:#5ca8ff}
+#quizView{padding-bottom:90px}
+.eq-session-btn small{font-weight:650;color:#9fc8f2}
+.eq-drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:40;display:none}
+.eq-drawer-backdrop.open{display:block}
+.eq-drawer{position:absolute;left:0;right:0;bottom:0;max-width:760px;margin:0 auto;background:#071525;border:1px solid #315579;border-bottom:0;border-radius:22px 22px 0 0;max-height:78vh;display:flex;flex-direction:column;box-shadow:0 -18px 50px rgba(0,0,0,.45)}
+.eq-drawer-head{padding:15px 16px 10px;border-bottom:1px solid #1d3855;background:#0a1a2c;border-radius:22px 22px 0 0}
+.eq-drawer-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.eq-drawer-title strong{font-size:18px}.eq-close{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#10253d;font-size:20px}
+.eq-drawer-sub{font-size:12px;color:var(--muted);margin-top:3px}.eq-drawer-tools{display:flex;gap:8px;margin-top:10px}.eq-drawer-tools input{flex:1;min-width:0;background:#08182a;color:var(--text);border:1px solid var(--line);border-radius:11px;padding:10px 11px;font-size:14px}.eq-scope{border:1px solid var(--line);background:#10253d;border-radius:11px;padding:9px 10px;font-size:12px;font-weight:800;white-space:nowrap}.eq-scope.all{border-color:#3b83c9;background:#164b7f}
+.eq-drawer-list{overflow-y:auto;padding:12px 14px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:9px;-webkit-overflow-scrolling:touch}
+.eq-mini{background:#0d2035;border:1px solid var(--line);border-radius:14px;padding:12px}.eq-mini.relevant{border-color:#49d889;background:rgba(73,216,137,.08)}.eq-mini-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.eq-mini strong{font-size:14px}.eq-badge{font-size:10px;font-weight:900;border-radius:999px;padding:4px 7px;background:#15324f;color:#a9c9e9;white-space:nowrap}.eq-mini.relevant .eq-badge{background:rgba(73,216,137,.18);color:#8af0b2}.eq-mini code{display:block;margin-top:7px;padding:9px;background:#061321;border-radius:9px;color:#e5f0ff;white-space:pre-wrap;overflow-x:auto;font-size:13px}.eq-mini p{margin:7px 0 0;color:#9fb2c7;font-size:12px;line-height:1.35}
+
+@media (max-width:390px){.mode-grid{grid-template-columns:1fr}.question-card h2{font-size:21px}}
+
+</style>
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">FE ELECTRICAL & COMPUTER · v6 BOTTOM FORMULAS</div>
+        <h1>FE Scroll</h1>
+      </div>
+      <button id="resetBtn" class="icon-btn" aria-label="Reset progress" title="Reset progress">↺</button>
+    </header>
+
+    <main>
+      <section id="homeView" class="view active">
+        <div class="hero-card">
+          <div class="hero-row">
+            <div>
+              <div class="muted">Current focus</div>
+              <div id="focusText" class="focus-text">Circuit Analysis</div>
+            </div>
+            <div class="streak-box">
+              <span class="streak-icon">🔥</span>
+              <div><strong id="streakValue">0</strong><span>day streak</span></div>
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat"><span id="todayQuestions">0</span><small>today</small></div>
+            <div class="stat"><span id="todayAccuracy">—</span><small>accuracy</small></div>
+            <div class="stat"><span id="overallMastery">—</span><small>mastery</small></div>
+          </div>
+        </div>
+
+        <div class="section-title-row">
+          <h2>Start a session</h2>
+          <span class="pill">Adaptive</span>
+        </div>
+        <div class="mode-grid">
+          <button class="mode-card primary" data-mode="feed">
+            <span class="mode-icon">⚡</span><strong>FE Feed</strong><small>Endless mixed questions weighted to your weak areas.</small>
+          </button>
+          <button class="mode-card" data-mode="weak">
+            <span class="mode-icon">🎯</span><strong>Weak Areas</strong><small>Only your lowest-scoring categories.</small>
+          </button>
+          <button class="mode-card" data-mode="quick">
+            <span class="mode-icon">⏱</span><strong>5-Minute Drill</strong><small>Fast questions until the timer ends.</small>
+          </button>
+          <button class="mode-card" data-mode="missed">
+            <span class="mode-icon">↩</span><strong>Missed Concepts</strong><small>Revisit concepts you have answered incorrectly.</small>
+          </button>
+        </div>
+
+        <div class="section-title-row"><h2>Weakest areas</h2><button id="showProgress" class="text-btn">See all</button></div>
+        <div id="weakPreview" class="weak-list"></div>
+
+        <div class="note-card">
+          <strong>Built around your diagnostic</strong>
+          <p>Your starting mastery is seeded from the NCEES diagnostic you shared. New answers update the weights automatically.</p>
+        </div>
+      </section>
+
+      <section id="quizView" class="view">
+        <div class="quiz-head">
+          <button id="exitQuiz" class="text-btn">← Exit</button>
+          <div class="quiz-head-center"><span id="sessionLabel">FE Feed</span><small id="sessionCounter">Question 1</small></div>
+          <div id="timer" class="timer hidden">05:00</div>
+        </div>
+        <div class="progress-track"><div id="sessionProgress" class="progress-fill"></div></div>
+
+        <article class="question-card">
+          <div class="question-meta">
+            <span id="questionCategory" class="pill">Mathematics</span>
+            <span id="questionDifficulty" class="difficulty">Easy</span>
+          </div>
+          <h2 id="questionText"></h2>
+          <div id="questionDetail" class="question-detail"></div>
+          <div id="answers" class="answers"></div>
+          <div id="feedback" class="feedback hidden"></div>
+          <button id="nextBtn" class="next-btn hidden">Next Question →</button>
+        </article>
+        <button id="sessionEquationsBtn" class="eq-session-btn eq-session-fixed" type="button" aria-label="Open equations"><span>ƒx Equations</span><small>scroll formulas without leaving this question</small></button>
+      </section>
+
+      <section id="topicsView" class="view">
+        <div class="section-title-row"><h2>Topics</h2><span class="pill">17 areas</span></div>
+        <p class="muted intro">Pick one area for focused drilling. Question ranges below follow the specification in your uploaded NCEES practice exam.</p>
+        <div id="topicsList" class="topic-list"></div>
+      </section>
+
+      <section id="progressView" class="view">
+        <div class="section-title-row"><h2>Progress</h2><span class="pill">Local only</span></div>
+        <div class="progress-summary">
+          <div><strong id="totalAnswered">0</strong><span>answered</span></div>
+          <div><strong id="totalCorrect">0</strong><span>correct</span></div>
+          <div><strong id="totalAccuracy">—</strong><span>accuracy</span></div>
+        </div>
+        <div id="progressList" class="progress-list"></div>
+      </section>
+
+      <section id="referenceView" class="view">
+        <div class="section-title-row"><h2>Formula Library</h2><span class="pill" id="formulaCountPill">100+ refs</span></div>
+        <p class="muted intro">Searchable FE Electrical &amp; Computer equations and high-yield relationships. Use this to learn where formulas live; use the official handbook during realistic practice.</p>
+        <div class="handbook-card">
+          <h3>Official FE Reference Handbook</h3>
+          <p>Load your personal NCEES handbook on this device. The PDF stays in this browser and is not uploaded to the public FE Scroll site.</p>
+          <input id="handbookFile" type="file" accept="application/pdf,.pdf" class="hidden" />
+          <div class="handbook-actions">
+            <button id="chooseHandbook" class="handbook-btn primary">Load Handbook PDF</button>
+            <button id="openHandbook" class="handbook-btn" disabled>Open Handbook</button>
+            <button id="removeHandbook" class="handbook-btn hidden">Remove</button>
+          </div>
+          <div id="handbookStatus" class="handbook-status">No handbook loaded on this device.</div>
+        </div>
+        <div class="reference-tools">
+          <input id="formulaSearch" type="search" placeholder="Search: Thevenin, transformer, op amp, probability…" autocomplete="off" />
+          <select id="formulaCategory" aria-label="Filter formula category"><option value="All">All FE topics</option></select>
+        </div>
+        <div class="reference-meta"><span id="formulaResultCount"></span><span>Tap Search on your handbook for exam-speed practice.</span></div>
+        <div id="formulaList" class="formula-list"></div>
+      </section>
+    </main>
+
+    <div id="equationDrawerBackdrop" class="eq-drawer-backdrop" aria-hidden="true">
+      <section class="eq-drawer" role="dialog" aria-modal="true" aria-label="FE equation reference">
+        <div class="eq-drawer-head">
+          <div class="eq-drawer-title"><div><strong id="eqDrawerTitle">Equation Drawer</strong><div id="eqDrawerSub" class="eq-drawer-sub"></div></div><button id="eqDrawerClose" class="eq-close" type="button" aria-label="Close equations">×</button></div>
+          <div class="eq-drawer-tools"><input id="eqDrawerSearch" type="search" placeholder="Search equations…" autocomplete="off"><button id="eqDrawerScope" class="eq-scope" type="button">Current topic</button></div>
+        </div>
+        <div id="eqDrawerList" class="eq-drawer-list"></div>
+      </section>
+    </div>
+
+    <nav class="bottom-nav">
+      <button data-view="homeView" class="nav-btn active"><span>⌂</span><small>Home</small></button>
+      <button data-view="topicsView" class="nav-btn"><span>▦</span><small>Topics</small></button>
+      <button data-view="progressView" class="nav-btn"><span>▥</span><small>Progress</small></button>
+      <button data-view="referenceView" class="nav-btn"><span>ƒx</span><small>Reference</small></button>
+    </nav>
+  </div>
+  
+<script>
+const CATEGORIES = [
+  {name:'Mathematics', min:11, max:17, baseline:5.0},
+  {name:'Probability & Statistics', min:4, max:6, baseline:0.0},
+  {name:'Ethics & Professional Practice', min:4, max:6, baseline:7.8},
+  {name:'Engineering Economics', min:5, max:8, baseline:9.7},
+  {name:'Properties of Electrical Materials', min:4, max:6, baseline:7.7},
+  {name:'Circuit Analysis', min:11, max:17, baseline:0.0},
+  {name:'Linear Systems', min:5, max:8, baseline:6.7},
+  {name:'Signal Processing', min:5, max:8, baseline:6.8},
+  {name:'Electronics', min:7, max:11, baseline:0.0},
+  {name:'Power Systems', min:8, max:12, baseline:7.6},
+  {name:'Electromagnetics', min:4, max:6, baseline:5.9},
+  {name:'Control Systems', min:6, max:9, baseline:8.5},
+  {name:'Communications', min:5, max:8, baseline:7.8},
+  {name:'Computer Networks', min:4, max:6, baseline:5.7},
+  {name:'Digital Systems', min:8, max:12, baseline:4.7},
+  {name:'Computer Systems', min:5, max:8, baseline:6.6},
+  {name:'Software Engineering', min:4, max:6, baseline:7.6}
+];
+
+const FORMULAS = [
+// Mathematics
+{c:'Mathematics',n:'Quadratic formula',f:'x = [−b ± √(b² − 4ac)]/(2a)',note:'For ax² + bx + c = 0.'},
+{c:'Mathematics',n:'Euler relation',f:'e^(jθ) = cos θ + j sin θ',note:'Connects exponential and rectangular/polar phasor forms.'},
+{c:'Mathematics',n:'Complex rectangular → polar',f:'|z| = √(a²+b²);  θ = atan2(b,a)',note:'For z = a + jb.'},
+{c:'Mathematics',n:'Complex polar multiply/divide',f:'(A∠α)(B∠β)=AB∠(α+β);  (A∠α)/(B∠β)=(A/B)∠(α−β)',note:'Very useful for phasors.'},
+{c:'Mathematics',n:'Power rule derivative',f:'d(xⁿ)/dx = n x^(n−1)',note:'Core calculus rule.'},
+{c:'Mathematics',n:'Product rule',f:'d(uv)/dx = u dv/dx + v du/dx',note:'Differentiate products.'},
+{c:'Mathematics',n:'Chain rule',f:'dy/dx = (dy/du)(du/dx)',note:'Differentiate composite functions.'},
+{c:'Mathematics',n:'Basic exponential derivative',f:'d(e^(ax))/dx = a e^(ax)',note:'Common in transient and control problems.'},
+{c:'Mathematics',n:'Basic sine/cosine derivatives',f:'d(sin ax)/dx = a cos ax;  d(cos ax)/dx = −a sin ax',note:'Common in signals and machines.'},
+{c:'Mathematics',n:'Power integral',f:'∫xⁿ dx = x^(n+1)/(n+1) + C,  n ≠ −1',note:'Core integration rule.'},
+{c:'Mathematics',n:'Exponential integral',f:'∫e^(ax) dx = e^(ax)/a + C',note:'Useful for first-order systems.'},
+{c:'Mathematics',n:'2×2 determinant',f:'det([[a,b],[c,d]]) = ad − bc',note:'Used in matrix inverses and linear systems.'},
+{c:'Mathematics',n:'2×2 inverse',f:'A⁻¹ = (1/(ad−bc)) [[d,−b],[−c,a]]',note:'Valid when ad−bc ≠ 0.'},
+{c:'Mathematics',n:'Dot product',f:'a·b = |a||b|cosθ = axbx + ayby + azbz',note:'Scalar projection relationship.'},
+{c:'Mathematics',n:'Cross-product magnitude',f:'|a×b| = |a||b|sinθ',note:'Direction follows the right-hand rule.'},
+
+// Probability and Statistics
+{c:'Probability & Statistics',n:'Arithmetic mean',f:'x̄ = (1/n) Σxi',note:'Average of n observations.'},
+{c:'Probability & Statistics',n:'Population variance',f:'σ² = (1/N) Σ(xi−μ)²',note:'Population measure of dispersion.'},
+{c:'Probability & Statistics',n:'Sample variance',f:'s² = [1/(n−1)] Σ(xi−x̄)²',note:'Unbiased sample variance estimator.'},
+{c:'Probability & Statistics',n:'Standard deviation',f:'σ = √(σ²);  s = √(s²)',note:'Same units as the original variable.'},
+{c:'Probability & Statistics',n:'Expected value — discrete',f:'E[X] = Σ xk p(xk)',note:'Probability-weighted average. Handbook probability section.'},
+{c:'Probability & Statistics',n:'Variance identity',f:'Var(X) = E[X²] − (E[X])²',note:'Often faster than direct deviation calculation.'},
+{c:'Probability & Statistics',n:'Conditional probability',f:'P(A|B) = P(A∩B)/P(B)',note:'Requires P(B) > 0.'},
+{c:'Probability & Statistics',n:'Bayes theorem',f:'P(A|B) = P(B|A)P(A)/P(B)',note:'Reverse conditional probability.'},
+{c:'Probability & Statistics',n:'Independent events',f:'P(A∩B) = P(A)P(B)',note:'Only when A and B are independent.'},
+{c:'Probability & Statistics',n:'Permutations',f:'P(n,r) = n!/(n−r)!',note:'Order matters.'},
+{c:'Probability & Statistics',n:'Combinations',f:'C(n,r) = n!/[r!(n−r)!]',note:'Order does not matter.'},
+{c:'Probability & Statistics',n:'Binomial probability',f:'P(X=x)=C(n,x)p^x(1−p)^(n−x)',note:'n independent Bernoulli trials.'},
+{c:'Probability & Statistics',n:'Binomial mean / variance',f:'μ=np;  σ²=np(1−p)',note:'Direct binomial properties.'},
+{c:'Probability & Statistics',n:'Normal z-score',f:'z = (x−μ)/σ',note:'Standardize a normal variable.'},
+
+// Ethics and Professional Practice
+{c:'Ethics & Professional Practice',n:'Primary duty',f:'Public health, safety, and welfare → first priority',note:'Not an equation, but a high-yield FE rule from the NCEES professional conduct material.'},
+{c:'Ethics & Professional Practice',n:'Competence rule',f:'Accept/sign work only within demonstrated competence',note:'High-yield ethics decision rule.'},
+
+// Engineering Economics
+{c:'Engineering Economics',n:'Single-payment compound amount',f:'F = P(1+i)^n',note:'Future value from present value.'},
+{c:'Engineering Economics',n:'Single-payment present worth',f:'P = F(1+i)^(−n)',note:'Present value from future value.'},
+{c:'Engineering Economics',n:'Uniform series future worth',f:'F = A[(1+i)^n − 1]/i',note:'Future value of equal end-of-period payments.'},
+{c:'Engineering Economics',n:'Sinking fund',f:'A = F·i/[(1+i)^n − 1]',note:'Uniform payment required to reach F.'},
+{c:'Engineering Economics',n:'Capital recovery',f:'A = P·[i(1+i)^n]/[(1+i)^n − 1]',note:'Uniform annual amount equivalent to P.'},
+{c:'Engineering Economics',n:'Uniform series present worth',f:'P = A[(1+i)^n − 1]/[i(1+i)^n]',note:'Present worth of equal payments.'},
+{c:'Engineering Economics',n:'Effective annual interest rate',f:'i_eff = (1 + r/m)^m − 1',note:'r nominal annual rate, m compounding periods/year.'},
+{c:'Engineering Economics',n:'Breakeven quantity',f:'Q_BE = Fixed Cost/(Price − Variable Cost/unit)',note:'Contribution-margin breakeven.'},
+{c:'Engineering Economics',n:'Net present value',f:'NPV = Σ CF_t/(1+i)^t',note:'Project is economically attractive when NPV exceeds the decision threshold.'},
+
+// Electrical Materials
+{c:'Properties of Electrical Materials',n:'Conductor resistance',f:'R = ρL/A',note:'ρ resistivity, L length, A cross-sectional area. HB ECE p.362.'},
+{c:'Properties of Electrical Materials',n:'Conductivity / resistivity',f:'σ = 1/ρ',note:'Conductivity is the reciprocal of resistivity.'},
+{c:'Properties of Electrical Materials',n:'Resistance vs temperature',f:'R = R₀[1 + α(T−T₀)]',note:'Linear temperature model for metallic conductors. HB ECE p.362.'},
+{c:'Properties of Electrical Materials',n:'Semiconductor conductivity',f:'σ = q(nμn + pμp)',note:'Carrier concentrations and mobilities. HB ECE p.387.'},
+{c:'Properties of Electrical Materials',n:'Carrier equilibrium',f:'np = nᵢ²',note:'Thermal equilibrium relation. HB ECE p.387.'},
+{c:'Properties of Electrical Materials',n:'PN built-in potential',f:'V₀ = (kT/q) ln(NaNd/nᵢ²)',note:'Ideal p-n junction contact potential.'},
+
+// Circuit Analysis
+{c:'Circuit Analysis',n:'Ohm law',f:'V = IR',note:'HB ECE p.362.'},
+{c:'Circuit Analysis',n:'Resistive power',f:'P = VI = I²R = V²/R',note:'Power absorbed by a resistor. HB ECE p.363.'},
+{c:'Circuit Analysis',n:'Series resistance',f:'Req = R1 + R2 + …',note:'Same current through all series elements.'},
+{c:'Circuit Analysis',n:'Parallel resistance',f:'1/Req = 1/R1 + 1/R2 + …',note:'Same voltage across all parallel branches.'},
+{c:'Circuit Analysis',n:'Two resistors in parallel',f:'Req = R1R2/(R1+R2)',note:'Shortcut for exactly two resistors.'},
+{c:'Circuit Analysis',n:'Voltage divider',f:'Vx = Vs·Rx/(Rtotal)',note:'Series resistors.'},
+{c:'Circuit Analysis',n:'Current divider — two branches',f:'I1 = It·R2/(R1+R2)',note:'Current divides inversely with resistance.'},
+{c:'Circuit Analysis',n:'Kirchhoff voltage law',f:'ΣV around a closed loop = 0',note:'Equivalent to rises = drops. HB ECE p.363.'},
+{c:'Circuit Analysis',n:'Kirchhoff current law',f:'ΣI into a node = ΣI out',note:'Charge conservation. HB ECE p.363.'},
+{c:'Circuit Analysis',n:'Thevenin / Norton relation',f:'RTh = RN;  IN = VTh/RTh',note:'VTh is open-circuit voltage; IN is short-circuit current.'},
+{c:'Circuit Analysis',n:'Maximum power — DC resistive load',f:'RL = RTh;  Pmax = VTh²/(4RTh)',note:'HB ECE p.366.'},
+{c:'Circuit Analysis',n:'Maximum power — AC load',f:'ZL = ZTh*',note:'Load equals complex conjugate of Thevenin impedance. HB ECE p.367.'},
+{c:'Circuit Analysis',n:'Capacitor charge',f:'q = Cv',note:'HB ECE p.364.'},
+{c:'Circuit Analysis',n:'Capacitor current',f:'iC = C dvC/dt',note:'Capacitor voltage cannot change instantaneously in an ideal circuit.'},
+{c:'Circuit Analysis',n:'Capacitor energy',f:'W = ½Cv²',note:'Equivalent forms: q²/(2C), qv/2.'},
+{c:'Circuit Analysis',n:'Inductor voltage',f:'vL = L diL/dt',note:'Inductor current cannot change instantaneously in an ideal circuit.'},
+{c:'Circuit Analysis',n:'Inductor energy',f:'W = ½Li²',note:'HB ECE p.364.'},
+{c:'Circuit Analysis',n:'Capacitors parallel / series',f:'Cparallel = ΣC;  1/Cseries = Σ(1/C)',note:'Opposite pattern from inductors/resistors.'},
+{c:'Circuit Analysis',n:'Inductors series / parallel',f:'Lseries = ΣL;  1/Lparallel = Σ(1/L)',note:'Uncoupled ideal inductors.'},
+{c:'Circuit Analysis',n:'Frequency / period',f:'f = 1/T = ω/(2π)',note:'HB ECE p.365.'},
+{c:'Circuit Analysis',n:'Sinusoid RMS',f:'Xrms = Xmax/√2',note:'For sine waves and full-wave rectified sine magnitude.'},
+{c:'Circuit Analysis',n:'Impedance',f:'Z = V/I = R + jX',note:'Phasor-domain voltage/current ratio.'},
+{c:'Circuit Analysis',n:'Admittance',f:'Y = 1/Z = G + jB',note:'Conductance + susceptance.'},
+{c:'Circuit Analysis',n:'Capacitor impedance',f:'ZC = 1/(jωC) = −j/(ωC)',note:'Negative imaginary reactance.'},
+{c:'Circuit Analysis',n:'Inductor impedance',f:'ZL = jωL',note:'Positive imaginary reactance.'},
+{c:'Circuit Analysis',n:'RC time constant',f:'τ = RC',note:'First-order capacitor circuit. HB ECE p.367.'},
+{c:'Circuit Analysis',n:'RL time constant',f:'τ = L/R',note:'First-order inductor circuit. HB ECE p.367.'},
+{c:'Circuit Analysis',n:'First-order natural response',f:'x(t) = x(∞) + [x(0+)−x(∞)]e^(−t/τ)',note:'Reusable RC/RL form.'},
+{c:'Circuit Analysis',n:'Resonant frequency',f:'ω₀ = 1/√(LC);  f₀ = 1/(2π√(LC))',note:'Series or parallel ideal resonance. HB ECE p.367.'},
+{c:'Circuit Analysis',n:'Series RLC quality factor',f:'Q = ω₀L/R = 1/(ω₀CR)',note:'Series resonance.'},
+{c:'Circuit Analysis',n:'AC real/reactive power',f:'P = VrmsIrms cosθ;  Q = VrmsIrms sinθ',note:'HB ECE p.368.'},
+{c:'Circuit Analysis',n:'Complex power',f:'S = VI* = P + jQ;  |S|=VrmsIrms',note:'Use RMS phasors.'},
+{c:'Circuit Analysis',n:'Power factor',f:'pf = cosθ = P/|S|',note:'Current lagging voltage → lagging PF.'},
+
+// Linear Systems
+{c:'Linear Systems',n:'Transfer function',f:'H(s) = Y(s)/X(s)',note:'Zero initial conditions unless stated otherwise.'},
+{c:'Linear Systems',n:'Laplace — derivative',f:'L{dx/dt} = sX(s) − x(0−)',note:'Core transform for differential equations.'},
+{c:'Linear Systems',n:'Laplace — exponential',f:'L{e^(−at)} = 1/(s+a)',note:'For t ≥ 0.'},
+{c:'Linear Systems',n:'Laplace — sine',f:'L{sin ωt} = ω/(s²+ω²)',note:'Common transform pair.'},
+{c:'Linear Systems',n:'Laplace — cosine',f:'L{cos ωt} = s/(s²+ω²)',note:'Common transform pair.'},
+{c:'Linear Systems',n:'Continuous convolution',f:'y(t)=x(t)*h(t)=∫x(τ)h(t−τ)dτ',note:'LTI output relationship.'},
+{c:'Linear Systems',n:'Frequency response',f:'H(jω) = H(s)|s=jω',note:'Evaluate a transfer function on the imaginary axis.'},
+{c:'Linear Systems',n:'Gain in decibels',f:'GdB = 20 log10|Vout/Vin|',note:'For voltage/current amplitude ratios with equal impedance context.'},
+
+// Signal Processing
+{c:'Signal Processing',n:'Nyquist sampling criterion',f:'fs > 2fmax',note:'Avoid aliasing for an ideally band-limited signal.'},
+{c:'Signal Processing',n:'Sampling period',f:'Ts = 1/fs',note:'Time spacing between uniform samples.'},
+{c:'Signal Processing',n:'Discrete convolution',f:'y[n] = Σ x[k]h[n−k]',note:'DTLTI output relation. HB ECE p.375.'},
+{c:'Signal Processing',n:'Z-transform',f:'X(z) = Σ x[k] z^(−k)',note:'Core discrete-system transform.'},
+{c:'Signal Processing',n:'First-order difference equation',f:'y[k] + a₁y[k−1] = x[k]',note:'HB ECE p.374.'},
+{c:'Signal Processing',n:'Second-order difference equation',f:'y[k] + a₁y[k−1] + a₂y[k−2] = x[k]',note:'HB ECE p.374.'},
+{c:'Signal Processing',n:'RC low-pass cutoff',f:'fc = 1/(2πRC)',note:'First-order passive RC cutoff.'},
+{c:'Signal Processing',n:'3-dB bandwidth',f:'BW = fU − fL',note:'Band-pass/band-reject bandwidth between cutoff frequencies.'},
+
+// Electronics
+{c:'Electronics',n:'Ideal op amp rules',f:'i+ = i− = 0;  v+ = v− (linear negative-feedback operation)',note:'HB ECE p.386.'},
+{c:'Electronics',n:'Inverting op amp',f:'Vout/Vin = −R2/R1',note:'Ideal op amp.'},
+{c:'Electronics',n:'Non-inverting op amp',f:'Vout/Vin = 1 + R2/R1',note:'Ideal op amp.'},
+{c:'Electronics',n:'CMRR',f:'CMRR = Ad/Acm;  CMRRdB = 20log10(Ad/Acm)',note:'Differential gain vs common-mode gain.'},
+{c:'Electronics',n:'Diode Shockley equation',f:'ID = IS[e^(VD/(ηVT)) − 1]',note:'Ideal junction-diode exponential model.'},
+{c:'Electronics',n:'Thermal voltage',f:'VT = kT/q ≈ 25.9 mV at 300 K',note:'Used in diode/BJT small-signal equations.'},
+{c:'Electronics',n:'BJT current gain',f:'IC ≈ βIB;  IE = IC + IB',note:'Forward-active approximation.'},
+{c:'Electronics',n:'BJT transconductance',f:'gm ≈ ICQ/VT',note:'Small-signal forward-active model.'},
+{c:'Electronics',n:'Enhancement NMOS saturation',f:'ID = K(VGS−Vt)²',note:'Handbook convention; saturation when device conditions are met.'},
+{c:'Electronics',n:'MOSFET transconductance',f:'gm = 2K(VGS−Vt)',note:'Using the handbook K convention in saturation.'},
+{c:'Electronics',n:'Buck converter ideal gain',f:'Vout/Vin = D',note:'D = duty ratio. HB ECE power conversion.'},
+{c:'Electronics',n:'Boost converter ideal gain',f:'Vout/Vin = 1/(1−D)',note:'Ideal continuous-conduction model.'},
+{c:'Electronics',n:'Buck-boost ideal gain',f:'Vout/Vin = −D/(1−D)',note:'Inverting buck-boost.'},
+
+// Power Systems
+{c:'Power Systems',n:'Balanced 3φ real power',f:'P = √3 VLL IL cosθ',note:'Balanced wye or delta load.'},
+{c:'Power Systems',n:'Balanced 3φ reactive power',f:'Q = √3 VLL IL sinθ',note:'Balanced wye or delta load.'},
+{c:'Power Systems',n:'Balanced 3φ apparent power',f:'|S| = √3 VLL IL',note:'VA magnitude.'},
+{c:'Power Systems',n:'Wye line/phase relations',f:'VL = √3 VP;  IL = IP',note:'Balanced wye.'},
+{c:'Power Systems',n:'Delta line/phase relations',f:'VL = VP;  IL = √3 IP',note:'Balanced delta.'},
+{c:'Power Systems',n:'Delta ↔ wye impedance',f:'ZΔ = 3ZY;  ZY = ZΔ/3',note:'Balanced loads.'},
+{c:'Power Systems',n:'Ideal transformer voltage/current ratios',f:'a=N1/N2=V1/V2=I2/I1',note:'Current ratio is inverse of voltage/turns ratio.'},
+{c:'Power Systems',n:'Transformer reflected impedance',f:'Zin = a² Zload',note:'HB ECE p.369.'},
+{c:'Power Systems',n:'Efficiency',f:'η = Pout/Pin',note:'Multiply by 100% when reporting percent efficiency.'},
+{c:'Power Systems',n:'Rotating mechanical power',f:'Pmech = Tωm',note:'HB ECE p.371.'},
+{c:'Power Systems',n:'rpm ↔ rad/s',f:'ωm = (2π/60)n',note:'n in rpm.'},
+{c:'Power Systems',n:'Synchronous speed',f:'ns = 120f/p',note:'rpm; p = number of poles.'},
+{c:'Power Systems',n:'Synchronous machine power (Ra≈0)',f:'Pd = 3(EaVa/Xs) sinδ',note:'Y-connected per-phase equivalent. HB ECE p.371.'},
+{c:'Power Systems',n:'Synchronous machine maximum power',f:'Pd,max = 3EaVa/Xs',note:'Occurs at δ=90° in the simplified model.'},
+{c:'Power Systems',n:'Induction-machine slip',f:'s = (ns−n)/ns',note:'Motor operation normally 0<s<1. HB ECE p.371.'},
+{c:'Power Systems',n:'DC armature electrical power',f:'P = VT Ia',note:'Motor input or generator output at armature terminals.'},
+{c:'Power Systems',n:'DC generated/back voltage',f:'Va = Ka n φ',note:'Handbook speed form uses n in rpm.'},
+{c:'Power Systems',n:'DC motor torque',f:'Tm = (60/(2π))Ka φ Ia',note:'N·m with handbook rpm-based Ka convention.'},
+{c:'Power Systems',n:'DC servomotor steady state',f:'V = IR + KEω;  T = KT I',note:'With consistent SI units KT = KE.'},
+{c:'Power Systems',n:'Voltage regulation',f:'%VR = 100(VNL−VFL)/VFL',note:'HB ECE p.373.'},
+
+// Electromagnetics
+{c:'Electromagnetics',n:'Coulomb force',f:'F = (1/(4πε))·(Q1Q2/r²) a_r',note:'Point-charge electrostatic force. HB ECE p.361.'},
+{c:'Electromagnetics',n:'Electric field of point charge',f:'E = (1/(4πε))·(Q/r²) a_r',note:'V/m.'},
+{c:'Electromagnetics',n:'Electric force',f:'F = QE',note:'Point charge in an electric field.'},
+{c:'Electromagnetics',n:'Parallel-plate field',f:'E = V/d',note:'Ideal uniform field between plates.'},
+{c:'Electromagnetics',n:'Gauss law',f:'∮D·dS = Qenclosed',note:'D = εE.'},
+{c:'Electromagnetics',n:'Long straight conductor',f:'H = I/(2πr);  B = μH = μI/(2πr)',note:'HB ECE p.362.'},
+{c:'Electromagnetics',n:'Force on current conductor',f:'F = I L × B',note:'Vector cross product.'},
+{c:'Electromagnetics',n:'Faraday law — N turns',f:'v = −N dΦ/dt',note:'Induced voltage opposes flux change.'},
+{c:'Electromagnetics',n:'Wavelength',f:'λ = u/f',note:'Propagation speed divided by frequency. HB ECE p.374.'},
+{c:'Electromagnetics',n:'Lossless line characteristic impedance',f:'Z0 = √(L′/C′)',note:'Per-unit-length L′ and C′.'},
+{c:'Electromagnetics',n:'Load reflection coefficient',f:'ΓL = (ZL−Z0)/(ZL+Z0)',note:'HB ECE p.374.'},
+{c:'Electromagnetics',n:'Standing-wave ratio',f:'SWR = (1+|Γ|)/(1−|Γ|)',note:'≥1 for passive loads.'},
+{c:'Electromagnetics',n:'Propagation constant — lossless phase',f:'β = 2π/λ',note:'rad/m.'},
+{c:'Electromagnetics',n:'Transmission-line input impedance',f:'Zin = Z0 [ZL + jZ0 tan(βl)]/[Z0 + jZL tan(βl)]',note:'Lossless line of length l.'},
+
+// Control Systems
+{c:'Control Systems',n:'Negative-feedback closed loop',f:'T(s)=G(s)/[1+G(s)H(s)]',note:'Standard negative-feedback form.'},
+{c:'Control Systems',n:'First-order transfer function',f:'G(s)=K/(τs+1)',note:'HB Instrumentation/Control section.'},
+{c:'Control Systems',n:'First-order unit-step response',f:'y(t)=K[1−e^(−t/τ)]',note:'Zero initial output, unit step.'},
+{c:'Control Systems',n:'Standard second-order form',f:'G(s)=Kωn²/[s²+2ζωn s+ωn²]',note:'ζ damping ratio, ωn natural frequency.'},
+{c:'Control Systems',n:'Damped natural frequency',f:'ωd = ωn√(1−ζ²)',note:'Underdamped case 0<ζ<1.'},
+{c:'Control Systems',n:'Peak time',f:'tp = π/ωd',note:'Underdamped second-order step response.'},
+{c:'Control Systems',n:'Percent overshoot',f:'%OS = 100 e^[−ζπ/√(1−ζ²)]',note:'Standard underdamped second-order step response.'},
+{c:'Control Systems',n:'2% settling time',f:'Ts ≈ 4/(ζωn)',note:'HB control model relationship.'},
+{c:'Control Systems',n:'DC gain',f:'Kdc = lim(s→0) G(s)',note:'For stable systems where the limit exists.'},
+
+// Communications
+{c:'Communications',n:'Shannon capacity',f:'C = BW log₂(1 + S/N)',note:'Maximum ideal channel rate. HB ECE p.384.'},
+{c:'Communications',n:'Sampling criterion',f:'fs > 2W',note:'W = highest message frequency.'},
+{c:'Communications',n:'Conventional AM bandwidth',f:'B = 2W',note:'Two sidebands around the carrier.'},
+{c:'Communications',n:'SSB bandwidth',f:'B = W',note:'One sideband only.'},
+{c:'Communications',n:'FM narrowband approximation',f:'B ≈ 2W  (D ≪ 1)',note:'98% power bandwidth approximation.'},
+{c:'Communications',n:'Carson rule',f:'B ≈ 2(D+1)W',note:'Wideband FM using deviation ratio D.'},
+{c:'Communications',n:'PCM quantization levels',f:'q = 2ⁿ',note:'n bits/sample.'},
+{c:'Communications',n:'PCM minimum pulse rate',f:'Rb ≥ 2nW',note:'n bits/sample at Nyquist-rate sampling.'},
+
+// Computer Networks
+{c:'Computer Networks',n:'Transmission delay',f:'dtrans = L/R',note:'Packet length L bits, link rate R bps. HB ECE p.383.'},
+{c:'Computer Networks',n:'Propagation delay',f:'dprop = d/s',note:'Distance d, propagation speed s.'},
+{c:'Computer Networks',n:'Ideal end-to-end nodal delay',f:'dtotal ≈ dproc + dqueue + dtrans + dprop',note:'Sum the four standard per-node/link delays.'},
+
+// Digital Systems
+{c:'Digital Systems',n:'Base-r positional value',f:'D = Σ ak r^k',note:'General positional number representation.'},
+{c:'Digital Systems',n:'Two’s complement',f:'2’s complement(M) = 2^N − M',note:'Equivalent to bitwise inversion + 1 for an N-bit value.'},
+{c:'Digital Systems',n:'AND / OR / XOR',f:'AND: AB;  OR: A+B;  XOR: A⊕B',note:'Boolean operators.'},
+{c:'Digital Systems',n:'De Morgan',f:'¬(A+B)=¬A·¬B;  ¬(AB)=¬A+¬B',note:'Convert NOR/NAND forms.'},
+{c:'Digital Systems',n:'D flip-flop',f:'Q(n+1)=D',note:'Next state equals D at the active clock edge.'},
+{c:'Digital Systems',n:'JK flip-flop characteristic',f:'Q(n+1)=J·¬Qn + ¬K·Qn',note:'J=K=1 toggles.'},
+{c:'Digital Systems',n:'Counter capacity',f:'Nstates = 2^m',note:'m flip-flops provide up to 2^m binary states.'},
+{c:'Digital Systems',n:'Bits required',f:'m = ceil(log₂ Nstates)',note:'Minimum flip-flop/address bits.'},
+
+// Computer Systems
+{c:'Computer Systems',n:'Cache size',f:'C = S·A·B',note:'Sets × associativity × block size. HB ECE p.413.'},
+{c:'Computer Systems',n:'Cache index bits',f:'index bits = log₂(S)',note:'S = number of sets.'},
+{c:'Computer Systems',n:'Cache block-offset bits',f:'offset bits = log₂(B)',note:'B = block size in bytes.'},
+{c:'Computer Systems',n:'Cache tag bits',f:'tag = address bits − index bits − offset bits',note:'HB ECE p.413.'},
+{c:'Computer Systems',n:'Addressable locations',f:'locations = 2^N',note:'N address bits.'},
+{c:'Computer Systems',n:'CPU execution time',f:'CPU time = Instruction Count × CPI × Clock Cycle Time',note:'Equivalent to IC×CPI/clock rate.'},
+
+// Software Engineering
+{c:'Software Engineering',n:'Binary search complexity',f:'T(n) = O(log n)',note:'Requires sorted data.'},
+{c:'Software Engineering',n:'Linear search complexity',f:'T(n) = O(n)',note:'Worst-case sequential search.'},
+{c:'Software Engineering',n:'Merge sort complexity',f:'T(n) = O(n log n)',note:'Typical worst-case complexity.'},
+{c:'Software Engineering',n:'Nested full loops',f:'n × n operations → O(n²)',note:'Useful quick Big-O recognition.'}
+];
+
+
+// Maps each generated question concept to the formula that must be available in the in-session drawer.
+const CONCEPT_FORMULA_MAP = {
+  'Power rule':'Power rule derivative',
+  'Quadratic roots':'Quadratic formula',
+  'Complex multiplication':'Complex polar multiply/divide',
+  'Matrix singularity':'2×2 determinant',
+  'Mean and median':'Arithmetic mean',
+  'Binomial probability':'Binomial probability',
+  'Expected value':'Expected value — discrete',
+  'Conflict of interest':'Primary duty',
+  'Professional competence':'Competence rule',
+  'Future value':'Single-payment compound amount',
+  'Effective annual rate':'Effective annual interest rate',
+  'Break-even':'Breakeven quantity',
+  'Conductivity':'Conductivity / resistivity',
+  'Temperature coefficient':'Resistance vs temperature',
+  'Series/parallel equivalent resistance':'Series resistance',
+  'Voltage divider':'Voltage divider',
+  'RL impedance':'Impedance',
+  'RMS':'Sinusoid RMS',
+  'RC time constant':'RC time constant',
+  'Thevenin load current':'Thevenin / Norton relation',
+  'Second-order damping':'Standard second-order form',
+  'Final value':'Transfer function',
+  'Nyquist sampling':'Nyquist sampling criterion',
+  'Filter identification':'RC low-pass cutoff',
+  'Inverting op-amp':'Inverting op amp',
+  'Diode drop':'Diode Shockley equation',
+  'Full-wave rectifier average':'Diode Shockley equation',
+  'Ideal op-amp':'Ideal op amp rules',
+  'Three-phase real power':'Balanced 3φ real power',
+  'Synchronous speed':'Synchronous speed',
+  'Reflected impedance':'Transformer reflected impedance',
+  'Magnetic field of a wire':'Long straight conductor',
+  'Capacitor charge':'Capacitor charge',
+  'Closed-loop gain':'Negative-feedback closed loop',
+  'Damping ratio':'Standard second-order form',
+  'AM bandwidth':'Conventional AM bandwidth',
+  'PCM bit rate':'PCM minimum pulse rate',
+  'IPv4 subnetting':'Bits required',
+  'OSI model':'Ideal end-to-end nodal delay',
+  'Number systems':'Base-r positional value',
+  'Boolean logic':'AND / OR / XOR',
+  'Flip-flops':'D flip-flop',
+  'Logic simplification':'De Morgan',
+  'Address space':'Addressable locations',
+  'CPU throughput':'CPU execution time',
+  'Big-O':'Binary search complexity',
+  'Data structures':'Linear search complexity'
+};
+
+const STORE_KEY='feScrollStateV1';
+const initialState = () => ({
+  created:new Date().toISOString(),
+  lastStudyDate:null,
+  streak:0,
+  totalAnswered:0,
+  totalCorrect:0,
+  today:{date:localDateKey(),answered:0,correct:0},
+  categories:Object.fromEntries(CATEGORIES.map(c=>[c.name,{mastery:Math.round(c.baseline/15*100),attempts:0,correct:0,misses:0}])),
+  missedConcepts:[]
+});
+let state=loadState();
+let session=null;
+let currentQuestion=null;
+let questionStartedAt=0;
+let quickTimer=null;
+
+function localDateKey(){ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function loadState(){
+  try{
+    const s=JSON.parse(localStorage.getItem(STORE_KEY));
+    if(!s) return initialState();
+    for(const c of CATEGORIES) if(!s.categories?.[c.name]) s.categories[c.name]={mastery:Math.round(c.baseline/15*100),attempts:0,correct:0,misses:0};
+    if(s.today?.date!==localDateKey()) s.today={date:localDateKey(),answered:0,correct:0};
+    return s;
+  }catch{return initialState();}
+}
+function saveState(){localStorage.setItem(STORE_KEY,JSON.stringify(state));}
+function rint(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function fmt(n,d=2){return Number(n.toFixed(d)).toString();}
+function gcd(a,b){while(b){[a,b]=[b,a%b]}return Math.abs(a)}
+function shuffledQuestion(q){
+  const items=q.choices.map((text,i)=>({text,correct:i===q.correctIndex}));
+  for(let i=items.length-1;i>0;i--){const j=rint(0,i);[items[i],items[j]]=[items[j],items[i]];}
+  return {...q,choices:items.map(x=>x.text),correctIndex:items.findIndex(x=>x.correct)};
+}
+function mc(category,difficulty,concept,prompt,detail,correct,distractors,explanation,solution){
+  const choices=[correct,...distractors.filter(x=>x!==correct)].slice(0,4);
+  return shuffledQuestion({category,difficulty,concept,prompt,detail,choices,correctIndex:0,explanation,solution});
+}
+
+const GENERATORS = [
+  // Mathematics
+  ()=>{const a=rint(2,6),n=rint(2,5),b=rint(1,5),m=rint(1,n-1);return mc('Mathematics','Easy','Power rule',`Find d/dx of f(x) = ${a}x^${n} ${b%2?'+':'−'} ${b}x^${m} + 4.`, '', `${a*n}x^${n-1} ${b%2?'+':'−'} ${b*m}x^${Math.max(0,m-1)}`,[`${a*n}x^${n} + ${b*m}x^${m}`,`${a}x^${n-1} + ${b}x^${Math.max(0,m-1)}`,`${a*n}x^${n-1} + 4`],'Apply the power rule term by term; the derivative of a constant is zero.',`d/dx(ax^n)=anx^(n−1). Apply it to each nonconstant term.`)},
+  ()=>{const p=rint(2,7),q=rint(2,7),sum=p+q,prod=p*q;return mc('Mathematics','Easy','Quadratic roots',`The roots of x² − ${sum}x + ${prod} = 0 are:`, '',`x = ${p} and x = ${q}`,[`x = ${-p} and x = ${-q}`,`x = 1 and x = ${prod}`,`x = ${sum} and x = ${prod}`],'Factor the quadratic using two numbers whose sum is the middle coefficient magnitude and whose product is the constant.',`x² − ${sum}x + ${prod} = (x−${p})(x−${q}).`)},
+  ()=>{const a=rint(1,5),b=rint(1,5),c=rint(1,5),d=rint(1,5);const re=a*c-b*d,im=a*d+b*c;return mc('Mathematics','Medium','Complex multiplication',`Evaluate (${a} + j${b})(${c} + j${d}) in rectangular form.`, '',`${re} + j${im}`,[`${a*c+b*d} + j${im}`,`${re} − j${im}`,`${a*c} + j${b*d}`],'Use FOIL and j² = −1.',`(${a}+j${b})(${c}+j${d}) = ${a*c} + j${a*d} + j${b*c} − ${b*d} = ${re} + j${im}.`)},
+  ()=>{const a=rint(1,5),b=rint(1,5),c=rint(1,5);const k=b*c/a;return mc('Mathematics','Medium','Matrix singularity',`For A = [[${a}, ${b}], [${c}, K]], what value of K makes A noninvertible?`, '',fmt(k,3),[fmt(-k,3),fmt(b*c,3),fmt(a+b+c,3)],'A 2×2 matrix is noninvertible when its determinant is zero.',`${a}K − (${b})(${c}) = 0, so K = ${b*c}/${a} = ${fmt(k,3)}.`)},
+
+  // Probability
+  ()=>{const vals=[rint(1,6),rint(1,6),rint(1,6),rint(1,6),rint(1,6)].sort((a,b)=>a-b);const mean=vals.reduce((a,b)=>a+b,0)/5,median=vals[2];return mc('Probability & Statistics','Easy','Mean and median',`For the data set ${vals.join(', ')}, what is the median?`, '',String(median),[fmt(mean,1),String(vals[1]),String(vals[3])],'With five ordered values, the median is the middle (third) value.',`Ordered data: ${vals.join(', ')}. The third value is ${median}.`)},
+  ()=>{const n=pick([6,8,10]),k=pick([2,3,4]);const comb=factorial(n)/(factorial(k)*factorial(n-k));const p=comb/2**n;return mc('Probability & Statistics','Medium','Binomial probability',`A fair coin is tossed ${n} times. What is P(exactly ${k} heads)?`, '',fmt(p,4),[fmt(k/n,4),fmt(1-p,4),fmt(1/2**n,4)],'Use the binomial probability formula C(n,k)p^k(1−p)^(n−k).',`C(${n},${k})(0.5)^${n} = ${comb}/${2**n} = ${fmt(p,4)}.`)},
+  ()=>{const x1=rint(10,40),x2=rint(50,90),p1=pick([0.2,0.3,0.4]);const ev=x1*p1+x2*(1-p1);return mc('Probability & Statistics','Easy','Expected value',`A project pays $${x1}k with probability ${p1} and $${x2}k otherwise. What is the expected payoff?`, '',`$${fmt(ev,1)}k`,[`$${fmt((x1+x2)/2,1)}k`,`$${x2}k`,`$${fmt(x1*p1,1)}k`],'Expected value is the probability-weighted average of all outcomes.',`E[X] = ${x1}(${p1}) + ${x2}(${fmt(1-p1,1)}) = ${fmt(ev,1)} k.`)},
+
+  // Ethics
+  ()=>mc('Ethics & Professional Practice','Easy','Professional competence','An engineer is asked to seal design work outside the engineer’s area of competence. What is the best action?','', 'Decline or obtain qualified competent involvement before taking responsibility.', ['Seal it if management accepts the risk.','Seal it if the schedule is critical.','Delegate it to an unlicensed technician and seal it anyway.'],'Professional responsibility requires practicing within one’s competence and protecting the public.','Do not take professional responsibility for work you are not competent to perform.'),
+  ()=>mc('Ethics & Professional Practice','Easy','Conflict of interest','Two clients offer to reimburse the same travel expense. What is the appropriate action?','', 'Accept reimbursement only for the actual expense and avoid double recovery.', ['Collect both reimbursements if both clients approved it.','Take both and donate one later.','Submit both because each client has its own policy.'],'Avoid misrepresentation and duplicate reimbursement for the same expense.','Only legitimate, nonduplicated expenses should be billed.'),
+
+  // Economics
+  ()=>{const pv=rint(10,50)*1000,i=pick([0.04,0.05,0.06,0.08]),n=rint(3,8),fv=pv*(1+i)**n;return mc('Engineering Economics','Easy','Future value',`$${pv.toLocaleString()} is invested for ${n} years at ${i*100}% annually. Future value is most nearly:`, '',`$${Math.round(fv).toLocaleString()}`,[`$${Math.round(pv*(1+i*n)).toLocaleString()}`,`$${Math.round(pv/(1+i)**n).toLocaleString()}`,`$${Math.round(fv*1.12).toLocaleString()}`],'Future value compounds the present amount each period.',`FV = PV(1+i)^n = ${pv}(1+${i})^${n} = $${Math.round(fv).toLocaleString()}.`)},
+  ()=>{const nominal=pick([0.08,0.12,0.16]),m=pick([2,4,12]),ear=(1+nominal/m)**m-1;return mc('Engineering Economics','Medium','Effective annual rate',`A nominal annual rate of ${nominal*100}% is compounded ${m===2?'semiannually':m===4?'quarterly':'monthly'}. The effective annual rate is most nearly:`, '',`${fmt(ear*100,2)}%`,[`${fmt(nominal*100,2)}%`,`${fmt((nominal/m)*100,2)}%`,`${fmt((Math.exp(nominal)-1)*100,2)}%`],'Convert a nominal rate to an effective annual rate using the periodic rate.',`EAR = (1 + ${nominal}/${m})^${m} − 1 = ${fmt(ear*100,2)}%.`)},
+  ()=>{const fixed=rint(20,80)*1000,price=rint(40,100),varc=rint(10,price-10),units=fixed/(price-varc);return mc('Engineering Economics','Easy','Break-even',`Fixed cost is $${fixed.toLocaleString()}, selling price is $${price}/unit, and variable cost is $${varc}/unit. Break-even quantity is:`, '',`${Math.ceil(units).toLocaleString()} units`,[`${Math.ceil(fixed/price).toLocaleString()} units`,`${Math.ceil(fixed/varc).toLocaleString()} units`,`${Math.ceil(units*1.5).toLocaleString()} units`],'Break-even occurs when contribution margin covers fixed cost.',`Q = Fixed cost/(Price − Variable cost) = ${fixed}/(${price}−${varc}) = ${fmt(units,1)} units.`)},
+
+  // Materials
+  ()=>{const r0=rint(10,50),alpha=0.004,t1=20,t2=rint(50,100),r=r0*(1+alpha*(t2-t1));return mc('Properties of Electrical Materials','Easy','Temperature coefficient',`A conductor has resistance ${r0} Ω at ${t1}°C and α = ${alpha}/°C. Estimate its resistance at ${t2}°C.`, '',`${fmt(r,2)} Ω`,[`${fmt(r0/(1+alpha*(t2-t1)),2)} Ω`,`${fmt(r0+alpha*(t2-t1),2)} Ω`,`${fmt(r0*(1-alpha*(t2-t1)),2)} Ω`],'For a linear temperature approximation, resistance rises by R₀αΔT.',`R = ${r0}[1 + ${alpha}(${t2}−${t1})] = ${fmt(r,2)} Ω.`)},
+  ()=>{const rho=pick([1.7e-8,2.8e-8,5e-8]);const sigma=1/rho;return mc('Properties of Electrical Materials','Easy','Conductivity',`A material has resistivity ρ = ${rho.toExponential(1)} Ω·m. Its conductivity is approximately:`, '',`${sigma.toExponential(2)} S/m`,[`${rho.toExponential(2)} S/m`,`${(rho*1e6).toExponential(2)} S/m`,`${Math.sqrt(sigma).toExponential(2)} S/m`],'Conductivity is the reciprocal of resistivity.',`σ = 1/ρ = 1/(${rho.toExponential(1)}) = ${sigma.toExponential(2)} S/m.`)},
+
+  // Circuits
+  ()=>{const r1=rint(2,12),r2=rint(2,12),r3=rint(2,12),par=r2*r3/(r2+r3),req=r1+par;return mc('Circuit Analysis','Easy','Series/parallel equivalent resistance',`${r1} Ω is in series with ${r2} Ω || ${r3} Ω. Equivalent resistance is:`, '',`${fmt(req,2)} Ω`,[`${r1+r2+r3} Ω`,`${fmt(1/(1/r1+1/r2+1/r3),2)} Ω`,`${fmt(r1+r2*r3,2)} Ω`],'Reduce the parallel pair first, then add the series resistor.',`R₂||R₃ = (${r2}×${r3})/(${r2}+${r3}) = ${fmt(par,2)} Ω; Req = ${r1}+${fmt(par,2)} = ${fmt(req,2)} Ω.`)},
+  ()=>{const r=pick([100,200,500,1000]),L=pick([0.001,0.002,0.005]),w=pick([1000,5000,10000]),xl=w*L;return mc('Circuit Analysis','Easy','RL impedance',`A ${r} Ω resistor is in series with L = ${L*1000} mH at ω = ${w} rad/s. The impedance is:`, '',`${r} + j${fmt(xl,1)} Ω`,[`${r} − j${fmt(xl,1)} Ω`,`${fmt(xl,1)} + j${r} Ω`,`${r+xl} Ω`],'Inductor impedance is +jωL.',`Z = R + jωL = ${r} + j(${w})(${L}) = ${r} + j${fmt(xl,1)} Ω.`)},
+  ()=>{const vp=rint(10,30)*10;const rms=vp/Math.sqrt(2);return mc('Circuit Analysis','Easy','RMS',`A sinusoidal voltage has peak value ${vp} V. Its RMS value is most nearly:`, '',`${fmt(rms,1)} V`,[`${fmt(vp*Math.sqrt(2),1)} V`,`${vp/2} V`,`${vp} V`],'For a sine wave, Vrms = Vpeak/√2.',`Vrms = ${vp}/√2 = ${fmt(rms,1)} V.`)},
+  ()=>{const vs=rint(6,24)*10,r1=rint(1,9)*1000,r2=rint(1,9)*1000,vo=vs*r2/(r1+r2);return mc('Circuit Analysis','Easy','Voltage divider',`A ${vs} V source feeds ${r1/1000} kΩ in series with ${r2/1000} kΩ. Vout is across the ${r2/1000} kΩ resistor. Vout =`, '',`${fmt(vo,1)} V`,[`${fmt(vs*r1/(r1+r2),1)} V`,`${fmt(vs*(r1+r2)/r2,1)} V`,`${fmt(vs-r2/1000,1)} V`],'Use the unloaded voltage-divider relation.',`Vout = Vs·R₂/(R₁+R₂) = ${vs}(${r2})/(${r1+r2}) = ${fmt(vo,1)} V.`)},
+  ()=>{const R=rint(1,10)*1000,C=pick([10,20,50,100])*1e-6,tau=R*C;return mc('Circuit Analysis','Medium','RC time constant',`For R = ${R/1000} kΩ and C = ${C*1e6} μF, the RC time constant is:`, '',`${fmt(tau,3)} s`,[`${fmt(R/C,3)} s`,`${fmt(1/(R*C),3)} s`,`${fmt(tau*5,3)} s`],'The first-order RC time constant is τ = RC.',`τ = (${R})(${C}) = ${fmt(tau,3)} s.`)},
+  ()=>{const vth=rint(5,20),rth=rint(2,10),rl=rint(2,10),i=vth/(rth+rl);return mc('Circuit Analysis','Medium','Thevenin load current',`A Thévenin source has Vth = ${vth} V and Rth = ${rth} Ω. With RL = ${rl} Ω, load current is:`, '',`${fmt(i,3)} A`,[`${fmt(vth/rth,3)} A`,`${fmt(vth/rl,3)} A`,`${fmt((rth+rl)/vth,3)} A`],'After replacing the network by its Thévenin equivalent, Rth and RL are in series.',`I = Vth/(Rth+RL) = ${vth}/(${rth}+${rl}) = ${fmt(i,3)} A.`)},
+
+  // Linear systems
+  ()=>{const wn=pick([4,5,10]),z=pick([0.2,0.5,1,1.5]);const a=2*z*wn,b=wn*wn;const label=z<1?'underdamped':z===1?'critically damped':'overdamped';return mc('Linear Systems','Medium','Second-order damping',`For s² + ${fmt(a,1)}s + ${b}, classify the natural response.`, '',label,[...['underdamped','critically damped','overdamped','unstable'].filter(x=>x!==label).slice(0,3)],'Compare s² + 2ζωₙs + ωₙ² with the denominator.',`ωₙ = ${wn}; 2ζωₙ = ${fmt(a,1)}, so ζ = ${z}. Therefore the system is ${label}.`)},
+  ()=>{const k=rint(1,9),a=rint(1,9);const final=k/a;return mc('Linear Systems','Medium','Final value',`For G(s) = ${k}/(s + ${a}) with a unit-step input, the steady-state output is:`, '',fmt(final,3),[String(k),String(a),fmt(1/final,3)],'For a stable system and unit step, final value equals DC gain G(0).',`G(0) = ${k}/${a} = ${fmt(final,3)}.`)},
+
+  // Signals
+  ()=>{const f=rint(2,20)*1000;return mc('Signal Processing','Easy','Nyquist sampling',`A signal contains frequencies up to ${f/1000} kHz. The theoretical minimum sampling rate must be greater than:`, '',`${2*f/1000} kHz`,[`${f/1000} kHz`,`${f/2000} kHz`,`${4*f/1000} kHz`],'Nyquist requires a sampling frequency greater than twice the highest retained frequency.',`fs > 2fmax = 2(${f/1000} kHz) = ${2*f/1000} kHz.`)},
+  ()=>mc('Signal Processing','Easy','Filter identification','A filter passes low frequencies and attenuates frequencies above its cutoff. It is a:', '', 'low-pass filter',['high-pass filter','band-pass filter','notch filter'],'A low-pass filter preserves low-frequency content and attenuates higher-frequency content.','Passband is near DC; attenuation rises above the cutoff.'),
+
+  // Electronics
+  ()=>{const rin=rint(1,10),rf=rint(10,100),vin=pick([0.1,0.2,0.5,1]),vout=-(rf/rin)*vin;return mc('Electronics','Easy','Inverting op-amp',`An ideal inverting op-amp has Rin = ${rin} kΩ, Rf = ${rf} kΩ, and Vin = ${vin} V. Vout =`, '',`${fmt(vout,2)} V`,[`${fmt(-rin/rf*vin,2)} V`,`${fmt(Math.abs(vout),2)} V`,`${fmt((rf+rin)/rin*vin,2)} V`],'Ideal inverting gain is −Rf/Rin.',`Vout = −(${rf}/${rin})(${vin}) = ${fmt(vout,2)} V.`)},
+  ()=>{const vin=rint(5,20),drop=0.7,vout=vin-drop;return mc('Electronics','Easy','Diode drop',`A silicon diode is forward biased from a ${vin} V source into a resistor. Using a 0.7 V diode-drop model, the resistor voltage is:`, '',`${fmt(vout,1)} V`,[`${vin} V`,`0.7 V`,`${fmt(vin+drop,1)} V`],'In the constant-drop model, a forward-biased silicon diode drops about 0.7 V.',`VR = ${vin} − 0.7 = ${fmt(vout,1)} V.`)},
+  ()=>{const vp=rint(10,30),vavg=2*vp/Math.PI;return mc('Electronics','Medium','Full-wave rectifier average',`An ideal full-wave rectified sine has peak value ${vp} V. Its average output is most nearly:`, '',`${fmt(vavg,2)} V`,[`${fmt(vp/Math.sqrt(2),2)} V`,`${fmt(vp/Math.PI,2)} V`,`${fmt(2*vp,2)} V`],'The average of a full-wave rectified sine is 2Vp/π.',`Vavg = 2(${vp})/π = ${fmt(vavg,2)} V.`)},
+  ()=>mc('Electronics','Easy','Ideal op-amp','For an ideal op-amp operating with negative feedback, which approximation is valid?', '', 'The input terminals are at approximately equal voltage and input currents are zero.',['The output voltage is always zero.','The input currents are equal to the output current.','The two inputs are physically shorted together.'],'The ideal negative-feedback model uses infinite open-loop gain and infinite input resistance.','Use v+ ≈ v− and i+ = i− = 0 for standard ideal-op-amp analysis.'),
+
+  // Power
+  ()=>{const vll=pick([208,240,480]),i=rint(10,100),pf=pick([0.8,0.9,1]),p=Math.sqrt(3)*vll*i*pf/1000;return mc('Power Systems','Easy','Three-phase real power',`A balanced 3φ load draws ${i} A at ${vll} V line-line and pf = ${pf}. Real power is most nearly:`, '',`${fmt(p,1)} kW`,[`${fmt(vll*i*pf/1000,1)} kW`,`${fmt(3*vll*i*pf/1000,1)} kW`,`${fmt(Math.sqrt(3)*vll*i/1000,1)} kW`],'Balanced three-phase real power is √3 VLL IL pf.',`P = √3(${vll})(${i})(${pf}) = ${fmt(p,1)} kW.`)},
+  ()=>{const f=60,poles=pick([2,4,6,8]),ns=120*f/poles;return mc('Power Systems','Easy','Synchronous speed',`A ${poles}-pole machine operates from ${f} Hz. Its synchronous speed is:`, '',`${ns} rpm`,[`${60*f/poles} rpm`,`${120*f*poles} rpm`,`${ns-100} rpm`],'Synchronous speed is ns = 120f/P.',`ns = 120(${f})/${poles} = ${ns} rpm.`)},
+  ()=>{const ratio=pick([2,3,4]),zs=rint(1,10),zp=ratio**2*zs;return mc('Power Systems','Easy','Reflected impedance',`An ideal transformer has Np:Ns = ${ratio}:1. A ${zs} Ω secondary load appears at the primary as:`, '',`${zp} Ω`,[`${ratio*zs} Ω`,`${fmt(zs/ratio,2)} Ω`,`${fmt(zs/ratio**2,2)} Ω`],'Impedance reflects by the square of the turns ratio.',`Zp = (${ratio}/1)²(${zs}) = ${zp} Ω.`)},
+
+  // Electromagnetics
+  ()=>{const I=pick([10,20,50,100]),r=pick([0.05,0.1,0.2]),mu0=4*Math.PI*1e-7,B=mu0*I/(2*Math.PI*r);return mc('Electromagnetics','Medium','Magnetic field of a wire',`A long straight wire carries ${I} A. At r = ${r} m in free space, B is most nearly:`, '',`${B.toExponential(2)} T`,[(B*2).toExponential(2),(B/2).toExponential(2),(mu0*I/r).toExponential(2)],'For a long straight conductor, B = μ₀I/(2πr).',`B = (4π×10⁻⁷)(${I})/[2π(${r})] = ${B.toExponential(2)} T.`)},
+  ()=>{const C=pick([1,2,5,10])*1e-6,V=pick([5,10,20,50]),Q=C*V;return mc('Electromagnetics','Easy','Capacitor charge',`A ${C*1e6} μF capacitor is charged to ${V} V. Stored charge is:`, '',`${fmt(Q*1e6,1)} μC`,[`${fmt(C/V*1e6,1)} μC`,`${fmt(C*V*V*1e6,1)} μC`,`${fmt(V/C/1e6,1)} μC`],'Capacitor charge is Q = CV.',`Q = (${C} F)(${V} V) = ${fmt(Q*1e6,1)} μC.`)},
+
+  // Controls
+  ()=>{const G=rint(2,10),H=1,T=G/(1+G*H);return mc('Control Systems','Easy','Closed-loop gain',`For negative feedback with G = ${G} and H = 1, the closed-loop transfer magnitude at this operating point is:`, '',fmt(T,3),[String(G),fmt(G/(1-G),3),fmt(1/G,3)],'Use T = G/(1+GH) for standard negative feedback.',`T = ${G}/(1+${G}) = ${fmt(T,3)}.`)},
+  ()=>{const wn=10,z=pick([0.2,0.5,0.7,1.2]);const behavior=z<1?'oscillatory with decay':z===1?'fastest nonoscillatory response':'nonoscillatory and overdamped';return mc('Control Systems','Medium','Damping ratio',`A standard second-order closed-loop system has damping ratio ζ = ${z}. Its response is best described as:`, '',behavior,[...['oscillatory with decay','fastest nonoscillatory response','nonoscillatory and overdamped','unstable growth'].filter(x=>x!==behavior).slice(0,3)],'For a stable standard second-order system: 0<ζ<1 is underdamped; ζ=1 critical; ζ>1 overdamped.',`ζ = ${z}, so the response is ${behavior}.`)},
+
+  // Communications
+  ()=>{const fm=pick([3,5,10,15]);return mc('Communications','Easy','AM bandwidth',`A conventional AM signal has a highest modulating frequency of ${fm} kHz. Required transmission bandwidth is:`, '',`${2*fm} kHz`,[`${fm} kHz`,`${fm/2} kHz`,`${4*fm} kHz`],'Conventional AM produces upper and lower sidebands.',`BW = 2fm(max) = 2(${fm}) = ${2*fm} kHz.`)},
+  ()=>{const fs=pick([8000,16000,48000]),bits=pick([8,12,16]),rate=fs*bits;return mc('Communications','Easy','PCM bit rate',`A mono PCM system samples at ${fs/1000} ksample/s with ${bits} bits/sample. Raw bit rate is:`, '',`${rate/1000} kb/s`,[`${fs/1000} kb/s`,`${bits} kb/s`,`${rate/8/1000} kb/s`],'Raw PCM bit rate equals samples per second times bits per sample.',`${fs} × ${bits} = ${rate} bit/s = ${rate/1000} kb/s.`)},
+
+  // Networks
+  ()=>mc('Computer Networks','Easy','OSI model','Which OSI layer is primarily responsible for logical addressing and routing?', '', 'Network layer',['Physical layer','Data link layer','Application layer'],'IP addressing and routing are network-layer functions.','Layer 3 is the Network layer.'),
+  ()=>{const hostBits=pick([4,5,6,8]),hosts=2**hostBits-2,prefix=32-hostBits;return mc('Computer Networks','Medium','IPv4 subnetting',`Ignoring special-purpose exceptions, a /${prefix} IPv4 subnet supports how many usable host addresses?`, '',String(hosts),[String(2**hostBits),String(hosts-1),String(2**(hostBits-1)-2)],'Traditional IPv4 host count is 2^(host bits) − 2.',`Host bits = ${hostBits}; usable hosts = 2^${hostBits} − 2 = ${hosts}.`)},
+
+  // Digital
+  ()=>{const n=rint(5,63);return mc('Digital Systems','Easy','Number systems',`Convert decimal ${n} to binary.`, '',n.toString(2),[(n+1).toString(2),(n-1).toString(2),n.toString(8)],'Express the value as a sum of powers of two.',`${n}₁₀ = ${n.toString(2)}₂.`)},
+  ()=>{const a=pick([0,1]),b=pick([0,1]);const y=Number(Boolean(a||b));return mc('Digital Systems','Easy','Boolean logic',`For Y = A + B (Boolean OR), if A = ${a} and B = ${b}, Y =`, '',String(y),[String(1-y),'A','B'],'Boolean “+” denotes OR.',`${a} OR ${b} = ${y}.`)},
+  ()=>mc('Digital Systems','Easy','Flip-flops','A T flip-flop has T = 1 on the active clock edge. What happens to Q?', '', 'Q toggles.',['Q is forced to 0.','Q is forced to 1.','Q never changes.'],'A T flip-flop toggles when T=1 and holds when T=0.','On the active edge with T=1, Q(next)=NOT Q.'),
+  ()=>mc('Digital Systems','Medium','Logic simplification','Simplify A + A·B.', '', 'A',['A·B','A + B','B'],'Use the absorption law.', 'A + AB = A(1 + B) = A.'),
+
+  // Computer systems
+  ()=>{const bits=pick([8,10,12,16]),loc=2**bits;return mc('Computer Systems','Easy','Address space',`A memory uses ${bits} address lines. How many unique addresses are possible?`, '',loc.toLocaleString(),[(bits*2).toLocaleString(),(2*bits).toLocaleString(),(loc-1).toLocaleString()],'n address lines encode 2^n unique binary combinations.',`2^${bits} = ${loc.toLocaleString()} addresses.`)},
+  ()=>{const freq=pick([1,2,3,4]),cpi=pick([1,2,4]),ips=freq*1e9/cpi;return mc('Computer Systems','Medium','CPU throughput',`A ${freq} GHz processor averages CPI = ${cpi}. Idealized instruction rate is:`, '',`${fmt(ips/1e9,2)} GIPS`,[`${fmt(freq*cpi,2)} GIPS`,`${fmt(cpi/freq,2)} GIPS`,`${freq} GIPS`],'Instruction rate = clock rate / cycles per instruction.',`${freq} GHz / ${cpi} = ${fmt(ips/1e9,2)} billion instructions/s.`)},
+
+  // Software
+  ()=>mc('Software Engineering','Easy','Big-O','Binary search on a sorted array has time complexity:', '', 'O(log n)',['O(n)','O(n log n)','O(n²)'],'Each comparison discards about half of the remaining search space.','Repeated halving produces logarithmic growth.'),
+  ()=>mc('Software Engineering','Easy','Data structures','Which data structure follows first-in, first-out (FIFO) behavior?', '', 'Queue',['Stack','Binary search tree','Hash function'],'A queue removes items in the same order they were inserted.','Queue = FIFO; stack = LIFO.')
+];
+function factorial(n){let x=1;for(let i=2;i<=n;i++)x*=i;return x;}
+
+const generatorsByCategory = Object.fromEntries(CATEGORIES.map(c=>[c.name,GENERATORS.filter(g=>{try{return g().category===c.name}catch{return false}})]));
+
+function normalizedToday(){if(state.today.date!==localDateKey()) state.today={date:localDateKey(),answered:0,correct:0};}
+function updateStreak(){
+  const today=localDateKey(); if(state.lastStudyDate===today) return;
+  if(!state.lastStudyDate){state.streak=1;} else {
+    const a=new Date(state.lastStudyDate+'T12:00:00'), b=new Date(today+'T12:00:00');
+    const days=Math.round((b-a)/86400000); state.streak=days===1?state.streak+1:1;
+  }
+  state.lastStudyDate=today;
+}
+function getMastery(name){return state.categories[name]?.mastery ?? 50;}
+function weightedCategory(mode){
+  let pool=CATEGORIES.filter(c=>(generatorsByCategory[c.name]||[]).length);
+  if(mode==='weak'){const sorted=[...pool].sort((a,b)=>getMastery(a.name)-getMastery(b.name));pool=sorted.slice(0,5);}
+  if(mode==='missed' && state.missedConcepts.length){const cats=[...new Set(state.missedConcepts.map(m=>m.category))];pool=pool.filter(c=>cats.includes(c.name));}
+  const weights=pool.map(c=>{
+    const exam=(c.min+c.max)/2;
+    const weakness=1+(100-getMastery(c.name))/55;
+    return exam*weakness;
+  });
+  let r=Math.random()*weights.reduce((a,b)=>a+b,0);
+  for(let i=0;i<pool.length;i++){r-=weights[i];if(r<=0)return pool[i].name;}
+  return pool[0].name;
+}
+function nextQuestion(){
+  const category=session.category || weightedCategory(session.mode);
+  let gens=generatorsByCategory[category];
+  if(session.mode==='missed' && state.missedConcepts.length){
+    const concepts=state.missedConcepts.filter(m=>m.category===category).map(m=>m.concept);
+    const filtered=gens.filter(g=>concepts.includes(g().concept)); if(filtered.length) gens=filtered;
+  }
+  currentQuestion=pick(gens)();
+  questionStartedAt=Date.now();
+  session.count++;
+  renderQuestion();
+}
+function startSession(mode,category=null){
+  session={mode,category,count:0,answered:0,correct:0,start:Date.now(),duration:mode==='quick'?300:0};
+  document.getElementById('sessionLabel').textContent=category || ({feed:'FE Feed',weak:'Weak Areas',quick:'5-Minute Drill',missed:'Missed Concepts'}[mode]||'Practice');
+  showView('quizView',false); document.querySelector('.bottom-nav').style.display='none';
+  if(mode==='quick') startQuickTimer(); else document.getElementById('timer').classList.add('hidden');
+  nextQuestion();
+}
+function startQuickTimer(){
+  const el=document.getElementById('timer');el.classList.remove('hidden');let left=300;
+  clearInterval(quickTimer); quickTimer=setInterval(()=>{left--;el.textContent=`${String(Math.floor(left/60)).padStart(2,'0')}:${String(left%60).padStart(2,'0')}`;if(left<=0){clearInterval(quickTimer);finishSession();}},1000);
+}
+function finishSession(){
+  clearInterval(quickTimer); alert(`Session complete\n${session.correct}/${session.answered} correct`); exitQuiz();
+}
+function exitQuiz(){clearInterval(quickTimer);session=null;currentQuestion=null;document.querySelector('.bottom-nav').style.display='grid';showView('homeView');renderAll();}
+function renderQuestion(){
+  const q=currentQuestion;
+  document.getElementById('questionCategory').textContent=q.category;
+  document.getElementById('questionDifficulty').textContent=q.difficulty;
+  document.getElementById('questionText').textContent=q.prompt;
+  document.getElementById('questionDetail').textContent=q.detail||'';
+  document.getElementById('sessionCounter').textContent=`Question ${session.count}`;
+  document.getElementById('sessionProgress').style.width=`${Math.min(100,(session.answered%10)*10)}%`;
+  const ans=document.getElementById('answers');ans.innerHTML='';
+  q.choices.forEach((choice,i)=>{const b=document.createElement('button');b.className='answer-btn';b.innerHTML=`<span class="letter">${'ABCD'[i]}</span><span>${choice}</span>`;b.onclick=()=>answerQuestion(i);ans.appendChild(b);});
+  document.getElementById('feedback').className='feedback hidden';
+  document.getElementById('feedback').innerHTML='';
+  document.getElementById('nextBtn').classList.add('hidden');
+}
+function answerQuestion(index){
+  const q=currentQuestion,correct=index===q.correctIndex,timeSec=Math.max(1,Math.round((Date.now()-questionStartedAt)/1000));
+  normalizedToday();updateStreak();state.totalAnswered++;state.today.answered++;session.answered++;
+  const cs=state.categories[q.category];cs.attempts++;
+  if(correct){state.totalCorrect++;state.today.correct++;session.correct++;cs.correct++;}else{cs.misses++; if(!state.missedConcepts.some(m=>m.category===q.category&&m.concept===q.concept))state.missedConcepts.push({category:q.category,concept:q.concept});}
+  const target=correct?100:0;cs.mastery=Math.round(cs.mastery*0.86+target*0.14);
+  if(correct && cs.attempts>=3){state.missedConcepts=state.missedConcepts.filter(m=>!(m.category===q.category&&m.concept===q.concept&&cs.mastery>65));}
+  saveState();
+  [...document.querySelectorAll('.answer-btn')].forEach((b,i)=>{b.classList.add('disabled');if(i===q.correctIndex)b.classList.add('correct');if(i===index&&!correct)b.classList.add('wrong');});
+  const fb=document.getElementById('feedback');fb.className=`feedback ${correct?'correct':'wrong'}`;fb.innerHTML=`<strong>${correct?'Correct':'Not quite'}</strong><p>${q.explanation}</p><div class="solution"><b>Solution</b><br>${q.solution}</div><p class="muted">Answered in ${timeSec}s · ${q.concept}</p>`;
+  document.getElementById('nextBtn').classList.remove('hidden');
+  renderAll();
+}
+
+
+let eqDrawerAll=false;
+function normalizedWords(v){return String(v||'').toLowerCase().replace(/[^a-z0-9φθωμσρζ]+/g,' ').trim().split(/\s+/).filter(w=>w.length>1);}
+function currentRelevantFormula(){
+  if(!currentQuestion)return null;
+  const wanted=CONCEPT_FORMULA_MAP[currentQuestion.concept];
+  if(wanted){const hit=FORMULAS.find(x=>x.n===wanted);if(hit)return hit;}
+  const words=normalizedWords(currentQuestion.concept+' '+currentQuestion.solution+' '+currentQuestion.explanation);
+  const candidates=FORMULAS.filter(x=>x.c===currentQuestion.category);
+  let best=null,bestScore=-1;
+  candidates.forEach(x=>{const hay=normalizedWords(x.n+' '+x.f+' '+x.note);let score=0;words.forEach(w=>{if(hay.includes(w))score++});if(score>bestScore){best=x;bestScore=score}});
+  return best;
+}
+function renderEquationDrawer(){
+  if(!currentQuestion)return;
+  const list=document.getElementById('eqDrawerList'),search=(document.getElementById('eqDrawerSearch').value||'').trim().toLowerCase();
+  const relevant=currentRelevantFormula();
+  let pool=eqDrawerAll?FORMULAS:FORMULAS.filter(x=>x.c===currentQuestion.category);
+  if(search)pool=pool.filter(x=>(x.c+' '+x.n+' '+x.f+' '+x.note).toLowerCase().includes(search));
+  if(relevant && !pool.includes(relevant) && (!search || (relevant.c+' '+relevant.n+' '+relevant.f+' '+relevant.note).toLowerCase().includes(search)))pool.unshift(relevant);
+  if(relevant){pool=[relevant,...pool.filter(x=>x!==relevant)];}
+  list.innerHTML='';
+  pool.forEach(x=>{const d=document.createElement('div');const rel=x===relevant;d.className='eq-mini'+(rel?' relevant':'');d.innerHTML=`<div class="eq-mini-top"><strong>${escapeFormulaHtml(x.n)}</strong><span class="eq-badge">${rel?'LIKELY FOR THIS QUESTION':escapeFormulaHtml(x.c)}</span></div><code>${escapeFormulaHtml(x.f)}</code><p>${escapeFormulaHtml(x.note)}</p>`;list.appendChild(d);});
+  if(!pool.length)list.innerHTML='<div class="muted">No equations match that search.</div>';
+  document.getElementById('eqDrawerTitle').textContent='FE Equation Reference';
+  document.getElementById('eqDrawerSub').textContent=eqDrawerAll?`All ${FORMULAS.length} references · relevant formula pinned first`:`${currentQuestion.category} · ${pool.length} shown · relevant formula pinned first`;
+  const scope=document.getElementById('eqDrawerScope');scope.textContent=eqDrawerAll?'All formulas':'Current topic';scope.classList.toggle('all',eqDrawerAll);
+}
+function openEquationDrawer(){
+  if(!currentQuestion)return;eqDrawerAll=false;document.getElementById('eqDrawerSearch').value='';renderEquationDrawer();const b=document.getElementById('equationDrawerBackdrop');b.classList.add('open');b.setAttribute('aria-hidden','false');
+}
+function closeEquationDrawer(){const b=document.getElementById('equationDrawerBackdrop');b.classList.remove('open');b.setAttribute('aria-hidden','true');}
+function escapeFormulaHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function showView(id,nav=true){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');if(nav){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.view===id));}window.scrollTo(0,0);}
+function renderHome(){
+  normalizedToday();const weakest=[...CATEGORIES].sort((a,b)=>getMastery(a.name)-getMastery(b.name));
+  document.getElementById('focusText').textContent=weakest[0].name;
+  document.getElementById('streakValue').textContent=state.streak;
+  document.getElementById('todayQuestions').textContent=state.today.answered;
+  document.getElementById('todayAccuracy').textContent=state.today.answered?`${Math.round(state.today.correct/state.today.answered*100)}%`:'—';
+  document.getElementById('overallMastery').textContent=`${Math.round(CATEGORIES.reduce((s,c)=>s+getMastery(c.name),0)/CATEGORIES.length)}%`;
+  const box=document.getElementById('weakPreview');box.innerHTML='';weakest.slice(0,5).forEach(c=>box.appendChild(progressRow(c,true)));
+}
+function progressRow(c,compact=false){
+  const div=document.createElement('div');div.className=compact?'weak-row':'progress-row';const s=state.categories[c.name];
+  div.innerHTML=`<div class="${compact?'weak':'progress'}-top"><span class="${compact?'weak':'progress'}-name">${c.name}</span><span class="${compact?'weak':'progress'}-score">${s.mastery}%</span></div><div class="bar"><div style="width:${s.mastery}%"></div></div>${compact?'':`<small class="muted">${s.attempts} attempts · ${s.correct} correct · exam range ${c.min}–${c.max}</small>`}`;return div;
+}
+function renderTopics(){const box=document.getElementById('topicsList');box.innerHTML='';CATEGORIES.forEach(c=>{const d=document.createElement('button');d.className='topic-row';d.innerHTML=`<div class="topic-top"><span class="topic-name">${c.name}</span><span class="pill">${c.min}–${c.max}</span></div><small>Current mastery ${getMastery(c.name)}% · Tap to drill</small>`;d.onclick=()=>startSession('topic',c.name);box.appendChild(d);});}
+function renderProgress(){
+  document.getElementById('totalAnswered').textContent=state.totalAnswered;document.getElementById('totalCorrect').textContent=state.totalCorrect;document.getElementById('totalAccuracy').textContent=state.totalAnswered?`${Math.round(state.totalCorrect/state.totalAnswered*100)}%`:'—';
+  const box=document.getElementById('progressList');box.innerHTML='';[...CATEGORIES].sort((a,b)=>getMastery(a.name)-getMastery(b.name)).forEach(c=>box.appendChild(progressRow(c,false)));
+}
+function renderReference(){
+  const box=document.getElementById('formulaList');
+  const search=(document.getElementById('formulaSearch')?.value||'').trim().toLowerCase();
+  const cat=document.getElementById('formulaCategory')?.value||'All';
+  const filtered=FORMULAS.filter(x=>{
+    const inCat=cat==='All'||x.c===cat;
+    const hay=`${x.c} ${x.n} ${x.f} ${x.note}`.toLowerCase();
+    return inCat && (!search || hay.includes(search));
+  });
+  box.innerHTML='';
+  let last='';
+  filtered.forEach(x=>{
+    if(x.c!==last){const sec=document.createElement('div');sec.className='formula-section';sec.innerHTML=`<h3>${x.c}</h3>`;box.appendChild(sec);last=x.c;}
+    const d=document.createElement('div');d.className='formula-card';
+    d.innerHTML=`<strong>${x.n}</strong><div class="formula">${x.f}</div><p>${x.note}</p>`;
+    box.appendChild(d);
+  });
+  const rc=document.getElementById('formulaResultCount'); if(rc) rc.textContent=`Showing ${filtered.length} of ${FORMULAS.length} references`;
+  const pill=document.getElementById('formulaCountPill'); if(pill) pill.textContent=`${FORMULAS.length} refs`;
+}
+function renderAll(){renderHome();renderTopics();renderProgress();renderReference();}
+
+document.querySelectorAll('.mode-card').forEach(b=>b.addEventListener('click',()=>{
+  if(b.dataset.mode==='missed'&&!state.missedConcepts.length){alert('No missed concepts yet. Answer some questions first.');return;}startSession(b.dataset.mode);
+}));
+document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+const formulaCategory=document.getElementById('formulaCategory');
+if(formulaCategory){
+  [...new Set(FORMULAS.map(x=>x.c))].forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;formulaCategory.appendChild(o);});
+  formulaCategory.addEventListener('change',renderReference);
+}
+const formulaSearch=document.getElementById('formulaSearch');
+if(formulaSearch) formulaSearch.addEventListener('input',renderReference);
+document.getElementById('showProgress').onclick=()=>showView('progressView');
+document.getElementById('exitQuiz').onclick=exitQuiz;
+document.getElementById('nextBtn').onclick=()=>nextQuestion();
+document.getElementById('resetBtn').onclick=()=>{if(confirm('Reset all FE Scroll progress and restore your diagnostic baseline?')){state=initialState();saveState();renderAll();}};
+document.getElementById('sessionEquationsBtn').onclick=openEquationDrawer;
+document.getElementById('eqDrawerClose').onclick=closeEquationDrawer;
+document.getElementById('equationDrawerBackdrop').addEventListener('click',e=>{if(e.target.id==='equationDrawerBackdrop')closeEquationDrawer();});
+document.getElementById('eqDrawerSearch').addEventListener('input',renderEquationDrawer);
+document.getElementById('eqDrawerScope').onclick=()=>{eqDrawerAll=!eqDrawerAll;renderEquationDrawer();};
+
+// Personal FE Reference Handbook storage. The PDF remains local to this browser/device.
+const HANDBOOK_DB='feScrollHandbookDB';
+const HANDBOOK_STORE='files';
+let handbookBlob=null;
+let handbookName='';
+function handbookDb(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(HANDBOOK_DB,1);
+    req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains(HANDBOOK_STORE))req.result.createObjectStore(HANDBOOK_STORE);};
+    req.onsuccess=()=>resolve(req.result); req.onerror=()=>reject(req.error);
+  });
+}
+async function loadSavedHandbook(){
+  try{
+    const db=await handbookDb();
+    const val=await new Promise((resolve,reject)=>{const tx=db.transaction(HANDBOOK_STORE,'readonly');const r=tx.objectStore(HANDBOOK_STORE).get('handbook');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});
+    if(val?.blob){handbookBlob=val.blob;handbookName=val.name||'FE Reference Handbook.pdf';}
+  }catch(e){console.warn('Handbook storage unavailable',e);}
+  renderHandbookStatus();
+}
+function renderHandbookStatus(){
+  const status=document.getElementById('handbookStatus'),open=document.getElementById('openHandbook'),remove=document.getElementById('removeHandbook');
+  if(handbookBlob){status.textContent=`Loaded on this device: ${handbookName}`;open.disabled=false;remove.classList.remove('hidden');}
+  else{status.textContent='No handbook loaded on this device.';open.disabled=true;remove.classList.add('hidden');}
+}
+async function saveHandbook(file){
+  const db=await handbookDb();
+  await new Promise((resolve,reject)=>{const tx=db.transaction(HANDBOOK_STORE,'readwrite');tx.objectStore(HANDBOOK_STORE).put({blob:file,name:file.name,updated:Date.now()},'handbook');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});
+  handbookBlob=file;handbookName=file.name;renderHandbookStatus();
+}
+async function deleteHandbook(){
+  try{const db=await handbookDb();await new Promise((resolve,reject)=>{const tx=db.transaction(HANDBOOK_STORE,'readwrite');tx.objectStore(HANDBOOK_STORE).delete('handbook');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}catch{}
+  handbookBlob=null;handbookName='';renderHandbookStatus();
+}
+document.getElementById('chooseHandbook').onclick=()=>document.getElementById('handbookFile').click();
+document.getElementById('handbookFile').addEventListener('change',async e=>{
+  const file=e.target.files?.[0]; if(!file)return;
+  if(file.type!=='application/pdf' && !file.name.toLowerCase().endsWith('.pdf')){alert('Choose a PDF file.');return;}
+  try{await saveHandbook(file);}catch{alert('Safari could not save the handbook locally. You can still choose it again later.');handbookBlob=file;handbookName=file.name;renderHandbookStatus();}
+  e.target.value='';
+});
+document.getElementById('openHandbook').onclick=()=>{
+  if(!handbookBlob)return; const url=URL.createObjectURL(handbookBlob); const w=window.open(url,'_blank'); if(!w)window.location.href=url; setTimeout(()=>URL.revokeObjectURL(url),120000);
+};
+document.getElementById('removeHandbook').onclick=()=>{if(confirm('Remove the saved handbook from this device?'))deleteHandbook();};
+
+renderAll();
+loadSavedHandbook();
+
+</script>
+</body>
+</html>
