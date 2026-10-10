@@ -32,10 +32,10 @@
 </head>
 <body>
 <div id="app">
-<header class="top"><div><div class="ey">ECE 6610 · ELECTRICAL ENERGY CONVERSION <span class="buildtag">HW MIRROR v1.1</span></div><h1>Machine Drill</h1></div><button class="iconbtn" id="reset">↺</button></header>
+<header class="top"><div><div class="ey">ECE 6610 · ELECTRICAL ENERGY CONVERSION <span class="buildtag">HW MIRROR v1.2</span></div><h1>Machine Drill</h1></div><button class="iconbtn" id="reset">↺</button></header>
 <main>
 <section id="home" class="view active">
-<div class="card"><div class="hero"><div><div class="muted">Adaptive focus</div><div class="focus" id="focus">HW1 / Generation Applications</div><div class="source">Built from Lectures 1–7, HW2–HW7, and professor Excel examples. Rebuilt directly from the uploaded HW1–HW7 problem patterns. Questions now mirror the professor's multi-step homework workflows with changed numbers, while the formula coach shows the equations and Excel setup before you answer.</div></div><div class="streak">🔥<b id="streak">0</b><small class="muted">day streak</small></div></div><div class="stats"><div class="stat"><b id="today">0</b><small>today</small></div><div class="stat"><b id="acc">—</b><small>accuracy</small></div><div class="stat"><b id="mastery">—</b><small>mastery</small></div></div><div class="plan" id="plan"></div></div>
+<div class="card"><div class="hero"><div><div class="muted">Adaptive focus</div><div class="focus" id="focus">HW1 / Generation Applications</div><div class="source">Built from Lectures 1–7, HW2–HW7, and professor Excel examples. Rebuilt directly from the uploaded HW1–HW7 problem patterns. Questions now mirror the professor's multi-step homework workflows with changed numbers, while the formula coach shows the equations and Excel setup before you answer. Every generated calculation problem now states every required given explicitly; if a value must be derived, the relationship needed to derive it is stated in the prompt.</div></div><div class="streak">🔥<b id="streak">0</b><small class="muted">day streak</small></div></div><div class="stats"><div class="stat"><b id="today">0</b><small>today</small></div><div class="stat"><b id="acc">—</b><small>accuracy</small></div><div class="stat"><b id="mastery">—</b><small>mastery</small></div></div><div class="plan" id="plan"></div></div>
 <div class="rowtitle"><h2>Study</h2><span class="pill">Professor-based</span></div>
 <div class="modes">
 <button class="mode primary" data-mode="feed"><span class="ico">⚡</span><strong>Mixed Feed</strong><small>Endless modified problems from all seven lectures and homework patterns.</small></button>
@@ -316,17 +316,17 @@ add('L2','math',function(){
   var Ls=pick([1,2,3]),M=pick([.5,1]),I=pick([5,10]),w=pick([314,377]),t=pick([.5,1]),k=(Ls+2*M),lam=k*I*Math.sin(w*t),vv=k*I*w*Math.cos(w*t);
   var correct=`λabc=${vstr([lam,lam,lam],'Wb-turn',2)}; Vabc=${vstr([vv,vv,vv],'V',2)}`;
   return hwmc('L2','Hard','HW2 P5 — flux linkage and induced voltage','HW2 Problem 5',
-    `A symmetrical machine has Ls=${Ls} H, M=${M} H, and ia=ib=ic=${I}·sin(${w}t) A. At t=${t} s, calculate λabc and Vabc.`,
+    `A symmetrical machine has Ls=${Ls} H and M=${M} H. The three phase currents are ia=ib=ic=${I}·sin(ωt) A, where the angular frequency is ω=${w} rad/s. Evaluate the machine at t=${t} s. Calculate λabc and Vabc.`,
     correct,
     [`λabc=${vstr([Ls*I*Math.sin(w*t),Ls*I*Math.sin(w*t),Ls*I*Math.sin(w*t)],'Wb-turn',2)}; Vabc=${vstr([Ls*I*w*Math.cos(w*t),Ls*I*w*Math.cos(w*t),Ls*I*w*Math.cos(w*t)],'V',2)}`,
      `λabc=${vstr([lam,lam,lam],'Wb-turn',2)}; Vabc=${vstr([lam,lam,lam],'V',2)}`,
      `λabc=${vstr([k*I,k*I,k*I],'Wb-turn',2)}; Vabc=${vstr([0,0,0],'V',2)}`],
     `Each row of the symmetrical L matrix gives (Ls+2M)i. Differentiate sin(ωt) to get ωcos(ωt).`,
     'λabc=Ls-matrix·iabc\nvabc=dλabc/dt\nfor i=I sin(ωt): v=(Ls+2M)Iω cos(ωt)',
-    'Use one cell for k=Ls+2*M. λ =k*I*SIN(w*t). V =k*I*w*COS(w*t). Copy the same result across phases for this symmetrical case.',
-    'The problem gives symmetrical self/mutual inductances plus sinusoidal phase currents and asks for λabc and Vabc.',
-    'Build flux linkage first, then differentiate the sinusoid for voltage.',
-    'Do not forget the mutual-inductance contributions or the ω factor from d/dt.');
+    `Put the givens in cells first: B2=Ls (${Ls}), B3=M (${M}), B4=I (${I}), B5=ω (${w} rad/s), B6=t (${t} s). Then B7=B2+2*B3. Flux: =B7*B4*SIN(B5*B6). Voltage: =B7*B4*B5*COS(B5*B6). Copy the same result across phases for this symmetrical case.`,
+    'The problem must give Ls, M, current amplitude I, angular frequency ω, and time t before you can solve it. If the current is written as I·sin(ωt), the coefficient multiplying t is ω.',
+    'First identify every given: Ls, M, I, ω, and t. Build k=Ls+2M, then λ=kI·sin(ωt). Differentiate the sinusoid to get V=kIω·cos(ωt).',
+    'Do not solve unless ω is explicitly given or the problem gives frequency f so you can use ω=2πf. Also do not forget the mutual-inductance contributions or the extra ω factor created by d/dt.');
 });
 add('L2','math',function(){
   var Vs=pick([240,480]),Z=pick([8,10,12]),w=pick([314,377]),we=w+pick([-2,2,5]),adeg=pick([25,35,45]),t=pick([.5,1,2]),tau=pick([5,7.5,10]),a=adeg*Math.PI/180;
