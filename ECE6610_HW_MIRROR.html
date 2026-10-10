@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071525">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ECE 6610">
+<title>ECE 6610 Drill</title>
+<style>
+:root{color-scheme:dark;--bg:#061321;--panel:#0d2035;--panel2:#112a45;--line:#28415f;--text:#f5f8fc;--muted:#9eb0c4;--blue:#5ca8ff;--green:#49d889;--red:#ff5a68;--orange:#ffad4e;--purple:#b28cff}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;min-height:100%}body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}button{font:inherit;color:inherit}#app{max-width:780px;margin:auto;min-height:100vh;padding-bottom:90px}.top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:18px 16px 10px;background:linear-gradient(180deg,var(--bg) 78%,rgba(6,19,33,0))}.ey{font-size:11px;letter-spacing:.12em;font-weight:850;color:var(--blue)}h1{margin:2px 0 0;font-size:28px}.iconbtn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel);font-size:20px}main{padding:8px 14px 24px}.view{display:none}.view.active{display:block}.card{background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:20px;padding:17px}.muted{color:var(--muted)}.hero{display:flex;justify-content:space-between;gap:10px;align-items:center}.focus{font-weight:850;font-size:20px;margin-top:4px}.streak{background:rgba(255,255,255,.05);padding:9px 11px;border-radius:14px;text-align:center;min-width:78px}.streak b{display:block;font-size:20px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}.stat{background:rgba(255,255,255,.045);padding:10px;border-radius:12px;text-align:center}.stat b{display:block;font-size:18px}.stat small{color:var(--muted)}.rowtitle{display:flex;justify-content:space-between;align-items:center;margin:21px 2px 10px}.rowtitle h2{font-size:19px;margin:0}.pill{font-size:11px;color:#c7e1ff;background:#12345b;border:1px solid #275c95;border-radius:999px;padding:5px 8px;font-weight:800}.modes{display:grid;grid-template-columns:1fr 1fr;gap:9px}.mode{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:14px;text-align:left;min-height:120px}.mode.primary{background:linear-gradient(145deg,#164b7f,#0c2c4c);border-color:#3b83c9}.mode strong{display:block;font-size:16px;margin:6px 0 5px}.mode small{color:var(--muted);line-height:1.35}.mode .ico{font-size:23px}.list{display:flex;flex-direction:column;gap:8px}.listitem{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;width:100%;text-align:left}.topline{display:flex;justify-content:space-between;gap:10px;align-items:center}.bar{height:7px;background:#07101d;border-radius:999px;overflow:hidden;margin-top:7px}.bar div{height:100%;background:linear-gradient(90deg,#2d86ea,var(--green));border-radius:inherit}.textbtn{border:0;background:none;color:var(--blue);font-weight:800}.qhead{display:grid;grid-template-columns:70px 1fr 70px;align-items:center;margin:0 0 8px}.qcenter{text-align:center}.qcenter b,.qcenter small{display:block}.qcenter small{color:var(--muted);margin-top:2px}.timer{text-align:right;font-weight:850}.track{height:5px;background:#10233a;border-radius:999px;overflow:hidden;margin-bottom:12px}.fill{height:100%;background:var(--blue);width:0}.qcard h2{font-size:22px;line-height:1.3;margin:16px 0}.source{font-size:12px;color:#c6d7eb;margin-top:5px}.answers{display:flex;flex-direction:column;gap:9px}.ans{width:100%;border:1px solid var(--line);background:#10253d;border-radius:14px;padding:13px;text-align:left;font-size:16px;display:flex;gap:10px}.letter{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:#1a3a60;font-weight:850;flex:0 0 auto}.ans.good{border-color:var(--green);background:rgba(73,216,137,.16)}.ans.bad{border-color:var(--red);background:rgba(255,90,104,.15)}.ans.lock{pointer-events:none}.feedback{margin-top:12px;background:#0a1a2c;border:1px solid var(--line);border-radius:14px;padding:13px;line-height:1.45}.feedback strong{display:block;font-size:17px;margin-bottom:6px}.feedback.good strong{color:var(--green)}.feedback.bad strong{color:var(--orange)}.eq{background:#08182a;border:1px solid #213b5b;border-radius:10px;padding:9px;margin-top:9px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-x:auto}.next{margin-top:12px;width:100%;border:0;border-radius:14px;padding:14px;background:var(--blue);color:#051321;font-size:17px;font-weight:900}.hidden{display:none!important}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.summary div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}.summary b{display:block;font-size:20px}.summary span{font-size:11px;color:var(--muted)}.formula{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px}.formula code{display:block;color:#d8eaff;background:#08182a;padding:8px;border-radius:8px;margin-top:6px;overflow-x:auto;white-space:pre-wrap}.formula p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.35}.usewhen{margin-top:9px;padding:9px 10px;border-radius:10px;background:rgba(45,134,234,.10);border:1px solid #244c75;font-size:13px;line-height:1.4}.usewhen b{color:#8ec5ff}.guidebtn{width:100%;margin-top:9px;border:1px solid #31577f;background:#102941;color:#dcecff;border-radius:10px;padding:9px 10px;text-align:left;font-weight:800}.guidemore{display:none;margin-top:9px;border-top:1px solid var(--line);padding-top:8px}.formula.open .guidemore{display:block}.guideblock{margin:8px 0}.guideblock b{display:block;color:#f2f7ff;font-size:12px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:3px}.guideblock div{color:#c2d2e5;font-size:13px;line-height:1.45;white-space:pre-line}.refcontrols{position:sticky;top:0;z-index:4;background:var(--bg);padding:4px 0 10px}.refsearch{width:100%;border:1px solid var(--line);background:#0d2238;color:var(--text);border-radius:12px;padding:11px 12px;font-size:15px;outline:none}.refsearch:focus{border-color:var(--blue)}.refchips{display:flex;gap:6px;overflow-x:auto;padding-top:8px;scrollbar-width:none}.refchips::-webkit-scrollbar{display:none}.refchip{border:1px solid var(--line);background:#10253d;color:#c9d8ea;border-radius:999px;padding:7px 10px;font-size:12px;white-space:nowrap}.refchip.active{background:#164b7f;border-color:#3b83c9;color:white}.refcount{font-size:12px;color:var(--muted);margin:6px 2px 0}.coachnote{margin:10px 0 14px;padding:13px;border-radius:14px;background:linear-gradient(145deg,#173c63,#10253d);border:1px solid #3b6b9b}.coachnote b{color:#fff}.coachgrid{display:grid;gap:8px;margin-top:9px}.coachblock{padding:10px;border-radius:10px;background:#0a1b2e;border:1px solid #24415f}.coachblock b{display:block;font-size:11px;letter-spacing:.05em;color:#8ec5ff;margin-bottom:4px}.coachblock div{font-size:13px;line-height:1.45;color:#d8e4f2;white-space:pre-line}.coachblock.warnbox{border-color:#705627;background:rgba(255,173,78,.07)}.coachblock.warnbox b{color:#ffbf68}.practicebtn{width:100%;margin-top:10px;border:1px solid #3b83c9;background:#143d66;color:#e8f3ff;border-radius:10px;padding:10px;font-weight:850}.buildtag{font-size:10px;color:#061321;background:#8ec5ff;padding:4px 7px;border-radius:999px;font-weight:900;margin-left:7px;vertical-align:middle}.plan{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:12px}.day{background:#0a1b2e;border:1px solid var(--line);border-radius:10px;padding:7px 2px;text-align:center;font-size:11px}.day b{display:block;font-size:13px}.day.on{border-color:var(--blue);background:#12345b}.nav{position:fixed;bottom:0;left:0;right:0;max-width:780px;margin:auto;padding:7px 8px calc(7px + env(safe-area-inset-bottom));background:rgba(6,19,33,.97);backdrop-filter:blur(16px);border-top:1px solid #17304c;display:grid;grid-template-columns:repeat(4,1fr);z-index:10}.nav button{border:0;background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px}.nav button.active{color:var(--blue)}.nav span{font-size:20px;font-weight:850}.nav small{font-size:10px}.tag{display:inline-block;margin-right:5px;margin-top:4px;font-size:11px;border-radius:999px;border:1px solid #375272;padding:3px 7px;color:#c9d8ea}.warn{border-color:#795d25;background:rgba(255,173,78,.08)}
+
+.quizfxbar{margin:10px 0 12px}.quizfxbtn{width:100%;border:1px solid #3b83c9;background:#12345b;color:#eaf4ff;border-radius:12px;padding:11px 12px;font-weight:850;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left}.quizfxbtn .left{display:flex;align-items:center;gap:8px}.quizfxbtn .fxmark{font-size:19px;color:#8ec5ff}.quizfxbtn .chev{font-size:18px;transition:transform .18s}.quizfxbtn.open .chev{transform:rotate(180deg)}.quizfxdrawer{margin-top:8px;border:1px solid #31577f;background:#071727;border-radius:14px;overflow:hidden}.quizfxhead{position:sticky;top:0;z-index:2;background:#0b2035;padding:10px;border-bottom:1px solid #294967}.quizfxheadtop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.quizfxheadtop b{font-size:14px}.quizfxsearch{width:100%;border:1px solid #31577f;background:#061321;color:var(--text);border-radius:9px;padding:8px 9px;font-size:13px;outline:none}.quizfxscroll{max-height:42vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:9px}.quizfxcurrent{background:rgba(92,168,255,.10);border:1px solid #376a9d;border-radius:11px;padding:10px;margin-bottom:9px}.quizfxcurrent b{display:block;color:#9ed0ff;font-size:11px;letter-spacing:.05em;margin-bottom:5px}.quizfxcurrent code{display:block;white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#eef7ff;font-size:13px;line-height:1.45}.quizfxitem{border:1px solid #243f5d;background:#0c1d30;border-radius:11px;padding:10px;margin-bottom:8px}.quizfxitem.relevant{border-color:#4b8ed0;background:#102b47}.quizfxitem .qfxtitle{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.quizfxitem strong{font-size:13px}.quizfxitem .qfxeq{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#dcecff;font-size:12px;line-height:1.4;white-space:pre-wrap;background:#071321;border-radius:8px;padding:7px;margin-top:6px}.quizfxitem .qfxwhen{font-size:11px;color:#9eb0c4;line-height:1.35;margin-top:6px}.quizfxempty{color:var(--muted);font-size:12px;padding:10px;text-align:center}
+
+.presolve{margin:4px 0 12px;padding:13px;border-radius:15px;background:linear-gradient(145deg,#173c63,#10253d);border:1px solid #3b83c9}
+.presolvetop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;font-size:11px;font-weight:900;letter-spacing:.06em;color:#9fd0ff}
+.presolvetag{font-size:9px;border:1px solid #3b83c9;border-radius:999px;padding:4px 7px;color:#d7eaff;letter-spacing:.04em}
+.presolveblock{background:#0a1b2e;border:1px solid #24415f;border-radius:10px;padding:9px 10px;margin-top:8px}
+.presolveblock b{display:block;font-size:10px;letter-spacing:.05em;color:#8ec5ff;margin-bottom:4px}
+.presolveblock div{font-size:13px;line-height:1.42;color:#d8e4f2;white-space:pre-line}
+.presolveeq{margin-top:8px;background:#071725;border:1px solid #31577f;border-radius:10px;padding:10px;color:#f1f7ff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-x:auto;font-size:13px;line-height:1.4}
+.presolveblock.excelbox{border-color:#2f6f55;background:rgba(73,216,137,.06)}
+.presolveblock.excelbox b{color:#72e1a6}
+.presolveblock.warnbox{border-color:#705627;background:rgba(255,173,78,.07)}
+.presolveblock.warnbox b{color:#ffbf68}
+.presolvesource{margin-top:8px;font-size:11px;color:#89a6c4}
+
+@media(max-width:390px){.modes{grid-template-columns:1fr}.qcard h2{font-size:20px}.plan{gap:3px}.day{font-size:10px;padding:6px 1px}}
+</style>
+</head>
+<body>
+<div id="app">
+<header class="top"><div><div class="ey">ECE 6610 · ELECTRICAL ENERGY CONVERSION <span class="buildtag">HW MIRROR v1</span></div><h1>Machine Drill</h1></div><button class="iconbtn" id="reset">↺</button></header>
+<main>
+<section id="home" class="view active">
+<div class="card"><div class="hero"><div><div class="muted">Adaptive focus</div><div class="focus" id="focus">Lecture 1 / HW1</div><div class="source">Built from Lectures 1–7, HW2–HW7, and professor Excel examples. Rebuilt directly from the uploaded HW1–HW7 problem patterns. Questions now mirror the professor's multi-step homework workflows with changed numbers, while the formula coach shows the equations and Excel setup before you answer.</div></div><div class="streak">🔥<b id="streak">0</b><small class="muted">day streak</small></div></div><div class="stats"><div class="stat"><b id="today">0</b><small>today</small></div><div class="stat"><b id="acc">—</b><small>accuracy</small></div><div class="stat"><b id="mastery">—</b><small>mastery</small></div></div><div class="plan" id="plan"></div></div>
+<div class="rowtitle"><h2>Study</h2><span class="pill">Professor-based</span></div>
+<div class="modes">
+<button class="mode primary" data-mode="feed"><span class="ico">⚡</span><strong>Mixed Feed</strong><small>Endless modified problems from all seven lectures and homework patterns.</small></button>
+<button class="mode" data-mode="weak"><span class="ico">🎯</span><strong>Weak Areas</strong><small>Weights questions toward whatever you keep missing.</small></button>
+<button class="mode" data-mode="excel"><span class="ico">▦</span><strong>Excel Drill</strong><small>Equation selection, radians, complex numbers, and professor-style Excel entries.</small></button>
+<button class="mode" data-mode="exam"><span class="ico">⏱</span><strong>15-Question Exam</strong><small>Mixed timed set. Same source conventions, new numbers.</small></button>
+</div>
+<div class="rowtitle"><h2>Lowest mastery</h2><button class="textbtn" id="seeProgress">See all</button></div><div id="weak" class="list"></div>
+</section>
+<section id="quiz" class="view">
+<div class="qhead"><button class="textbtn" id="exit">← Exit</button><div class="qcenter"><b id="sessionName">Mixed Feed</b><small id="count">Question 1</small></div><div id="timer" class="timer hidden">20:00</div></div><div class="track"><div class="fill" id="fill"></div></div>
+<article class="card qcard"><div class="topline"><span class="pill" id="cat"></span><span class="muted" id="diff"></span></div><div class="source" id="source"></div><h2 id="question"></h2>
+<div id="preSolveCoach" class="presolve">
+  <div class="presolvetop"><span>USE THIS BEFORE YOU ANSWER</span><span class="presolvetag">CLASS EQUATION</span></div>
+  <div class="presolveblock"><b>WHAT SHOULD I RECOGNIZE?</b><div id="preSolveWhen"></div></div>
+  <div class="presolveeq" id="preSolveEq"></div>
+  <div class="presolveblock"><b>HOW DO I USE IT?</b><div id="preSolveHow"></div></div>
+  <div class="presolveblock excelbox"><b>EXCEL SETUP</b><div id="preSolveExcel"></div></div>
+  <div class="presolveblock warnbox"><b>WHAT WILL SCREW ME UP?</b><div id="preSolveWatch"></div></div>
+  <div class="presolvesource" id="preSolveSource"></div>
+</div>
+<div class="quizfxbar"><button id="quizFormulaToggle" class="quizfxbtn" type="button"><span class="left"><span class="fxmark">ƒx</span><span id="quizFormulaLabel">Show equations for this lecture</span></span><span class="chev">⌄</span></button><div id="quizFormulaDrawer" class="quizfxdrawer hidden"><div class="quizfxhead"><div class="quizfxheadtop"><b id="quizFormulaTitle">Lecture equations</b><span class="pill">Stay in question</span></div><input id="quizFormulaSearch" class="quizfxsearch" type="search" placeholder="Filter equations…"></div><div id="quizFormulaScroll" class="quizfxscroll"></div></div></div>
+<div id="answers" class="answers"></div><div id="feedback" class="feedback hidden"></div><button id="next" class="next hidden">Next Question →</button></article>
+</section>
+<section id="topics" class="view"><div class="rowtitle"><h2>Lectures / Homework</h2><span class="pill">7 modules</span></div><p class="muted">Tap one module to drill only that lecture/homework set.</p><div id="topicList" class="list"></div></section>
+<section id="progress" class="view"><div class="rowtitle"><h2>Progress</h2><span class="pill">Saved on this phone</span></div><div class="summary"><div><b id="totalA">0</b><span>answered</span></div><div><b id="totalC">0</b><span>correct</span></div><div><b id="totalP">—</b><span>accuracy</span></div></div><div class="rowtitle"><h2>By module</h2></div><div id="progressList" class="list"></div></section>
+<section id="reference" class="view"><div class="rowtitle"><h2>Equation Coach</h2><span class="pill">Course conventions</span></div><div class="coachnote"><b>Start with the problem wording — not the equation.</b><div class="muted" style="margin-top:5px;line-height:1.45">Each card now shows the trigger, what you are solving for, the order to work it, and the trap to avoid. Nothing is hidden behind a dropdown.</div></div><div class="refcontrols"><input id="refSearch" class="refsearch" type="search" placeholder="Search: torque, qd0, short circuit, turns ratio…"><div id="refChips" class="refchips"></div><div id="refCount" class="refcount"></div></div><div id="formulaList" class="list"></div></section>
+</main>
+<nav class="nav"><button class="active" data-view="home"><span>⌂</span><small>Home</small></button><button data-view="topics"><span>▦</span><small>Modules</small></button><button data-view="progress"><span>▥</span><small>Progress</small></button><button data-view="reference"><span>ƒx</span><small>Equations</small></button></nav>
+</div>
+<script>
+(function(){
+'use strict';
+var MU0=4*Math.PI*1e-7;
+var MODS=[
+ {id:'L1',name:'HW1 / Generation Applications',short:'HW1',title:'Generation Applications',src:'HW1'},
+ {id:'L2',name:'Lecture 2 / HW2',short:'L2',title:'Reference Frames',src:'Lecture 2 + HW2'},
+ {id:'L3',name:'Lecture 3 / HW3',short:'L3',title:'Permanent-Magnet AC',src:'Lecture 3 + HW3'},
+ {id:'L4',name:'Lecture 4 / HW4',short:'L4',title:'Synchronous Machines',src:'Lecture 4 + HW4'},
+ {id:'L5',name:'Lecture 5 / HW5',short:'L5',title:'Induction / Faults',src:'Lecture 5 + HW5 + professor Excel'},
+ {id:'L6',name:'Lecture 6 / HW6',short:'L6',title:'Unbalanced / Sym. Components',src:'Lecture 6 + HW6 + professor Excel'},
+ {id:'L7',name:'Lecture 7 / HW7',short:'L7',title:'DC Machines / Drives',src:'Lecture 7 + HW7'}
+];
+var F=[
+ ['L1','Permeability','μ = μr μ0; μ0 = 4π×10⁻⁷ H/m','Lecture 1'],
+ ['L1','Flux linkage','λ = Li','Lecture 1'],
+ ['L1','Electrical/mechanical angle','θe=(P/2)θm; ωe=(P/2)ωm','Lecture 1'],
+ ['L1','Air-gap field','Hg=Fg/g; Bg=μ0Fg/g','Lecture 1'],
+ ['L2','abc → qd0','fq=(2/3)[fa cosθ+fb cos(θ−2π/3)+fc cos(θ+2π/3)]\nfd=(2/3)[fa sinθ+fb sin(θ−2π/3)+fc sin(θ+2π/3)]\nf0=(fa+fb+fc)/3','HW2 / Lecture 2'],
+ ['L2','qd0 power','Pqd0=(3/2)(vq iq+vd id+2v0 i0)','HW2'],
+ ['L2','Balanced transient','iq=√2Vs/Zs[−e^(−t/τ)cos(ωt−α)+cos((ωe−ω)t−α)]\nid=√2Vs/Zs[e^(−t/τ)sin(ωt−α)−sin((ωe−ω)t−α)]','HW2'],
+ ['L2','2-phase fab → qd','fq=(2/√3)[cos(θ−π/6)fa+sinθ fb]\nfd=(2/√3)[sin(θ−π/6)fa−cosθ fb]','HW2'],
+ ['L2','Vab/Vbc → qd','Vq=(2/3)[cosθ Vab+cos(θ+2π/3)Vbc]\nVd=(2/3)[sinθ Vab+sin(θ+2π/3)Vbc]','HW3 carryover'],
+ ['L3','Full PMAC abc voltage','Vabc=rs iabc+(pLs)iabc+pλm\npλm=λm[cosθr, cos(θr−2π/3), cos(θr+2π/3)]','Lecture 3 / HW3'],
+ ['L3','Full phase-current PMAC torque','Lmq=(3/2)(LA+LB); Lmd=(3/2)(LA−LB)\nA=ia²−0.5ib²−0.5ic²−iaib−iaic+2ibic\nB=(√3/2)(ib²−ic²−2iaib+2iaic)\nC=(ia−0.5ib−0.5ic)cosθ+(√3/2)(ib−ic)sinθ\nTe=(P/2){[(Lmd−Lmq)/3][A sin2θ+B cos2θ]+λmC}','Lecture 3 / HW3'],
+ ['L3','Rotor-frame PMAC voltage','Vq=(rs+pLq)iq+ωrLd id+ωrλm\nVd=(rs+pLd)id−ωrLq iq\nV0=(rs+pLs)i0','Lecture 3 / HW3'],
+ ['L3','PMAC torque','Te=(3/2)(P/2)[λm iq+(Ld−Lq)iq id]','Lecture 3 / HW3'],
+ ['L3','Terminal voltage','Va=√2Vs cosθev; Vb=√2Vs cos(θev−2π/3); Vc=√2Vs cos(θev+2π/3)\nφv=θev−θr; Vq=√2Vs cosφv; Vd=−√2Vs sinφv','Lecture 3 / HW3'],
+ ['L3','Minimum positive rotor value','ωrMT=Vq/λm ± √[(Vq/λm)²+(rs/Ls)²]; choose the positive branch','Lecture 3 / HW3'],
+ ['L3','Phase-shifted Iq','τs=Ls/rs; τv=λm/(√2Vs)\nIq=√2 rs Vs/[rs²+(ωrLs)²] · [cosφv+(τs sinφv−τv)ωr]','Lecture 3 / HW3'],
+ ['L4','Rotor mechanics torque','Te=J(2/P)pωr+TL; angle form Te=J(2/P)p²δ+TL','Lecture 4 / HW4'],
+ ['L4','Stator qd → rotor qd','δ=θr−θev\nfqr=cosδ·fqs−sinδ·fds\nfdr=sinδ·fqs+cosδ·fds','Lecture 4 / HW4'],
+ ['L4','Synchronous steady Vqd','Vq=√2Vs cosδ; Vd=√2Vs sinδ','Lecture 4 / HW4'],
+ ['L4','Power-factor example','θei=acos(PF)\nEs=[Vs+(ωe/ωb)XdIs sinθei]/cosδ; P=EsIs','Lecture 4 / HW4'],
+ ['L4','Steady synchronous torque','Te=−EaVs/[(ωe/ωb)Xd]·sinδ − 0.5(ωe/ωb)⁻²(1/Xq−1/Xd)Vs² sin(2δ)','Lecture 4 / HW4'],
+ ['L5','Turns-ratio referrals',"i′=(Nr/Ns)i; v′=(Ns/Nr)v; λ′=(Ns/Nr)λ; r′=(Ns/Nr)²r",'Lecture 5 / HW5'],
+ ['L5','Mutual inductance relations','Lms=(Ns/Nr)Lsr; Lmr=(Nr/Ns)²Lms','Lecture 5 / HW5'],
+ ['L5','Slip','s=(ωe−ωr)/ωe','Lecture 5'],
+ ['L5','Laplace fault setup','s=2πfs; α=(ωbRs/2)(1/Xq+1/Xd)','Lecture 5 / HW5'],
+ ['L5','Nonideal Laplace iq/id','D=s²+2αs+ωb²\niq=−(1/Xq)/D[ωb²RsVqs/Xd+sωbVqs−ωb²Vds]\nid=−(1/Xd)/D[ωb²RsVds/Xq+sωbVds+ωb²Vqs]','Lecture 5 / HW5'],
+ ['L5','Subtransient phase fault','C=√2Vs/2(1/Xd″+1/Xq″)e^(−αt)\nIa=−C sinθ0; Ib=−C sin(θ0−2π/3); Ic=−C sin(θ0+2π/3)','Lecture 5 / HW5'],
+ ['L5','Subtransient qd fault','Iq=C sin(ωbt); Id=−C cos(ωbt)','Lecture 5 / HW5'],
+ ['L5','Ideal short circuit','Isc=√2Vs/X','Lecture 5 / HW5'],
+ ['L6','α/β phase reconstruction','Va=Vaα cos(ωet)+Vaβ sin(ωet); same form for Vb,Vc','Lecture 6 / HW6'],
+ ['L6','Full stator VqABCD workflow','A=(1/3)[Vaα−0.5Vbα−0.5Vcα+(√3/2)(Vbβ−Vcβ)]\nB=(1/3)[Vaβ−0.5Vbβ−0.5Vcβ−(√3/2)(Vbα−Vcα)]\nC=(1/3)[Vaα−0.5Vbα−0.5Vcα−(√3/2)(Vbβ−Vcβ)]\nD=(1/3)[Vaβ−0.5Vbβ−0.5Vcβ+(√3/2)(Vbα−Vcα)]\nφ−=ωet−θ; φ+=ωet+θ\nVq=cos(φ−)A+sin(φ−)B+cos(φ+)C+sin(φ+)D\nVd=−sin(φ−)A+cos(φ−)B+sin(φ+)C−cos(φ+)D','Lecture 6 / HW6'],
+ ['L6','Positive / negative / zero sequence','q=(2/3)(Fa−0.5Fb−0.5Fc); d=(2/3)[−(√3/2)Fb+(√3/2)Fc]; 0=(Fa+Fb+Fc)/3\nPositive=(q−jd)/2; Negative=(q+jd)/2; Zero=0','Lecture 6 / HW6'],
+ ['L6','Simple unbalanced stator qd','Vq=(2/3)(Ega−Egb/2−Egc/2); Vd=(Egc−Egb)/√3','Lecture 6 / HW6'],
+ ['L6','Stationary qd0','q=(2/3)(Fa−Fb/2−Fc/2); d=(2/3)(−√3Fb/2+√3Fc/2); 0=(Fa+Fb+Fc)/3','Lecture 6 / HW6'],
+ ['L6','Sequence voltage with impedance','drop=(Ia/3)Z; V+=Ega−drop; V−=−drop','Lecture 6 / HW6'],
+ ['L6','Zero sequence from α/β','A0=(Vaα+Vbα+Vcα)/3; B0=(Vaβ+Vbβ+Vcβ)/3\nV0=A0 cos(ωt)+B0 sin(ωt)','Lecture 6 / HW6'],
+ ['L6','Rotor unbalanced Vq/Vd','Use A,B,C,D from the stator workflow\nφ1=ωet−θ; φ2=(ωe−2ωr)t+θ\nVq=cosφ1 A+sinφ1 B+cosφ2 C+sinφ2 D\nVd=−sinφ1 A+cosφ1 B+sinφ2 C−cosφ2 D','Lecture 6 / HW6'],
+ ['L7','DC open-circuit voltage','Va-a′=ωr LAF If sinθr','Lecture 7 / HW7'],
+ ['L7','Dynamic DC voltages','Vf=(rf+pLFF)if\nVa=ωrLAF if+(ra+pLAA)ia','Lecture 7 / HW7'],
+ ['L7','Basic DC torque','Te=LAF If Ia','Lecture 7 / HW7'],
+ ['L7','Separate excitation','p=0; Vf=RfIf; Va=raIa+ωrLAFIf','Lecture 7 / HW7'],
+ ['L7','Shunt torque','Te=LAF Va²/(raRf)[1−(LAF/Rf)ωr]','Lecture 7 / HW7'],
+ ['L7','Series torque','Te=LAFs Vt²/(ra+rfs+LAFsωr)²','Lecture 7 / HW7'],
+ ['X','Excel angle rule','π/2 → =PI()/2; 35° → =RADIANS(35); SIN/COS use radians','Lecture 6 supplemental / course cheat sheet'],
+ ['X','Excel complex numbers','=COMPLEX(real,imaginary,"j"); =IMARGUMENT(z); =DEGREES(IMARGUMENT(z))','Lecture 6 professor phasor practice']
+];
+var GUIDE={"qd0 → abc":{"when":"fq, fd, f0 and θ are given and the problem asks for phase quantities a, b or c.","how":"Use the inverse K matrix. For phase a: fa=fq cosθ+fd sinθ+f0. Phases b and c use θ∓2π/3.","watch":"This is the inverse transform. Do not multiply by the forward 2/3 factor."},"Pure resistive qd0":{"when":"The machine/circuit is purely resistive and q-d-0 current is known or can be transformed from abc.","how":"Transform current if needed, then multiply each component by rs: vq=rs iq, vd=rs id, v0=rs i0.","watch":"Do not use the qd0 power equation here; this is simply Ohm’s law in the transformed frame."},"abc power":{"when":"Phase voltages and phase currents are known and total three-phase instantaneous power is requested.","how":"Multiply each phase voltage by its matching phase current and add: vaia+vbib+vcic.","watch":"Do not assume 3VI unless the three phase products are actually equal."},"Symmetrical inductance":{"when":"Ls, mutual inductance M, and abc currents are given and flux linkage is requested.","how":"Use λabc=Ls-matrix·iabc. For phase a: λa=Ls·ia+M·ib+M·ic.","watch":"The off-diagonal M terms contribute too; do not use λ=Ls·ia alone."},"Rotor abc → qd0":{"when":"Rotor abc terminal quantities are given along with θ and rotor angle θr.","how":"First calculate β=θ−θr. Then use the same 2/3 abc→qd0 transform with β in place of θ.","watch":"The rotor transform uses β=θ−θr, not θ by itself."},"Permeability":{"when":"μr is given and you need actual permeability μ.","how":"Use μ0=4π×10⁻⁷ H/m, then multiply μ=μrμ0.","watch":"Do not confuse μ with flux Φ or flux linkage λ."},"Flux linkage":{"when":"L and i are given and you need λ.","how":"Multiply L×i. For coupled windings, use the full inductance matrix instead.","watch":"λ is flux linkage, not magnetic flux Φ."},"Electrical/mechanical angle":{"when":"Pole count P is given and you must convert mechanical angle/speed to electrical.","how":"Compute P/2, then multiply θm or ωm by that value.","watch":"P is pole count; a 4-pole machine gives a factor of 2."},"Air-gap field":{"when":"MMF Fg and air-gap length g are given and you need H or B.","how":"First H=Fg/g. Then B=μ0H.","watch":"Use μ0 for air unless told otherwise."},"abc → qd0":{"when":"fa, fb, fc and θ are given and the question asks for q, d, and 0.","how":"Evaluate the cosine q row, sine d row, then average abc for zero.","watch":"Equal abc should give q≈0, d≈0, f0=phase value."},"qd0 power":{"when":"vqd0 and iqd0 are already known and total power is requested.","how":"Compute vqiq + vdid + 2v0i0, then multiply by 3/2.","watch":"Do not forget the factor 2 on the zero term."},"Balanced transient":{"when":"Vs, |Z|, ω, ωe, α, t and τ are given and transient iq/id is requested.","how":"Compute √2Vs/|Z|, then the decay e^(−t/τ), then the lecture bracket exactly.","watch":"Follow the professor's HW2 signs exactly, especially id."},"2-phase fab → qd":{"when":"Only fa and fb are available and the neutral/third phase is unavailable.","how":"Use the special 2/√3 transform and calculate q and d separately.","watch":"This is not the Vab/Vbc line-line transform."},"Vab/Vbc → qd":{"when":"The givens are line-line voltages Vab and Vbc with no neutral.","how":"Use the 2/3 line-line transform shown, substituting Vab and Vbc.","watch":"Do not use the 2/√3 fa/fb formula."},"Full PMAC abc voltage":{"when":"A PMAC problem gives phase currents, resistance, rotor angle/inductance data and magnet flux, and asks Vabc.","how":"Compute rs·iabc, then (pLs)iabc, then pλm, and add phase by phase.","watch":"For the professor's example p=d/dθ; do not multiply pλm by ω."},"Full phase-current PMAC torque":{"when":"P, LA, LB, ia, ib, ic, λm and θ are given directly and torque is requested.","how":"Compute Lmq/Lmd, then A, B and C separately, then plug them into the long torque equation.","watch":"Use this when currents are still abc; do not jump to the iq/id torque shortcut."},"Rotor-frame PMAC voltage":{"when":"The machine is in rotor q-d-0 variables and Vq, Vd or V0 is requested.","how":"If starting from iabc, transform current first. Then use the q, d and zero equations.","watch":"Keep +ωrλm only in Vq; do not mix Lecture 3 and Lecture 4 Vd signs."},"PMAC torque":{"when":"iq and id are already known and PMAC electrical torque is requested.","how":"Add λmiq and (Ld−Lq)iqid, then multiply by (3/2)(P/2).","watch":"If Ld=Lq, the saliency term vanishes."},"Terminal voltage":{"when":"Vs and θev are given for phase voltages, or θr is also given for q-d voltage.","how":"Convert RMS to peak with √2; build Va,Vb,Vc. For q-d compute φv=θev−θr first.","watch":"Lecture 3 Vd uses −sin; Lecture 4 steady Vd uses +sin."},"Minimum positive rotor value":{"when":"Vq, λm, rs and Ls are given and the positive rotor solution is requested.","how":"Compute the base term and square-root term, evaluate both ± branches, then choose the positive branch.","watch":"Do not assume the + branch without checking."},"Phase-shifted Iq":{"when":"rs, Vs, ωr, Ls, φv and λm are given and shifted Iq is requested.","how":"Compute τs and τv first, then the front gain, then the bracket.","watch":"Keep φv in radians and use separate Excel cells for τs and τv."},"Rotor mechanics torque":{"when":"J, P, p, TL and either ωr or δ are given.","how":"Use the speed form with ωr; use the angle form with δ; then add TL.","watch":"Keep the 2/P factor."},"Stator qd → rotor qd":{"when":"q-d values are in the stator/reference frame and rotor-frame values are requested.","how":"Compute δ=θr−θev, then rotate q and d; zero stays unchanged.","watch":"The order/sign of δ matters."},"Synchronous steady Vqd":{"when":"Lecture 4 gives Vs and δ and asks steady Vq/Vd.","how":"Convert Vs to peak with √2; multiply by cosδ for Vq and +sinδ for Vd.","watch":"Lecture 4 uses +sin for Vd."},"Power-factor example":{"when":"Vs, PF, δ, Xd and ωe/ωb are given and Es/power is requested.","how":"θei=acos(PF), determine Is if needed, solve Es, then use P=EsIs per the lecture.","watch":"Use the class method; do not silently substitute another textbook convention."},"Steady synchronous torque":{"when":"Ea, Vs, Xd, Xq, ωe, ωb and δ are given and steady torque is requested.","how":"Compute the excitation term and saliency term separately, then add them with the signs shown on HW4.","watch":"Use the displayed HW4 equation. The worked slide with Ea=290 V, Vs=280 V, ωe=371, ωb=377, Xd=0.5, Xq=0.18, δ=3π/4 prints 23,723.1 N·m, but direct substitution into the equation printed on that same slide gives about 27,231.1 N·m. The app follows the printed equation rather than silently copying that inconsistent arithmetic result."},"Turns-ratio referrals":{"when":"Ns and Nr are given and a referred current, voltage, flux or resistance is requested.","how":"Current ×Nr/Ns. Voltage ×Ns/Nr. Flux ×Ns/Nr. Resistance ×(Ns/Nr)².","watch":"Current uses the inverse ratio from voltage/flux in the professor's examples."},"Mutual inductance relations":{"when":"Lsr and Ns/Nr are given and Lms/Lmr are requested.","how":"First Lms=(Ns/Nr)Lsr, then Lmr=(Nr/Ns)²Lms.","watch":"Compute Lms first; Lmr uses Lms."},"Slip":{"when":"Synchronous speed and rotor speed are given and induction-machine slip is requested.","how":"Subtract rotor speed from synchronous speed and divide by synchronous speed.","watch":"Slip is dimensionless; synchronous speed gives s=0."},"Laplace fault setup":{"when":"You are starting the nonideal Lecture 5 short-circuit/Laplace problem.","how":"Compute s=2πfs and α=(ωbRs/2)(1/Xq+1/Xd) first.","watch":"s is 2πfs, not just fs."},"Nonideal Laplace iq/id":{"when":"The fault problem says nonideal/Laplace and gives Xq, Xd, ωb, Vqs, Vds, Rs and fs.","how":"Compute s, α and D first; then calculate the iq bracket and id bracket separately.","watch":"Build intermediate cells; do not type one giant formula."},"Subtransient phase fault":{"when":"Vs, Xd″, Xq″, α, t and θ0 are given and Ia/Ib/Ic are requested.","how":"Compute common C, then apply the three phase sine expressions.","watch":"e^(−αt) should decay as t increases."},"Subtransient qd fault":{"when":"The same fault data are given but Iq/Id are requested.","how":"Compute the same C; then Iq=Csin(ωbt), Id=−Ccos(ωbt).","watch":"Keep the minus sign on Id."},"Ideal short circuit":{"when":"The problem explicitly says ideal/simplified short circuit and gives Vs and X.","how":"Compute √2Vs/X.","watch":"Do not use this shortcut for the nonideal Laplace problem."},"α/β phase reconstruction":{"when":"Phase α/β coefficients plus ω and t are given and instantaneous Va/Vb/Vc are requested.","how":"For each phase use Vαcos(ωt)+Vβsin(ωt).","watch":"Use each phase's own α and β coefficients."},"Full stator VqABCD workflow":{"when":"Six α/β coefficients plus θ, ωe and t are given and unbalanced stator Vq/Vd is requested.","how":"Compute A,B,C,D; compute φ− and φ+; then form Vq and Vd.","watch":"This is a workflow problem—use separate cells for A-D and the angles."},"Positive / negative / zero sequence":{"when":"An unbalanced Fa,Fb,Fc set is given and symmetrical components are requested.","how":"Compute stationary q,d,0; then Positive=(q−jd)/2 and Negative=(q+jd)/2.","watch":"Keep real/imaginary parts separate until final magnitude/angle."},"Simple unbalanced stator qd":{"when":"Ega, Egb and Egc are given directly and Vq/Vd is requested.","how":"Use the two direct formulas; no A/B/C/D calculation is needed.","watch":"Recognize this simpler problem before using the long workflow."},"Stationary qd0":{"when":"You need stationary q,d,0 of a three-phase set, often before sequence components.","how":"Use the 2/3 q-d transform and average the phases for zero.","watch":"If sequence is requested, this is only the intermediate step."},"Sequence voltage with impedance":{"when":"Ega, Ia and Z∠θ are given and V+/V− are requested.","how":"Convert Z to rectangular, compute drop=(Ia/3)Z, then V+=Ega−drop and V−=−drop.","watch":"Degree impedance angles must be converted before SIN/COS in Excel."},"Zero sequence from α/β":{"when":"α/β coefficients are given and the zero-sequence waveform V0 is requested.","how":"Average α coefficients to A0, average β coefficients to B0, then reconstruct V0.","watch":"Use this rather than instantaneous averaging when the inputs are α/β coefficients."},"Rotor unbalanced Vq/Vd":{"when":"A,B,C,D are known and the unbalanced rotor-frame Vq/Vd is requested.","how":"Reuse A-D; compute φ1=ωet−θ and φ2=(ωe−2ωr)t+θ; then apply the rotor equations.","watch":"The second angle is different from the stator φ+."},"DC open-circuit voltage":{"when":"ωr, LAF, If and θr are given and DC open-circuit armature voltage is requested.","how":"Multiply ωrLAFIfsinθr.","watch":"Use radians in SIN()."},"Dynamic DC voltages":{"when":"rf,p,LFF,ra,LAA,ωr,LAF,if,ia are given and dynamic Vf/Va are requested.","how":"Field: (rf+pLFF)if. Armature: ωrLAFif + (ra+pLAA)ia.","watch":"Do not drop pL terms unless p=0/steady state is stated."},"Basic DC torque":{"when":"LAF, If and Ia are given and basic DC torque is requested.","how":"Multiply LAF×If×Ia.","watch":"Use shunt/series formulas only when that connection is explicitly stated."},"Separate excitation":{"when":"The machine is separately excited and steady state p=0.","how":"Vf=RfIf; Va=raIa+ωrLAFIf.","watch":"This is the p=0 form of the dynamic equations."},"Shunt torque":{"when":"The problem explicitly says shunt DC machine and gives LAF, Va, Rf, ra, ωr.","how":"Compute the front factor, compute the bracket, then multiply.","watch":"Connection-specific; not for series machines."},"Series torque":{"when":"The problem explicitly says series DC machine and gives LAFs,Vt,rfs,ra,ωr.","how":"Form the denominator, square the entire denominator, then divide LAFsVt² by it.","watch":"The whole denominator is squared."},"Excel angle rule":{"when":"Any formula uses SIN/COS/ACOS or an angle.","how":"π expressions are already radians; use PI()/2. Convert only degree values with RADIANS().","watch":"Do not use RADIANS(PI()/2)."},"Excel complex numbers":{"when":"Lecture 6 phasor/sequence work requires complex values.","how":"Use COMPLEX(real,imag,\"j\"); IMARGUMENT for radians; DEGREES(IMARGUMENT()) for degrees.","watch":"Keep rectangular parts separate until you know the requested output form."}};
+
+var EXAMPLE={
+ 'abc → qd0':'Example trigger: “Given fa, fb, fc and θ, find fq, fd, f0.” Think: Park/general reference transform.',
+ 'Vab/Vbc → qd':'Example trigger: “Neutral unavailable; Vab and Vbc are measured.” Think: line-line 2/3 transform.',
+ '2-phase fab → qd':'Example trigger: “Only fa and fb are available.” Think: special 2/√3 transform, not line-line voltage.',
+ 'Full PMAC abc voltage':'Example trigger: “PMAC has rs, phase currents, θr and λm; find Vabc.” Work resistance + inductance derivative + magnet derivative phase-by-phase.',
+ 'Full phase-current PMAC torque':'Example trigger: “P, LA, LB, ia, ib, ic, λm, θr; find Te.” Stay in abc and use A/B/C groups.',
+ 'Rotor-frame PMAC voltage':'Example trigger: “Find Vq, Vd, V0” with rs, p, Lq/Ld/Ls, ωr, λm and qd0 currents.',
+ 'PMAC torque':'Example trigger: iq and id are already known. Use the short q-d torque form instead of the long abc form.',
+ 'Terminal voltage':'Example trigger: Vs and electrical angle are given. Build Va/Vb/Vc first; if θr is also given, form φv and q-d.',
+ 'Rotor mechanics torque':'Example trigger: J, pole count, derivative/operator term, load torque, and either ωr or δ are given.',
+ 'Synchronous steady Vqd':'Example trigger: Lecture 4 gives Vs and δ. This is the √2Vs cos/sin pair.',
+ 'Power-factor example':'Example trigger: PF appears with Vs, Xd, δ and ωe/ωb. First convert PF to θei with ACOS.',
+ 'Steady synchronous torque':'Example trigger: Ea, Vs, Xd, Xq and δ are given. Split torque into excitation + saliency terms.',
+ 'Turns-ratio referrals':'Example trigger: Ns and Nr plus the word “referred/equivalent.” First identify whether the requested value is current, voltage/flux, or resistance.',
+ 'Mutual inductance relations':'Example trigger: Lsr plus Ns/Nr; asks for Lms and/or Lmr. Calculate Lms before Lmr.',
+ 'Laplace fault setup':'Example trigger: nonideal short circuit and fs is given. Do not solve current yet—build s and α first.',
+ 'Nonideal Laplace iq/id':'Example trigger: Xq, Xd, ωb, Vqs, Vds, Rs, fs and “Laplace/nonideal short circuit.” Build s → α → denominator → iq/id brackets.',
+ 'Subtransient phase fault':'Example trigger: Xd″, Xq″, α, t and θ0; asks Ia, Ib, Ic. Compute the common decaying coefficient C once.',
+ 'Subtransient qd fault':'Example trigger: same subtransient data but asks Iq and Id instead of phase currents.',
+ 'Full stator VqABCD workflow':'Example trigger: six α/β coefficients plus θ, ωe, t; asks unbalanced stator Vq/Vd. This is the long A-B-C-D workflow.',
+ 'Positive / negative / zero sequence':'Example trigger: an unbalanced three-phase set asks for positive, negative, or zero sequence. First get stationary q,d,0.',
+ 'Simple unbalanced stator qd':'Example trigger: only Ega, Egb, Egc are given and asks Vq/Vd. Use the direct formulas; do not use A-B-C-D.',
+ 'Sequence voltage with impedance':'Example trigger: Ega, Ia and Z∠θ; asks V+ and V−. Convert Z to rectangular before the voltage drop.',
+ 'Rotor unbalanced Vq/Vd':'Example trigger: A,B,C,D are already known and rotor-frame Vq/Vd is requested. The second angle contains (ωe−2ωr).',
+ 'Dynamic DC voltages':'Example trigger: rf, p, LFF, ra, LAA, ωr, LAF, if, ia; asks Vf and/or Va. Keep pL terms unless steady state is stated.',
+ 'Separate excitation':'Example trigger: “separately excited” and steady state. Set p=0 before using field/armature voltage equations.',
+ 'Shunt torque':'Example trigger: problem explicitly says shunt-connected DC machine.',
+ 'Series torque':'Example trigger: problem explicitly says series-connected DC machine.'
+};
+var K='ece6610HwMirrorV1',S=load(),session=null,q=null,started=0,tick=null;
+function day(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function fresh(){var m={};MODS.forEach(function(x){m[x.id]={m:35,a:0,c:0}});return{last:null,streak:0,ta:0,tc:0,today:{d:day(),a:0,c:0},mods:m,miss:[],firstDay:day()}}
+function load(){try{var x=JSON.parse(localStorage.getItem(K));if(!x)return fresh();if(!x.mods)return fresh();if(x.today.d!==day())x.today={d:day(),a:0,c:0};return x}catch(e){return fresh()}}
+function save(){localStorage.setItem(K,JSON.stringify(S))}
+function ri(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function fmt(n,d){if(!isFinite(n))return String(n);return Number(n.toFixed(d==null?3:d)).toString()}
+function pct(n){return fmt(n*100,2)+'%'}
+function near(v){var d=Math.max(Math.abs(v)*.12,.5);return [v+d,v-d,v+2*d]}
+function numAns(v,unit,d){return fmt(v,d==null?2:d)+(unit?' '+unit:'')}
+function mc(mod,diff,concept,source,prompt,correct,wrong,why,eq,excel){var a=[String(correct)].concat(wrong.map(String));for(var i=a.length-1;i>0;i--){var j=ri(0,i),t=a[i];a[i]=a[j];a[j]=t}return{mod:mod,diff:diff,concept:concept,source:source,prompt:prompt,a:a,correct:a.indexOf(String(correct)),why:why,eq:eq||'',excel:excel||''}}
+function nmc(mod,diff,concept,source,prompt,v,unit,why,eq,excel,d){var w=near(v);return mc(mod,diff,concept,source,prompt,numAns(v,unit,d),w.map(function(x){return numAns(x,unit,d)}),why,eq,excel)}
+var G=[];function add(mod,mode,fn){G.push({mod:mod,mode:mode||'math',fn:fn})}
+
+
+// HW-MIRROR QUESTION BANK
+// Each generator follows the structure of an uploaded homework problem and changes the numbers.
+
+function hwmc(mod,diff,concept,source,prompt,correct,wrong,why,eq,excel,when,how,watch){
+  var z=mc(mod,diff,concept,source,prompt,correct,wrong,why,eq,excel);
+  z.when=when||''; z.how=how||''; z.watch=watch||''; return z;
+}
+function vstr(a,unit,d){
+  d=d==null?2:d;
+  return '['+a.map(function(x){return fmt(x,d)}).join(', ')+']'+(unit?' '+unit:'');
+}
+function pstr(a,b,ua,ub,d){
+  d=d==null?2:d;
+  return '['+fmt(a,d)+(ua?' '+ua:'')+', '+fmt(b,d)+(ub?' '+ub:'')+']';
+}
+function cstr(re,im,d){
+  d=d==null?2:d;
+  return fmt(re,d)+(im<0?' − j':' + j')+fmt(Math.abs(im),d);
+}
+function mat3str(m,d){
+  d=d==null?2:d;
+  return '['+m.map(function(r){return '['+r.map(function(x){return fmt(x,d)}).join(', ')+']'}).join('; ')+']';
+}
+
+// L1 / HW1 — conceptual homework, not generic one-line magnetics arithmetic.
+add('L1','concept',function(){
+  return hwmc('L1','Easy','Hydroelectric generator workflow','HW1 — Hydroelectric Generators',
+    'Which sequence best matches the hydroelectric-generation workflow described in HW1?',
+    'Water → penstock → turbine → generator shaft → electrical power',
+    ['Battery → inverter → penstock → turbine','Steam → condenser → penstock → generator','Wind → gearbox → governor → hydro turbine'],
+    'HW1 describes water flowing through the penstock, spinning the turbine, which turns the generator shaft.',
+    'Conceptual — no equation required.',
+    'No Excel calculation is required.',
+    'Recognize a hydroelectric-generation process question.',
+    'Follow the physical energy path from water flow to turbine rotation to generator output.',
+    'Do not mix the hydro workflow with the wind or steam examples.');
+});
+add('L1','concept',function(){
+  return hwmc('L1','Easy','Wind turbine generator control','HW1 — Wind Turbine Alternators',
+    'Why are power converters important in the wind-turbine example from HW1?',
+    'They let the generator operate at changing speed while still producing controlled electrical output.',
+    ['They create the wind that turns the rotor.','They replace the turbine blades.','They make generator speed independent of wind without any electrical control.'],
+    'HW1 emphasizes that wind speed changes, so converters control generator speed and power output.',
+    'Conceptual — no equation required.',
+    'No Excel calculation is required.',
+    'Recognize the HW1 wind-turbine control example.',
+    'Connect variable wind speed to the need for generator/converter control.',
+    'Do not treat the converter as the mechanical energy source.');
+});
+add('L1','concept',function(){
+  return hwmc('L1','Easy','Steam turbogenerator energy path','HW1 — Steam Turbogenerators',
+    'Which statement matches the steam-turbogenerator example from HW1?',
+    'High-pressure steam spins the turbine shaft, and the generator converts that rotation into electrical power.',
+    ['The generator boils the water directly.','The condenser is the electrical generator.','The turbine converts electrical power back into steam.'],
+    'The HW1 steam example follows heat → steam → turbine rotation → generator electrical output.',
+    'Conceptual — no equation required.',
+    'No Excel calculation is required.',
+    'Recognize the thermal-plant generator workflow.',
+    'Trace energy from heat to steam to shaft rotation to electrical output.',
+    'Keep turbine efficiency and generator efficiency as separate ideas.');
+});
+add('L1','concept',function(){
+  return hwmc('L1','Easy','Regenerative braking','HW1 — Regenerative Braking',
+    'During regenerative braking, what role does the traction motor take?',
+    'It operates as a generator and returns part of the vehicle kinetic energy to the battery.',
+    ['It disconnects from the wheels and does nothing.','It becomes a resistor that intentionally wastes all energy as heat.','It becomes a steam turbine.'],
+    'HW1 states that the traction motor changes from motor operation to generator operation during braking.',
+    'Conceptual — no equation required.',
+    'No Excel calculation is required.',
+    'Recognize the regenerative-braking operating mode.',
+    'Think motor ↔ generator reversal during deceleration.',
+    'Regenerative braking does not eliminate friction braking in all conditions.');
+});
+add('L1','concept',function(){
+  return hwmc('L1','Easy','Tidal generator characteristic','HW1 — Tidal Current Generators',
+    'What advantage of tidal-current generation is emphasized in HW1?',
+    'Tidal motion is relatively predictable compared with wind and solar conditions.',
+    ['Seawater has zero mechanical loading.','Tidal equipment does not corrode.','Tidal turbines do not need a generator.'],
+    'HW1 highlights predictability of tides while also noting underwater corrosion and mechanical-loading challenges.',
+    'Conceptual — no equation required.',
+    'No Excel calculation is required.',
+    'Recognize the tidal-current homework example.',
+    'Separate the advantage (predictability) from the disadvantages (underwater environment and loads).',
+    'Do not confuse tidal predictability with zero variability.');
+});
+
+// L2 / HW2
+add('L2','math',function(){
+  var V=pick([240,360,480,600]),th=pick([Math.PI/4,Math.PI/2,Math.PI/3]),r=qd(V,V,V,th),correct=vstr([r.q,r.d,r.z],'V',2);
+  return hwmc('L2','Medium','HW2 P1 — abc → qd0','HW2 Problem 1',
+    `Assume θ=${angleName(th)} and fabc=[${V}, ${V}, ${V}] V. Using the general-reference-frame transform, what is fqd0?`,
+    correct,[vstr([V,0,0],'V',2),vstr([0,V,0],'V',2),vstr([0,0,V/3],'V',2)],
+    `The complete transformed vector is ${correct}. Equal phase values cancel in q and d and remain in the zero component.`,
+    'fq=(2/3)[fa cosθ+fb cos(θ−2π/3)+fc cos(θ+2π/3)]\nfd=(2/3)[fa sinθ+fb sin(θ−2π/3)+fc sin(θ+2π/3)]\nf0=(fa+fb+fc)/3',
+    'Put fa,fb,fc in B2:B4 and θ in B5. q: =(2/3)*(B2*COS(B5)+B3*COS(B5-2*PI()/3)+B4*COS(B5+2*PI()/3)); d uses SIN(); zero =AVERAGE(B2:B4).',
+    'The question gives three phase quantities and θ and asks for q,d,0.',
+    'Calculate q, d, and zero as three separate cells; report the full vector.',
+    'If θ is written with π, use PI() directly. Excel SIN/COS expect radians.');
+});
+add('L2','math',function(){
+  var V=pick([208,360,480]),th=pick([Math.PI/4,Math.PI/2,Math.PI/3]),qv=0,dv=0,z=V;
+  var a=qv*Math.cos(th)+dv*Math.sin(th)+z;
+  var b=qv*Math.cos(th-2*Math.PI/3)+dv*Math.sin(th-2*Math.PI/3)+z;
+  var c=qv*Math.cos(th+2*Math.PI/3)+dv*Math.sin(th+2*Math.PI/3)+z;
+  var correct=vstr([a,b,c],'V',2);
+  return hwmc('L2','Medium','HW2 P2 — reverse qd0 → abc','HW2 Problem 2',
+    `The previous transform produced fqd0=[0, 0, ${V}] V at θ=${angleName(th)}. Use K⁻¹ to recover fabc.`,
+    correct,[vstr([V,0,0],'V',2),vstr([0,V,V],'V',2),vstr([V/3,V/3,V/3],'V',2)],
+    `The inverse transformation returns ${correct}.`,
+    'fa=fq cosθ+fd sinθ+f0\nfb=fq cos(θ−2π/3)+fd sin(θ−2π/3)+f0\nfc=fq cos(θ+2π/3)+fd sin(θ+2π/3)+f0',
+    'If B2=fq, B3=fd, B4=f0, B5=θ: fa =B2*COS(B5)+B3*SIN(B5)+B4; repeat with θ−2PI()/3 and θ+2PI()/3.',
+    'The problem gives q,d,0 and asks you to go back to phase a,b,c.',
+    'Use the inverse matrix; there is no 2/3 multiplier in K⁻¹.',
+    'Do not accidentally reuse the forward abc→qd0 matrix.');
+});
+add('L2','math',function(){
+  var I=pick([10,15,20.8,25]),rs=pick([5,10,12]),th=pick([Math.PI/4,Math.PI/2]),ir=qd(I,I,I,th),v=[rs*ir.q,rs*ir.d,rs*ir.z],correct=vstr(v,'V',2);
+  return hwmc('L2','Medium','HW2 P3 — resistive qd0 voltage','HW2 Problem 3',
+    `A purely resistive three-phase machine has ia=ib=ic=${I} A, rs=${rs} Ω/phase, and θ=${angleName(th)}. What is vqd0?`,
+    correct,[vstr([rs*I,0,0],'V',2),vstr([0,rs*I,0],'V',2),vstr([rs*I,rs*I,rs*I],'V',2)],
+    `First transform current, then apply vqd0=rs·iqd0. Result: ${correct}.`,
+    'iqd0=K(θ)iabc\nvqd0=rs·iqd0',
+    'Step 1: calculate iq,id,i0 in three cells. Step 2: multiply each by rs. For equal phase currents, q≈0,d≈0,i0=I.',
+    'The problem explicitly says purely resistive and asks for qd0 voltage.',
+    'Do not jump straight to V=RI in abc; transform the current first because the requested answer is qd0.',
+    'Small values such as 1E−15 are numerical zero; ROUND(...,10) if needed.');
+});
+add('L2','math',function(){
+  var I=pick([10,15,20.8]),rs=pick([5,10,12]),vp=rs*I,Pabc=3*vp*I,Pqd=Pabc,correct=pstr(Pabc,Pqd,'W','W',2);
+  return hwmc('L2','Medium','HW2 P4 — compare Pabc and Pqd0','HW2 Problem 4',
+    `Using a purely resistive three-phase case with ia=ib=ic=${I} A and rs=${rs} Ω/phase, calculate [Pabc, Pqd0].`,
+    correct,[pstr(Pabc/3,Pqd,'W','W',2),pstr(Pabc,1.5*Pabc,'W','W',2),pstr(Pabc*3,Pabc,'W','W',2)],
+    `Power is invariant under the course transform when the 3/2 qd0 expression is used. Both evaluate to ${fmt(Pabc,2)} W.`,
+    'Pabc=vaia+vbib+vcic\nPqd0=(3/2)(vq iq+vd id+2v0 i0)',
+    'Compute abc power in one cell with SUMPRODUCT. Compute qd0 power in another with =(3/2)*(vq*iq+vd*id+2*v0*i0).',
+    'The question references the previous resistive results and asks for power in both frames.',
+    'Calculate both independently and check that they agree.',
+    'Do not drop the 2·v0·i0 term.');
+});
+add('L2','math',function(){
+  var Ls=pick([1,2,3]),M=pick([.5,1]),I=pick([5,10]),w=pick([314,377]),t=pick([.5,1]),k=(Ls+2*M),lam=k*I*Math.sin(w*t),vv=k*I*w*Math.cos(w*t);
+  var correct=`λabc=${vstr([lam,lam,lam],'Wb-turn',2)}; Vabc=${vstr([vv,vv,vv],'V',2)}`;
+  return hwmc('L2','Hard','HW2 P5 — flux linkage and induced voltage','HW2 Problem 5',
+    `A symmetrical machine has Ls=${Ls} H, M=${M} H, and ia=ib=ic=${I}·sin(${w}t) A. At t=${t} s, calculate λabc and Vabc.`,
+    correct,
+    [`λabc=${vstr([Ls*I*Math.sin(w*t),Ls*I*Math.sin(w*t),Ls*I*Math.sin(w*t)],'Wb-turn',2)}; Vabc=${vstr([Ls*I*w*Math.cos(w*t),Ls*I*w*Math.cos(w*t),Ls*I*w*Math.cos(w*t)],'V',2)}`,
+     `λabc=${vstr([lam,lam,lam],'Wb-turn',2)}; Vabc=${vstr([lam,lam,lam],'V',2)}`,
+     `λabc=${vstr([k*I,k*I,k*I],'Wb-turn',2)}; Vabc=${vstr([0,0,0],'V',2)}`],
+    `Each row of the symmetrical L matrix gives (Ls+2M)i. Differentiate sin(ωt) to get ωcos(ωt).`,
+    'λabc=Ls-matrix·iabc\nvabc=dλabc/dt\nfor i=I sin(ωt): v=(Ls+2M)Iω cos(ωt)',
+    'Use one cell for k=Ls+2*M. λ =k*I*SIN(w*t). V =k*I*w*COS(w*t). Copy the same result across phases for this symmetrical case.',
+    'The problem gives symmetrical self/mutual inductances plus sinusoidal phase currents and asks for λabc and Vabc.',
+    'Build flux linkage first, then differentiate the sinusoid for voltage.',
+    'Do not forget the mutual-inductance contributions or the ω factor from d/dt.');
+});
+add('L2','math',function(){
+  var Vs=pick([240,480]),Z=pick([8,10,12]),w=pick([314,377]),we=w+pick([-2,2,5]),adeg=pick([25,35,45]),t=pick([.5,1,2]),tau=pick([5,7.5,10]),a=adeg*Math.PI/180;
+  var iq=Math.SQRT2*Vs/Z*(-Math.exp(-t/tau)*Math.cos(w*t-a)+Math.cos((we-w)*t-a));
+  var id=Math.SQRT2*Vs/Z*(Math.exp(-t/tau)*Math.sin(w*t-a)-Math.sin((we-w)*t-a));
+  var correct=pstr(iq,id,'A','A',2);
+  return hwmc('L2','Hard','HW2 P6 — balanced transient iq/id','HW2 Problem 6',
+    `Balanced transient: Vs=${Vs} V, |Zs|=${Z} Ω, ω=${w} rad/s, α=${adeg}°, f=60 Hz, ωe=${we} rad/s, t=${t} s, τ=${tau} s. Calculate [iq,id].`,
+    correct,[pstr(-iq,id,'A','A',2),pstr(iq,-id,'A','A',2),pstr(iq*Math.exp(-t/tau),id*Math.exp(-t/tau),'A','A',2)],
+    `Use the two complete transient equations. The result is ${correct}.`,
+    'iq=√2Vs/|Zs|[−e^(−t/τ)cos(ωt−α)+cos((ωe−ω)t−α)]\nid=√2Vs/|Zs|[e^(−t/τ)sin(ωt−α)−sin((ωe−ω)t−α)]',
+    'Put αdeg in a cell and use RADIANS(αdeg). Use EXP(-t/tau). Build iq and id in separate cells rather than one giant combined cell.',
+    'Look for Vs, Zs, ω, α, ωe, t and τ together; that is the HW2 transient pair.',
+    'Evaluate the common pieces first: αrad, EXP(-t/τ), ωt−α, and (ωe−ω)t−α.',
+    'The decaying term is negative in iq but positive in id in the professor HW2 equation.');
+});
+add('L2','math',function(){
+  var fa=pick([120,208,240]),fb=pick([120,208,240]),th=pick([Math.PI/4,Math.PI/3]),qv=(2/Math.sqrt(3))*(Math.cos(th-Math.PI/6)*fa+Math.sin(th)*fb),dv=(2/Math.sqrt(3))*(Math.sin(th-Math.PI/6)*fa-Math.cos(th)*fb),correct=pstr(qv,dv,'','',2);
+  return hwmc('L2','Medium','HW2 P7 — 2-phase measurement → qd','HW2 Problem 7',
+    `A 2-phase measurement gives fa=${fa} and fb=${fb} with θ=${angleName(th)}. Calculate [fq,fd].`,
+    correct,[pstr(dv,qv,'','',2),pstr(-qv,dv,'','',2),pstr(qv,-dv,'','',2)],
+    `This is the special 2-phase measurement transform. Result: ${correct}.`,
+    'fq=(2/√3)[cos(θ−π/6)fa+sinθ·fb]\nfd=(2/√3)[sin(θ−π/6)fa−cosθ·fb]',
+    'fq =(2/SQRT(3))*(COS(theta-PI()/6)*fa+SIN(theta)*fb); fd =(2/SQRT(3))*(SIN(theta-PI()/6)*fa-COS(theta)*fb).',
+    'The prompt says 2-phase measurement and gives fa and fb, not three phase values.',
+    'Use the special 2/√3 transform.',
+    'Do not use the Vab/Vbc line-line formula from HW3.');
+});
+
+// L3 / HW3
+add('L3','math',function(){
+  var vab=pick([5,10,15]),vbc=pick([10,15,20]),th=pick([Math.PI/4,Math.PI/3]),vq=(2/3)*(Math.cos(th)*vab+Math.cos(th+2*Math.PI/3)*vbc),vd=(2/3)*(Math.sin(th)*vab+Math.sin(th+2*Math.PI/3)*vbc),correct=pstr(vq,vd,'V','V',2);
+  return hwmc('L3','Medium','HW3 P1 — neutral unavailable Vab/Vbc','HW3 Lecture 2 carryover, Problem 1',
+    `Neutral is unavailable. Vab=${vab} V, Vbc=${vbc} V, θ=${angleName(th)}. Calculate [Vq,Vd].`,
+    correct,[pstr(vd,vq,'V','V',2),pstr(-vq,vd,'V','V',2),pstr(vq,-vd,'V','V',2)],
+    `Use the line-line two-measurement transform. Result: ${correct}.`,
+    'Vq=(2/3)[cosθ·Vab+cos(θ+2π/3)·Vbc]\nVd=(2/3)[sinθ·Vab+sin(θ+2π/3)·Vbc]',
+    'Vq =(2/3)*(COS(theta)*Vab+COS(theta+2*PI()/3)*Vbc); Vd =(2/3)*(SIN(theta)*Vab+SIN(theta+2*PI()/3)*Vbc).',
+    'The clue is “neutral unavailable” with Vab and Vbc given.',
+    'Use the two line-line measurements directly; do not invent a neutral voltage.',
+    'This is not the same formula as HW2 P7 fa/fb.');
+});
+add('L3','math',function(){
+  var rs=pick([10,15,20]),I=pick([12,18,24]),th=pick([Math.PI/2,Math.PI,Math.PI/4]),lm=pick([1.5,2,2.5]),base=rs*I;
+  var pm=[lm*Math.cos(th),lm*Math.cos(th-2*Math.PI/3),lm*Math.cos(th+2*Math.PI/3)];
+  var V=[base+pm[0],base+pm[1],base+pm[2]],correct=vstr(V,'V',3);
+  return hwmc('L3','Hard','HW3 P2 — full PMAC Vabc workflow','HW3 Lecture 3, Problem 1',
+    `A PMAC machine has rs=${rs} Ω/phase, ia=ib=ic=${I} A, phase inductance constant in time, θr=${angleName(th)}, and λm′=${lm}. Using the same HW3 workflow, calculate Vabc.`,
+    correct,[vstr([base,base,base],'V',3),vstr([base-pm[0],base-pm[1],base-pm[2]],'V',3),vstr(pm,'V',3)],
+    `Because the phase currents are constant, p(Ls·iabc)=0 in this homework pattern. Build pλm from the cosine vector, then add rs·iabc. Vabc=${correct}.`,
+    'Vabc=rs·iabc+pλabc\nλabc=Ls·iabc+λm′\npλm′=λm′[cosθr, cos(θr−2π/3), cos(θr+2π/3)]',
+    'Put rs,I,theta,lambda_m in separate cells. Base =rs*I. PM-a =lambda_m*COS(theta); PM-b =lambda_m*COS(theta-2*PI()/3); PM-c =lambda_m*COS(theta+2*PI()/3). Va=Base+PM-a, etc.',
+    'The professor gives rs, equal phase currents, inductance information, rotor angle and PM flux coefficient, then asks for all of Vabc.',
+    'Work it as a vector: resistance term + inductance-derivative term + PM-flux derivative term.',
+    'For this specific HW3 phase-shift PM-flux example, do not automatically multiply the PM derivative by ω.');
+});
+add('L3','math',function(){
+  var P=8,LA=pick([1.5,2,2.5]),LB=pick([0,.5]),ia=pick([5,6]),ib=pick([4,5]),ic=pick([4,3]),lm=pick([2,2.5]),th=pick([Math.PI/4,Math.PI/3]);
+  var Lmq=1.5*(LA+LB),Lmd=1.5*(LA-LB);
+  var A=ia*ia-.5*ib*ib-.5*ic*ic-ia*ib-ia*ic+2*ib*ic;
+  var B=(Math.sqrt(3)/2)*(ib*ib-ic*ic-2*ia*ib+2*ia*ic);
+  var C=(ia-.5*ib-.5*ic)*Math.cos(th)+(Math.sqrt(3)/2)*(ib-ic)*Math.sin(th);
+  var Te=(P/2)*(((Lmd-Lmq)/3)*(A*Math.sin(2*th)+B*Math.cos(2*th))+lm*C);
+  return hwmc('L3','Hard','HW3 P3 — phase-current PMAC torque','HW3 Lecture 3, Problem 2',
+    `An ${P}-pole PMAC machine has LA=${LA} H, LB=${LB} H, ia=${ia} A, ib=${ib} A, ic=${ic} A, λm′=${lm}, θr=${angleName(th)}. Calculate electrical torque.`,
+    numAns(Te,'N·m',3),near(Te).map(function(x){return numAns(x,'N·m',3)}),
+    `Compute Lmq and Lmd first, then A, B, C, then the final motor-action torque. Te=${fmt(Te,3)} N·m.`,
+    'Lmq=(3/2)(LA+LB); Lmd=(3/2)(LA−LB)\nA=ia²−0.5ib²−0.5ic²−iaib−iaic+2ibic\nB=(√3/2)(ib²−ic²−2iaib+2iaic)\nC=(ia−0.5ib−0.5ic)cosθ+(√3/2)(ib−ic)sinθ\nTe=(P/2){[(Lmd−Lmq)/3][A sin2θ+B cos2θ]+λmC}',
+    'Make cells for Lmq,Lmd,A,B,C. Then use one final Te cell. This is much safer than one giant Excel formula.',
+    'The question gives phase currents and LA/LB rather than iq/id; that means use the full phase-current torque workflow.',
+    'Solve the intermediate quantities in order: Lmq/Lmd → A/B/C → Te.',
+    'Do not jump to the qd torque equation unless iq and id are actually given.');
+});
+add('L3','math',function(){
+  var rs=pick([6,9,12]),I=pick([8,10,12]),p=pick([2,2.5,3]),Lq=pick([.5,.75]),Ld=pick([.5,.75]),Ls=pick([.5,1]),wr=pick([40,50,60]),lm=pick([2,2.5]),th=pick([Math.PI/2,Math.PI/3]);
+  var cur=qd(I,I,I,th),vq=(rs+p*Lq)*cur.q+wr*Ld*cur.d+wr*lm,vd=(rs+p*Ld)*cur.d-wr*Lq*cur.q,v0=(rs+p*Ls)*cur.z,correct=vstr([vq,vd,v0],'V',2);
+  return hwmc('L3','Hard','HW3 P4 — rotor Vq,Vd,V0','HW3 Lecture 3, Problem 3',
+    `PMAC: rs=${rs} Ω, iabc=[${I},${I},${I}] A, λm=${lm}, Lq=${Lq} H, Ld=${Ld} H, Ls=${Ls} H, p=${p}, ωr=${wr} rad/s, θ=${angleName(th)}. Transform current and calculate [Vq,Vd,V0].`,
+    correct,[vstr([wr*lm,0,rs*I],'V',2),vstr([vq,-vd,v0],'V',2),vstr([v0,vd,vq],'V',2)],
+    `First iqd0=K·iabc. Equal phase currents give iq≈0,id≈0,i0=${I}. Then apply all three rotor-frame voltage equations. Result ${correct}.`,
+    'Vq=(rs+pLq)iq+ωrLd id+ωrλm\nVd=(rs+pLd)id−ωrLq iq\nV0=(rs+pLs)i0',
+    'Step 1 calculate iq,id,i0 with the qd0 transform. Step 2 Vq =(rs+p*Lq)*iq+wr*Ld*id+wr*lm; Vd =(rs+p*Ld)*id-wr*Lq*iq; V0 =(rs+p*Ls)*i0.',
+    'The prompt gives iabc plus q/d machine parameters and asks for all rotor qd0 voltages.',
+    'Transform the current first, then use the three voltage equations.',
+    'Do not use ia=ib=ic directly inside Vq and Vd.');
+});
+add('L3','math',function(){
+  var P=8,lm=pick([2,2.5]),Lq=pick([.5,.75]),Ld=pick([.5,.75]),iq=pick([0,.5,1]),id=pick([0,.5,1]),Te=1.5*(P/2)*(lm*iq+(Ld-Lq)*iq*id);
+  return hwmc('L3','Medium','HW3 P5 — torque from previous qd result','HW3 Lecture 3, Problem 4',
+    `Using P=${P}, λm=${lm}, Lq=${Lq} H, Ld=${Ld} H and previous rotor-frame currents iq=${iq} A, id=${id} A, calculate electrical torque.`,
+    numAns(Te,'N·m',3),near(Te).map(function(x){return numAns(x,'N·m',3)}),
+    `Use the qd PMAC torque expression with the previous iq/id results. Te=${fmt(Te,3)} N·m.`,
+    'Te=(3/2)(P/2)[λm iq+(Ld−Lq)iq id]',
+    '=(3/2)*(P/2)*(lambda_m*iq+(Ld-Lq)*iq*id)',
+    'This homework item explicitly says to use the previous qd results.',
+    'Take iq and id from the previous step and substitute them directly.',
+    'If Ld=Lq, the reluctance-torque term disappears.');
+});
+add('L3','math',function(){
+  var Vs=pick([240,480]),tev=pick([Math.PI/2,3*Math.PI/4]),tr=pick([Math.PI/4,Math.PI/2]),Va=Math.SQRT2*Vs*Math.cos(tev),Vb=Math.SQRT2*Vs*Math.cos(tev-2*Math.PI/3),Vc=Math.SQRT2*Vs*Math.cos(tev+2*Math.PI/3),phi=tev-tr,Vq=Math.SQRT2*Vs*Math.cos(phi),Vd=-Math.SQRT2*Vs*Math.sin(phi);
+  var correct=`Vabc=${vstr([Va,Vb,Vc],'V',2)}; Vqd=${pstr(Vq,Vd,'V','V',2)}`;
+  return hwmc('L3','Hard','HW3 P6 — terminal Vabc and Vqd','HW3 Lecture 3, Problem 5',
+    `A steady-state PMAC source has Vs=${Vs} V at θev=${angleName(tev)}. The rotor angle is θr=${angleName(tr)}. Find terminal Vabc and the Vqd equivalents.`,
+    correct,
+    [`Vabc=${vstr([Vs,Vs,Vs],'V',2)}; Vqd=${pstr(Vq,Vd,'V','V',2)}`,
+     `Vabc=${vstr([Va,Vb,Vc],'V',2)}; Vqd=${pstr(Vd,Vq,'V','V',2)}`,
+     `Vabc=${vstr([Va,Vb,Vc],'V',2)}; Vqd=${pstr(Vq,-Vd,'V','V',2)}`],
+    `Build the three phase source voltages from θev, then use φv=θev−θr for the rotor qd pair.`,
+    'Va=√2Vs cosθev; Vb=√2Vs cos(θev−2π/3); Vc=√2Vs cos(θev+2π/3)\nφv=θev−θr\nVq=√2Vs cosφv; Vd=−√2Vs sinφv',
+    'Create cells for theta_ev, theta_r, and phi=theta_ev-theta_r. Calculate Va,Vb,Vc in separate cells, then Vq,Vd.',
+    'The problem asks for both the physical phase voltages and the rotor-frame equivalents.',
+    'Do phase voltages first, then the angle difference, then qd.',
+    'Lecture 3 uses the negative sign in Vd=−√2Vs·sinφv.');
+});
+add('L3','math',function(){
+  var Vq=pick([120,240,480]),lm=pick([1.5,2.5]),rs=pick([2,4,6]),Ls=pick([2,4,5]),base=Vq/lm,root=Math.sqrt(base*base+(rs/Ls)*(rs/Ls)),plus=base+root,minus=base-root;
+  return hwmc('L3','Medium','HW3 P7 — minimum positive rotor value','HW3 Lecture 3, Problem 6',
+    `Using Vq=${Vq} V from the previous problem, λm=${lm}, rs=${rs} Ω and Ls=${Ls} H, calculate both branches and select the minimum positive rotor value.`,
+    numAns(plus,'',3),[numAns(minus,'',3),numAns(root,'',3),numAns(base,'',3)],
+    `The professor's workflow says calculate both ± branches and select the positive one. + branch=${fmt(plus,3)}, − branch=${fmt(minus,3)}.`,
+    'ωrMT=Vq/λm ± √[(Vq/λm)²+(rs/Ls)²]',
+    'base=Vq/lambda_m; root=SQRT(base^2+(rs/Ls)^2); plus=base+root; minus=base-root.',
+    'The prompt says “minimum positive value” after giving Vq, λm, rs and Ls.',
+    'Calculate both branches explicitly, then apply the professor selection rule.',
+    'Do not select the smaller numerical branch if it is negative.');
+});
+add('L3','math',function(){
+  var rs=pick([10,20]),Vs=pick([208,240]),wr=pick([314,377]),Ls=pick([4,5]),phi=pick([Math.PI/4,Math.PI/3]),lm=pick([2,2.5]),ts=Ls/rs,tv=lm/(Math.SQRT2*Vs),Iq=Math.SQRT2*rs*Vs/(rs*rs+Math.pow(wr*Ls,2))*(Math.cos(phi)+(ts*Math.sin(phi)-tv)*wr);
+  return hwmc('L3','Hard','HW3 P8 — phase-shifted Iq','HW3 Lecture 3, Problem 7',
+    `Steady-state PMAC with phase shifting: rs=${rs} Ω, Vs=${Vs} V, ωr=${wr} rad/s, Ls=${Ls} H, φv=${angleName(phi)}, λm=${lm}. Find Iq.`,
+    numAns(Iq,'A',4),near(Iq).map(function(x){return numAns(x,'A',4)}),
+    `Compute τs and τv first, then evaluate the complete phase-shift expression. Iq=${fmt(Iq,4)} A.`,
+    'τs=Ls/rs; τv=λm/(√2Vs)\nIq=[√2 rs Vs/(rs²+(ωrLs)²)]·[cosφv+(τs sinφv−τv)ωr]',
+    'tau_s=Ls/rs; tau_v=lambda_m/(SQRT(2)*Vs); Iq=(SQRT(2)*rs*Vs/(rs^2+(wr*Ls)^2))*(COS(phi)+(tau_s*SIN(phi)-tau_v)*wr).',
+    'Look for rs, Vs, ωr, Ls, φv and λm together with “phase shifting.”',
+    'Calculate τs and τv first, then the prefactor and bracket separately.',
+    'φv is already an angle; if written with π, use PI() rather than RADIANS().');
+});
+
+// L4 / HW4
+add('L4','math',function(){
+  var J=pick([20,25,30]),wr=pick([300,314,377]),p=pick([20,25]),TL=pick([500,750,1000]),P=4,Te=J*(2/P)*p*wr+TL;
+  return hwmc('L4','Medium','HW4 P1 — torque from rotor speed','HW4 Problem 1',
+    `A ${P}-pole synchronous machine has J=${J} kg·m², ωr=${wr} rad/s, operator p=${p}, and TL=${TL} N·m. Find electrical torque.`,
+    numAns(Te,'N·m',1),near(Te).map(function(x){return numAns(x,'N·m',1)}),
+    `Use the mechanical torque equation exactly as in HW4. Te=${fmt(Te,1)} N·m.`,
+    'Te=J(2/P)pωr+TL',
+    '=J*(2/P)*p*wr+TL',
+    'The givens are J, pole count P, p, ωr and load torque.',
+    'Substitute directly into the Lecture 4 mechanical equation.',
+    'P is the number of poles; the factor is 2/P.');
+});
+add('L4','math',function(){
+  var fq=pick([-.75,-.5,.5]),fd=pick([1,1.25,1.5]),f0=pick([240,480]),tr=pick([Math.PI,3*Math.PI/2]),tev=pick([Math.PI/2,3*Math.PI/4]),del=tr-tev,qr=Math.cos(del)*fq-Math.sin(del)*fd,dr=Math.sin(del)*fq+Math.cos(del)*fd,correct=vstr([qr,dr,f0],'',3);
+  return hwmc('L4','Medium','HW4 P2 — stator qd0 → rotor qd0','HW4 Problem 2',
+    `Convert fqd0s=[${fq}, ${fd}, ${f0}] from the stator frame to the rotor frame with θr=${angleName(tr)} and θev=${angleName(tev)}. Find fqd0r.`,
+    correct,[vstr([dr,qr,f0],'',3),vstr([-qr,dr,f0],'',3),vstr([qr,dr,0],'',3)],
+    `Calculate δ=θr−θev, rotate q and d, and leave zero sequence unchanged.`,
+    'δ=θr−θev\nfqr=cosδ·fqs−sinδ·fds\nfdr=sinδ·fqs+cosδ·fds\nf0r=f0s',
+    'delta=theta_r-theta_ev; fqr=COS(delta)*fqs-SIN(delta)*fds; fdr=SIN(delta)*fqs+COS(delta)*fds; f0r=f0s.',
+    'The problem explicitly says convert qd0 from the stator frame to the rotor frame.',
+    'Find δ first, rotate only q and d, and carry f0 through unchanged.',
+    'Do not re-run an abc→qd0 transform; you are already in qd0.');
+});
+add('L4','math',function(){
+  var J=pick([20,25,30]),del=pick([Math.PI,3*Math.PI/2]),p=pick([20,25]),TL=pick([500,750]),P=4,Te=J*(2/P)*p*p*del+TL;
+  return hwmc('L4','Medium','HW4 P3 — torque from rotor angle','HW4 Problem 3',
+    `A ${P}-pole synchronous machine has J=${J}, δ=${angleName(del)}, operator p=${p}, and TL=${TL} N·m. Find Te.`,
+    numAns(Te,'N·m',1),near(Te).map(function(x){return numAns(x,'N·m',1)}),
+    `HW4 uses the angle form with p²δ. Te=${fmt(Te,1)} N·m.`,
+    'Te=J(2/P)p²δ+TL',
+    '=J*(2/P)*p^2*delta+TL',
+    'The problem gives rotor angle δ instead of rotor speed ωr.',
+    'Use the angle form of the same mechanical equation.',
+    'δ is radians when it contains π; enter with PI().');
+});
+add('L4','math',function(){
+  var Vs=pick([208,280,480]),del=pick([Math.PI/4,3*Math.PI/4,4*Math.PI/3]),Vq=Math.SQRT2*Vs*Math.cos(del),Vd=Math.SQRT2*Vs*Math.sin(del),correct=pstr(Vq,Vd,'V','V',2);
+  return hwmc('L4','Medium','HW4 P4 — steady-state Vq,Vd','HW4 Problem 4',
+    `For a synchronous machine, Vs=${Vs} V and δ=${angleName(del)}. Under the HW4 steady-state convention, find [Vq,Vd].`,
+    correct,[pstr(Vq,-Vd,'V','V',2),pstr(Vd,Vq,'V','V',2),pstr(Vs*Math.cos(del),Vs*Math.sin(del),'V','V',2)],
+    `Use √2 peak scaling and the HW4 +sin convention for Vd.`,
+    'Vq=√2Vs cosδ\nVd=√2Vs sinδ',
+    'Vq=SQRT(2)*Vs*COS(delta); Vd=SQRT(2)*Vs*SIN(delta).',
+    'The prompt says synchronous machine, steady state, Vs and δ.',
+    'Calculate the q and d components as a pair.',
+    'Lecture 4 uses +sin for Vd here; do not import the Lecture 3 PMAC source sign.');
+});
+add('L4','math',function(){
+  var Vs=pick([208,240]),we=pick([317,371]),wb=pick([314,377]),Xd=pick([.5,.75]),R=pick([15,20]),del=pick([3*Math.PI/4,Math.PI/4]),Is=Vs/R;
+  function calc(pf){var ang=Math.acos(pf),Es=(Vs+(we/wb)*Xd*Is*Math.sin(ang))/Math.cos(del);return Es*Is}
+  var P1=calc(1),P09=calc(.9),correct=pstr(P1,P09,'W','W',2);
+  return hwmc('L4','Hard','HW4 P5 — compare power factor cases','HW4 Problem 5',
+    `Steady-state synchronous machine: Vs=${Vs} V, ωe=${we}, ωb=${wb}, Xd=${Xd} Ω, R=${R} Ω, δ=${angleName(del)}. Using Is=Vs/R, calculate [P at PF=1.0, P at PF=0.9].`,
+    correct,[pstr(P09,P1,'W','W',2),pstr(P1,P1,'W','W',2),pstr(Math.abs(P1),Math.abs(P09),'W','W',2)],
+    `Solve the complete Es expression twice. The two powers are ${correct}.`,
+    'Is=Vs/R\nθei=acos(PF)\nEs=[Vs+(ωe/ωb)XdIs sinθei]/cosδ\nP=EsIs',
+    'Create cells for Vs,we,wb,Xd,R,delta,PF. Is=Vs/R; theta_ei=ACOS(PF); Es=(Vs+(we/wb)*Xd*Is*SIN(theta_ei))/COS(delta); P=Es*Is. Repeat with PF=1 and 0.9.',
+    'The problem tells you to solve the same machine twice at two power factors and compare.',
+    'Build the calculation once, then change only PF.',
+    'ACOS() returns radians in Excel, which is exactly what SIN() needs.');
+});
+add('L4','math',function(){
+  var Ea=pick([290,320]),Vs=pick([280,300]),we=pick([371,377]),wb=pick([377,314]),Xd=pick([.5,.75]),Xq=pick([.18,.35]),del=pick([3*Math.PI/4,Math.PI/4]),ratio=we/wb,Te=-(Ea*Vs)/(ratio*Xd)*Math.sin(del)-.5*Math.pow(ratio,-2)*(1/Xq-1/Xd)*Vs*Vs*Math.sin(2*del);
+  return hwmc('L4','Hard','HW4 P6 — steady synchronous torque','HW4 Problem 6',
+    `Steady synchronous machine: Ea=${Ea} V, Vs=${Vs} V, ωe=${we}, ωb=${wb}, Xd=${Xd} Ω, Xq=${Xq} Ω, δ=${angleName(del)}. Find Te.`,
+    numAns(Te,'N·m',1),near(Te).map(function(x){return numAns(x,'N·m',1)}),
+    `Evaluate the excitation term and saliency term separately, then add them. Te=${fmt(Te,1)} N·m.`,
+    'Te=−EaVs/[(ωe/ωb)Xd]·sinδ − (1/2)(ωe/ωb)^−2(1/Xq−1/Xd)Vs² sin(2δ)',
+    'ratio=we/wb; term1=-(Ea*Vs)/(ratio*Xd)*SIN(delta); term2=-0.5*ratio^-2*(1/Xq-1/Xd)*Vs^2*SIN(2*delta); Te=term1+term2.',
+    'The clue is Ea, Vs, ωe, ωb, Xd, Xq and δ all in the same steady-state torque problem.',
+    'Calculate term 1 and term 2 in separate Excel cells, then add.',
+    'Keep Xq and Xd in the correct reciprocal order: (1/Xq−1/Xd).');
+});
+
+// L5 / HW5
+add('L5','math',function(){
+  var Ns=pick([50,100]),Nr=pick([50,100]),ia=pick([10,12]),ib=ia+2,ic=ia+5,va=pick([120,208]),vb=va+2,vc=va+7,la=pick([.7,1.0]),lb=la+1,lc=la+3.5;
+  if(Ns===Nr) Nr=Ns===50?100:50;
+  var ir=[Nr/Ns*ia,Nr/Ns*ib,Nr/Ns*ic],vr=[Ns/Nr*va,Ns/Nr*vb,Ns/Nr*vc],lr=[Ns/Nr*la,Ns/Nr*lb,Ns/Nr*lc];
+  var correct=`i′=${vstr(ir,'A',2)}; v′=${vstr(vr,'V',2)}; λ′=${vstr(lr,'',3)}`;
+  return hwmc('L5','Hard','HW5 P1 — winding conversions','HW5 Problem 1',
+    `Induction machine: iabc=[${ia},${ib},${ic}] A, Vabc=[${va},${vb},${vc}] V, λabc=[${la},${lb},${lc}], Nr=${Nr}, Ns=${Ns}. Find all rotor equivalents [i′abc,v′abc,λ′abc].`,
+    correct,
+    [`i′=${vstr([Ns/Nr*ia,Ns/Nr*ib,Ns/Nr*ic],'A',2)}; v′=${vstr([Nr/Ns*va,Nr/Ns*vb,Nr/Ns*vc],'V',2)}; λ′=${vstr([Nr/Ns*la,Nr/Ns*lb,Nr/Ns*lc],'',3)}`,
+     `i′=${vstr(ir,'A',2)}; v′=${vstr([Nr/Ns*va,Nr/Ns*vb,Nr/Ns*vc],'V',2)}; λ′=${vstr(lr,'',3)}`,
+     `i′=${vstr(vr,'A',2)}; v′=${vstr(ir,'V',2)}; λ′=${vstr(lr,'',3)}`],
+    `Current uses Nr/Ns. Voltage and flux linkage use Ns/Nr.`,
+    'i′abc=(Nr/Ns)iabc\nv′abc=(Ns/Nr)vabc\nλ′abc=(Ns/Nr)λabc',
+    'Put Ns and Nr in fixed cells. Current cell formula =(Nr/Ns)*i. Voltage and flux formulas =(Ns/Nr)*value. Copy each formula across the three phases.',
+    'The problem gives three vectors plus stator/rotor turns and asks for all referred rotor quantities.',
+    'Calculate the two ratios first, then apply the correct ratio to each vector.',
+    'Current ratio is opposite the voltage/flux ratio.');
+});
+add('L5','math',function(){
+  var th=pick([Math.PI/4,Math.PI/3]),L=pick([2.5,5]);
+  var m=[
+    [L*Math.cos(th),L*Math.cos(th+2*Math.PI/3),L*Math.cos(th-2*Math.PI/3)],
+    [L*Math.cos(th-2*Math.PI/3),L*Math.cos(th),L*Math.cos(th+2*Math.PI/3)],
+    [L*Math.cos(th+2*Math.PI/3),L*Math.cos(th-2*Math.PI/3),L*Math.cos(th)]
+  ];
+  var correct=mat3str(m,2);
+  return hwmc('L5','Hard','HW5 P2 — Lsr inductance matrix','HW5 Problem 2',
+    `For an induction machine, θr=${angleName(th)} and the stator-rotor mutual coefficient Lsr=${L} H. Build the full 3×3 Lsr matrix.`,
+    correct,[mat3str([[L*Math.cos(th),L*Math.cos(th-2*Math.PI/3),L*Math.cos(th+2*Math.PI/3)],[L*Math.cos(th+2*Math.PI/3),L*Math.cos(th),L*Math.cos(th-2*Math.PI/3)],[L*Math.cos(th-2*Math.PI/3),L*Math.cos(th+2*Math.PI/3),L*Math.cos(th)]],2),mat3str([[Math.cos(th),Math.cos(th+2*Math.PI/3),Math.cos(th-2*Math.PI/3)],[Math.cos(th-2*Math.PI/3),Math.cos(th),Math.cos(th+2*Math.PI/3)],[Math.cos(th+2*Math.PI/3),Math.cos(th-2*Math.PI/3),Math.cos(th)]],2),mat3str([[L,L,L],[L,L,L],[L,L,L]],2)],
+    `Fill the cosine pattern row by row and multiply every element by Lsr.`,
+    'Lsr=Lsr·[[cosθ, cos(θ+2π/3), cos(θ−2π/3)],[cos(θ−2π/3),cosθ,cos(θ+2π/3)],[cos(θ+2π/3),cos(θ−2π/3),cosθ]]',
+    'Build a 3×3 Excel block. Example top-left =Lsr*COS(theta); top-middle =Lsr*COS(theta+2*PI()/3); top-right =Lsr*COS(theta-2*PI()/3). Fill the remaining rows using the displayed pattern.',
+    'The question asks for an inductance matrix from θr and Lsr.',
+    'Treat it as a 3×3 matrix problem, not a single scalar.',
+    'The ±2π/3 positions matter; do not simply copy the first row unchanged.');
+});
+add('L5','math',function(){
+  var Lsr=pick([2.5,5]),Ns=pick([50,100]),Nr=pick([100,150]),Lms=Ns/Nr*Lsr,Lmr=Math.pow(Nr/Ns,2)*Lms,correct=pstr(Lms,Lmr,'H','H',3);
+  return hwmc('L5','Medium','HW5 P3 — Lms and Lmr','HW5 Problem 3',
+    `Lsr=${Lsr} H, Ns=${Ns}, Nr=${Nr}. Calculate [Lms,Lmr].`,
+    correct,[pstr(Nr/Ns*Lsr,Math.pow(Ns/Nr,2)*(Nr/Ns*Lsr),'H','H',3),pstr(Lms,Lsr,'H','H',3),pstr(Lmr,Lms,'H','H',3)],
+    `First Lms=(Ns/Nr)Lsr, then Lmr=(Nr/Ns)²Lms.`,
+    'Lms=(Ns/Nr)Lsr\nLmr=(Nr/Ns)²Lms',
+    'Lms =(Ns/Nr)*Lsr; Lmr =(Nr/Ns)^2*Lms.',
+    'The problem asks for both magnetizing inductance values from Lsr and turns.',
+    'Compute Lms first because Lmr uses it.',
+    'Do not apply the squared ratio to Lsr directly unless you first confirm the exact course relationship.');
+});
+add('L5','math',function(){
+  var r=pick([10,20]),Ns=pick([50,100]),Nr=pick([175,25]),rp=Math.pow(Ns/Nr,2)*r;
+  return hwmc('L5','Medium','HW5 P4 — referred rotor resistance','HW5 Problem 4',
+    `The induction-machine resistance is r=${r} Ω. Ns=${Ns} stator turns and Nr=${Nr} rotor turns. Find r′ at the rotor/stator-referred terminals using the course convention.`,
+    numAns(rp,'Ω',3),near(rp).map(function(x){return numAns(x,'Ω',3)}),
+    `Resistance scales with the square of Ns/Nr. r′=${fmt(rp,3)} Ω.`,
+    'r′=(Ns/Nr)²r',
+    '=(Ns/Nr)^2*r',
+    'The problem asks for referred resistance and gives both winding turns.',
+    'Form Ns/Nr, square it, then multiply by r.',
+    'Resistance uses a squared turns ratio.');
+});
+add('L5','math',function(){
+  var th=pick([3*Math.PI/4,Math.PI]),tr=pick([Math.PI/4,Math.PI/2]),V=pick([400,800]),beta=th-tr,r=qd(V,V,V,beta),correct=vstr([r.q,r.d,r.z],'V',2);
+  return hwmc('L5','Medium','HW5 P5 — rotor abc → qd0','HW5 Problem 5',
+    `Rotor function f′abcr=[${V},${V},${V}] V has electrical angle θ=${angleName(th)} and rotor angle θr=${angleName(tr)}. Using β=θ−θr, calculate f′qd0r.`,
+    correct,[vstr([V,0,0],'V',2),vstr([0,V,0],'V',2),vstr([0,0,V/3],'V',2)],
+    `Compute β first, then use the rotor K matrix. Equal phase values produce q≈0,d≈0,zero=${V}.`,
+    'β=θ−θr\nf′qd0r=Kr(β)f′abcr',
+    'beta=theta-theta_r; then use the same q,d,0 formulas with beta in every SIN/COS term.',
+    'The clue is a rotor abc quantity plus θ and θr.',
+    'Subtract angles first, then transform.',
+    'Use β=θ−θr, not θ by itself.');
+});
+add('L5','math',function(){
+  var Xq=pick([.5,.75]),Xd=pick([.25,.5]),wb=pick([314,377]),Vqs=pick([-5,-7.5]),Vds=pick([5,7.5]),Rs=pick([10,20]),fs=pick([47,57]),sv=2*Math.PI*fs,alpha=wb*Rs/2*(1/Xq+1/Xd),D=sv*sv+2*alpha*sv+wb*wb;
+  var iq=-(1/Xq)/D*((wb*wb*Rs*Vqs/Xd)+(sv*wb*Vqs)-(wb*wb*Vds));
+  var id=-(1/Xd)/D*((wb*wb*Rs*Vds/Xq)+(sv*wb*Vds)+(wb*wb*Vqs)),correct=pstr(iq,id,'A','A',4);
+  return hwmc('L5','Hard','HW5 P6 — nonideal Laplace fault currents','HW5 Problem 6',
+    `Nonideal short circuit: Xq=${Xq} H, Xd=${Xd} H, ωb=${wb} rad/s, Vqs=${Vqs} V, Vds=${Vds} V, Rs=${Rs} Ω, fs=${fs} Hz. Calculate [iq,id].`,
+    correct,[pstr(-iq,id,'A','A',4),pstr(iq,-id,'A','A',4),pstr(id,iq,'A','A',4)],
+    `First s=2πfs and α=(ωbRs/2)(1/Xq+1/Xd), then D=s²+2αs+ωb², then both current numerators. Result ${correct}.`,
+    's=2πfs\nα=(ωbRs/2)(1/Xq+1/Xd)\nD=s²+2αs+ωb²\niq=−(1/Xq)/D[(ωb²RsVqs/Xd)+sωbVqs−ωb²Vds]\nid=−(1/Xd)/D[(ωb²RsVds/Xq)+sωbVds+ωb²Vqs]',
+    'Use separate cells for s, alpha, D, iq numerator and id numerator. Then iq=-(1/Xq)/D*num_q and id=-(1/Xd)/D*num_d.',
+    'The problem explicitly says nonideal and Laplace and gives Xq,Xd,ωb,Vqs,Vds,Rs,fs.',
+    'Build the common denominator once, then calculate q and d currents.',
+    'Do not confuse Laplace variable s=2πfs with slip.');
+});
+add('L5','math',function(){
+  var Vs=pick([240,480]),Xd=pick([.5,.75]),Xq=pick([.5,.75]),alpha=pick([.2,.5]),t=pick([1,5,10,20]),th=pick([Math.PI/4,Math.PI/3]),C=Math.SQRT2*Vs/2*(1/Xd+1/Xq)*Math.exp(-alpha*t),Ia=-C*Math.sin(th),Ib=-C*Math.sin(th-2*Math.PI/3),Ic=-C*Math.sin(th+2*Math.PI/3),correct=vstr([Ia,Ib,Ic],'A',2);
+  return hwmc('L5','Hard','HW5 P7 — subtransient phase-current sweep','HW5 Problem 7',
+    `Subtransient fault: Vs=${Vs} V, Xd″=${Xd}, Xq″=${Xq}, α=${alpha}, θr(0)=${angleName(th)}. For the HW5 time sweep, calculate [Ia,Ib,Ic] at t=${t} s.`,
+    correct,[vstr([-Ia,Ib,Ic],'A',2),vstr([Ia,-Ib,-Ic],'A',2),vstr([Ia*Math.exp(alpha*t),Ib*Math.exp(alpha*t),Ic*Math.exp(alpha*t)],'A',2)],
+    `Build C(t) first, then apply the three 120°-shifted sine terms. As t grows, EXP(−αt) drives the fault currents toward zero.`,
+    'C(t)=√2Vs/2(1/Xd″+1/Xq″)e^(−αt)\nIa=−C sinθ0\nIb=−C sin(θ0−2π/3)\nIc=−C sin(θ0+2π/3)',
+    'C=SQRT(2)*Vs/2*(1/Xd2+1/Xq2)*EXP(-alpha*t); Ia=-C*SIN(theta0); Ib=-C*SIN(theta0-2*PI()/3); Ic=-C*SIN(theta0+2*PI()/3).',
+    'The problem asks for three phase fault currents at several times.',
+    'Calculate one time row at a time using a shared C(t) cell, then copy the row for t=1,5,10,20.',
+    'The decay factor is EXP(−αt), so the current magnitudes should decrease with time.');
+});
+add('L5','math',function(){
+  var Vs=pick([240,480]),Xd=pick([.5,.75]),Xq=pick([.5,.75]),alpha=pick([.2,.5]),t=pick([1,5,10,20]),wb=pick([314,377]),C=Math.SQRT2*Vs/2*(1/Xd+1/Xq)*Math.exp(-alpha*t),Iq=C*Math.sin(wb*t),Id=-C*Math.cos(wb*t),correct=pstr(Iq,Id,'A','A',2);
+  return hwmc('L5','Hard','HW5 P8 — subtransient qd-current sweep','HW5 Problem 8',
+    `Using Vs=${Vs} V, Xd″=${Xd}, Xq″=${Xq}, α=${alpha}, ωb=${wb} rad/s, calculate [Iq,Id] at t=${t} s for the HW5 fault-current time sweep.`,
+    correct,[pstr(-Iq,Id,'A','A',2),pstr(Iq,-Id,'A','A',2),pstr(Id,Iq,'A','A',2)],
+    `Use the same decaying coefficient C(t), then Iq=C sin(ωbt) and Id=−C cos(ωbt).`,
+    'C(t)=√2Vs/2(1/Xd″+1/Xq″)e^(−αt)\nIq=C sin(ωbt)\nId=−C cos(ωbt)',
+    'C=SQRT(2)*Vs/2*(1/Xd2+1/Xq2)*EXP(-alpha*t); Iq=C*SIN(wb*t); Id=-C*COS(wb*t).',
+    'This is the q-d version of the same HW5 subtransient fault sweep.',
+    'Build C(t) once and then apply the sin/cos pair.',
+    'Id has the leading negative sign.');
+});
+add('L5','math',function(){
+  var Vs=pick([480,800]),Xt=pick([.15,.25]),Xss=pick([.8,1.0]),It=Math.SQRT2*Vs/Xt,Iss=Math.SQRT2*Vs/Xss,correct=pstr(It,Iss,'A','A',1);
+  return hwmc('L5','Medium','HW5 P9 — transient vs steady short circuit','HW5 Problem 9',
+    `Ideal synchronous-machine fault: Vs=${Vs} V, transient/subtransient reactance=${Xt}, steady-state reactance=${Xss}. Calculate [Isc transient, Isc steady].`,
+    correct,[pstr(Iss,It,'A','A',1),pstr(Vs/Xt,Vs/Xss,'A','A',1),pstr(It,It,'A','A',1)],
+    `Apply Isc=√2Vs/X to each reactance independently. The smaller reactance produces the larger initial fault current.`,
+    'Isc=√2Vs/X',
+    'I_trans=SQRT(2)*Vs/X_trans; I_steady=SQRT(2)*Vs/X_steady.',
+    'The problem gives two reactances and asks for short-circuit current in both conditions.',
+    'Use the same equation twice, once with each X.',
+    'Do not use the steady-state reactance for the initial transient current.');
+});
+
+// L6 / HW6
+add('L6','math',function(){
+  var aa=pick([120,122,125]),ab=aa-1,ac=aa+2,ba=pick([118,120]),bb=ba+2,bc=ba+3,w=pick([314,377]),t=pick([1,2]),V=[aa*Math.cos(w*t)+ba*Math.sin(w*t),ab*Math.cos(w*t)+bb*Math.sin(w*t),ac*Math.cos(w*t)+bc*Math.sin(w*t)],correct=vstr(V,'V',3);
+  return hwmc('L6','Hard','HW6 P1 — α/β coefficients → Va,Vb,Vc','HW6 Problem 1',
+    `Unbalanced stator: Vabcα=[${aa},${ab},${ac}] V, Vabcβ=[${ba},${bb},${bc}] V, ωe=${w} rad/s, t=${t} s. Reconstruct [Va,Vb,Vc].`,
+    correct,[vstr([aa,ab,ac],'V',3),vstr([ba,bb,bc],'V',3),vstr(V.map(function(x){return -x}),'V',3)],
+    `Apply Vphase=Vαcos(ωet)+Vβsin(ωet) independently to a,b,c.`,
+    '[Va,Vb,Vc]^T = [[Vaα,Vaβ],[Vbα,Vbβ],[Vcα,Vcβ]]·[cos(ωet), sin(ωet)]^T',
+    'angle=we*t; Va=Va_alpha*COS(angle)+Va_beta*SIN(angle); repeat for b and c.',
+    'The problem gives α and β coefficient vectors and asks for physical phase voltages.',
+    'Use the same reconstruction formula on each phase row.',
+    'Do not average α/β here; averaging is the zero-sequence problem.');
+});
+add('L6','math',function(){
+  var aa=122,ab=121,ac=124,ba=120,bb=122,bc=123,w=pick([314,377]),t=pick([1,2]),th=pick([Math.PI/4,Math.PI/3]);
+  var A=(aa-.5*ab-.5*ac+(Math.sqrt(3)/2)*(bb-bc))/3,B=(ba-.5*bb-.5*bc-(Math.sqrt(3)/2)*(ab-ac))/3,C=(aa-.5*ab-.5*ac-(Math.sqrt(3)/2)*(bb-bc))/3,D=(ba-.5*bb-.5*bc+(Math.sqrt(3)/2)*(ab-ac))/3;
+  var pm=w*t-th,pp=w*t+th,Vq=Math.cos(pm)*A+Math.sin(pm)*B+Math.cos(pp)*C+Math.sin(pp)*D,Vd=-Math.sin(pm)*A+Math.cos(pm)*B+Math.sin(pp)*C-Math.cos(pp)*D,correct=pstr(Vq,Vd,'V','V',4);
+  return hwmc('L6','Hard','HW6 P2 — full stator ABCD → Vq,Vd','HW6 Problem 2',
+    `Use Vabcα=[${aa},${ab},${ac}] V and Vabcβ=[${ba},${bb},${bc}] V, ωe=${w}, t=${t}, displacement θ=${angleName(th)}. Generate A,B,C,D and calculate [Vq,Vd].`,
+    correct,[pstr(Vd,Vq,'V','V',4),pstr(-Vq,Vd,'V','V',4),pstr(Vq,-Vd,'V','V',4)],
+    `This is the full HW6 workflow: A/B/C/D first, then φ−=ωet−θ and φ+=ωet+θ, then Vq/Vd.`,
+    'A=(1/3)[Vaα−0.5Vbα−0.5Vcα+(√3/2)(Vbβ−Vcβ)]\nB=(1/3)[Vaβ−0.5Vbβ−0.5Vcβ−(√3/2)(Vbα−Vcα)]\nC=(1/3)[Vaα−0.5Vbα−0.5Vcα−(√3/2)(Vbβ−Vcβ)]\nD=(1/3)[Vaβ−0.5Vbβ−0.5Vcβ+(√3/2)(Vbα−Vcα)]\nφ−=ωet−θ; φ+=ωet+θ\nVq=cosφ−A+sinφ−B+cosφ+C+sinφ+D\nVd=−sinφ−A+cosφ−B+sinφ+C−cosφ+D',
+    'Make cells for A,B,C,D,phi_minus,phi_plus. Then Vq=COS(phi_minus)*A+SIN(phi_minus)*B+COS(phi_plus)*C+SIN(phi_plus)*D; Vd=-SIN(phi_minus)*A+COS(phi_minus)*B+SIN(phi_plus)*C-COS(phi_plus)*D.',
+    'The prompt says generate the ABCD terms and then solve Vq/Vd for an unbalanced stator.',
+    'Do not skip the intermediate A/B/C/D cells; they are the safest way to work this in Excel.',
+    'Keep φ− and φ+ separate; using one angle for all four terms is wrong.');
+});
+add('L6','math',function(){
+  var aa=122,ab=121,ac=124,ba=120,bb=122,bc=123,w=pick([314,377]),t=pick([1,2]),A0=(aa+ab+ac)/3,B0=(ba+bb+bc)/3,V0=A0*Math.cos(w*t)+B0*Math.sin(w*t);
+  return hwmc('L6','Medium','HW6 P3 — zero sequence from α/β','HW6 Problem 3',
+    `For Vabcα=[${aa},${ab},${ac}] and Vabcβ=[${ba},${bb},${bc}], ωe=${w}, t=${t}, find the stator zero-sequence voltage V0.`,
+    numAns(V0,'V',4),near(V0).map(function(x){return numAns(x,'V',4)}),
+    `Average each coefficient set first, then reconstruct in time. V0=${fmt(V0,4)} V.`,
+    'A0=(Vaα+Vbα+Vcα)/3\nB0=(Vaβ+Vbβ+Vcβ)/3\nV0=A0 cos(ωt)+B0 sin(ωt)',
+    'A0=AVERAGE(Va_alpha,Vb_alpha,Vc_alpha); B0=AVERAGE(Va_beta,Vb_beta,Vc_beta); V0=A0*COS(w*t)+B0*SIN(w*t).',
+    'This HW6 item asks specifically for the zero-sequence component from α/β data.',
+    'Average α and β separately, then combine them with cos/sin.',
+    'Do not use the q or d sequence formulas here.');
+});
+add('L6','math',function(){
+  var fa=pick([122,125]),fb=fa-2,fc=fa+2,qv=(2/3)*(fa-.5*fb-.5*fc),dv=(2/3)*(-(Math.sqrt(3)/2)*fb+(Math.sqrt(3)/2)*fc),z=(fa+fb+fc)/3,pr=qv/2,pi=-dv/2,nr=qv/2,ni=dv/2,pm=Math.hypot(pr,pi),nm=Math.hypot(nr,ni),pa=Math.atan2(pi,pr)*180/Math.PI,na=Math.atan2(ni,nr)*180/Math.PI;
+  var correct=`q,d,0=${vstr([qv,dv,z],'',3)}; +seq=${fmt(pm,3)}∠${fmt(pa,1)}°; −seq=${fmt(nm,3)}∠${fmt(na,1)}°; zero=${fmt(z,3)}`;
+  return hwmc('L6','Hard','HW6 P4 — full sequence workflow','HW6 Problem 4',
+    `For Fabc=[${fa},${fb},${fc}], calculate stationary q,d,0 and then the positive-, negative-, and zero-sequence quantities.`,
+    correct,
+    [`q,d,0=${vstr([dv,qv,z],'',3)}; +seq=${fmt(pm,3)}∠${fmt(na,1)}°; −seq=${fmt(nm,3)}∠${fmt(pa,1)}°; zero=${fmt(z,3)}`,
+     `q,d,0=${vstr([qv,dv,0],'',3)}; +seq=${fmt(pm,3)}∠${fmt(pa,1)}°; −seq=${fmt(nm,3)}∠${fmt(na,1)}°; zero=0`,
+     `q,d,0=${vstr([qv,-dv,z],'',3)}; +seq=${fmt(pm,3)}∠${fmt(pa,1)}°; −seq=${fmt(nm,3)}∠${fmt(na,1)}°; zero=${fmt(z,3)}`],
+    `First form stationary q,d,0. Then Positive=(q−jd)/2 and Negative=(q+jd)/2. Convert each complex result to magnitude/angle.`,
+    'q=(2/3)(Fa−0.5Fb−0.5Fc)\nd=(2/3)[−(√3/2)Fb+(√3/2)Fc]\n0=(Fa+Fb+Fc)/3\nPositive=(q−jd)/2\nNegative=(q+jd)/2',
+    'Create q,d,zero cells. Positive real=q/2; positive imag=-d/2; negative real=q/2; negative imag=d/2. Magnitude=SQRT(real^2+imag^2); angle=DEGREES(ATAN2(imag,real)) or DEGREES(IMARGUMENT(COMPLEX(real,imag,\"j\"))).',
+    'The problem asks for positive, negative and zero sequence of an unbalanced three-phase set.',
+    'Do the stationary transform first, then build the complex sequence values.',
+    'Keep the sign of the j·d term straight: positive uses −jd; negative uses +jd.');
+});
+add('L6','math',function(){
+  var ea=pick([205,210]),eb=ea+3,ec=ea-4,Vq=(2/3)*(ea-eb/2-ec/2),Vd=(ec-eb)/Math.sqrt(3),correct=pstr(Vq,Vd,'V','V',3);
+  return hwmc('L6','Medium','HW6 P5 — unbalanced Egabc → Vq,Vd','HW6 Problem 5',
+    `Unbalanced EMF voltages Egabc=[${ea},${eb},${ec}] V. Calculate stator [Vq,Vd].`,
+    correct,[pstr(Vd,Vq,'V','V',3),pstr(-Vq,Vd,'V','V',3),pstr(Vq,-Vd,'V','V',3)],
+    `Use the simplified stationary stator transform. Result ${correct}.`,
+    'Vq=(2/3)(Ega−Egb/2−Egc/2)\nVd=(Egc−Egb)/√3',
+    'Vq=(2/3)*(Ega-Egb/2-Egc/2); Vd=(Egc-Egb)/SQRT(3).',
+    'The prompt gives only Ega,Egb,Egc and asks for stator q,d.',
+    'Use the simplified stationary qd equations directly.',
+    'Vd uses Egc−Egb in that order.');
+});
+add('L6','math',function(){
+  var E=pick([208,240]),Ia=pick([12,15]),Zm=pick([8,10]),ang=pick([25,30,45]),rad=ang*Math.PI/180,zr=Zm*Math.cos(rad),zi=Zm*Math.sin(rad),dr=Ia/3*zr,di=Ia/3*zi,vpr=E-dr,vpi=-di,vmr=-dr,vmi=-di,pmag=Math.hypot(vpr,vpi),pang=Math.atan2(vpi,vpr)*180/Math.PI,nmag=Math.hypot(vmr,vmi),nang=Math.atan2(vmi,vmr)*180/Math.PI;
+  var correct=`V+=${fmt(pmag,3)}∠${fmt(pang,1)}° V; V−=${fmt(nmag,3)}∠${fmt(nang,1)}° V`;
+  return hwmc('L6','Hard','HW6 P6 — sequence voltages with impedance','HW6 Problem 6',
+    `Unbalanced machine: Ega=${E} V, stator Ia=${Ia} A, Z=${Zm}∠${ang}° Ω. Find the positive- and negative-sequence voltages.`,
+    correct,
+    [`V+=${fmt(nmag,3)}∠${fmt(nang,1)}° V; V−=${fmt(pmag,3)}∠${fmt(pang,1)}° V`,
+     `V+=${fmt(pmag,3)}∠${fmt(-pang,1)}° V; V−=${fmt(nmag,3)}∠${fmt(-nang,1)}° V`,
+     `V+=${fmt(E,3)}∠0° V; V−=0∠0° V`],
+    `Convert Z to rectangular, form drop=(Ia/3)Z, then V+=Ega−drop and V−=−drop.`,
+    'drop=(Ia/3)Z\nV+=Ega−drop\nV−=−drop',
+    'Zreal=Zmag*COS(RADIANS(angle)); Zimag=Zmag*SIN(RADIANS(angle)); drop_real=(Ia/3)*Zreal; drop_imag=(Ia/3)*Zimag; Vplus_real=Ega-drop_real; Vplus_imag=-drop_imag; Vminus_real=-drop_real; Vminus_imag=-drop_imag.',
+    'The problem gives Ega, Ia and a complex impedance and asks for positive/negative sequence voltages.',
+    'Work entirely in rectangular complex form first; convert to magnitude/angle at the end.',
+    'Do not subtract only the impedance magnitude; the angle matters.');
+});
+add('L6','math',function(){
+  var A=pick([-.5,.2]),B=pick([-.25,.1]),C=pick([-1,.6]),D=pick([-1.5,.5]),we=pick([314,377]),wr=we-pick([2,4]),t=pick([1,2]),th=pick([Math.PI/4,Math.PI/3]),p1=we*t-th,p2=(we-2*wr)*t+th,Vq=Math.cos(p1)*A+Math.sin(p1)*B+Math.cos(p2)*C+Math.sin(p2)*D,Vd=-Math.sin(p1)*A+Math.cos(p1)*B+Math.sin(p2)*C-Math.cos(p2)*D,correct=pstr(Vq,Vd,'V','V',4);
+  return hwmc('L6','Hard','HW6 P7 — unbalanced rotor Vq,Vd','HW6 Problem 7',
+    `Using the previous HW6 A,B,C,D values A=${A}, B=${B}, C=${C}, D=${D}, with ωe=${we}, ωr=${wr}, t=${t}, θ=${angleName(th)}, calculate rotor [Vq,Vd].`,
+    correct,[pstr(Vd,Vq,'V','V',4),pstr(-Vq,Vd,'V','V',4),pstr(Vq,-Vd,'V','V',4)],
+    `Use φ1=ωet−θ and the rotor-specific second angle φ2=(ωe−2ωr)t+θ.`,
+    'φ1=ωet−θ\nφ2=(ωe−2ωr)t+θ\nVq=cosφ1 A+sinφ1 B+cosφ2 C+sinφ2 D\nVd=−sinφ1 A+cosφ1 B+sinφ2 C−cosφ2 D',
+    'phi1=we*t-theta; phi2=(we-2*wr)*t+theta; Vq=COS(phi1)*A+SIN(phi1)*B+COS(phi2)*C+SIN(phi2)*D; Vd=-SIN(phi1)*A+COS(phi1)*B+SIN(phi2)*C-COS(phi2)*D.',
+    'The problem says use the previous stator results but solve q/d at the rotor.',
+    'Reuse A/B/C/D and change only the frame angles.',
+    'The second rotor angle contains (ωe−2ωr), not simply ωe.');
+});
+
+// L7 / HW7
+add('L7','math',function(){
+  var wr=pick([200,314,377]),L=pick([2.5,5]),If=pick([10,25]),th=pick([Math.PI/4,Math.PI/2]),V=wr*L*If*Math.sin(th);
+  return hwmc('L7','Medium','HW7 P1 — DC open-circuit voltage','HW7 Problem 1',
+    `DC machine: ωr=${wr} rad/s, LAF=${L} H, field current If=${If} A, rotor position θr=${angleName(th)}. Find open-circuit Va−a′.`,
+    numAns(V,'V',2),near(V).map(function(x){return numAns(x,'V',2)}),
+    `Use the open-circuit generated-voltage relation. Va−a′=${fmt(V,2)} V.`,
+    'Va−a′=ωr LAF If sinθr',
+    '=wr*LAF*If*SIN(theta_r)',
+    'The problem says open circuit and gives speed, armature-field inductance, field current and rotor position.',
+    'Multiply the four factors with sinθr.',
+    'θr containing π is already radians.');
+});
+add('L7','math',function(){
+  var rf=pick([10,15]),p=pick([3,5]),LFF=pick([2,2.5]),ra=pick([10,15]),LAA=pick([2,2.5]),wr=pick([314,377]),LAF=pick([4,5]),iff=pick([8,10]),ia=pick([20,25]),Vf=(rf+p*LFF)*iff,Va=wr*LAF*iff+(ra+p*LAA)*ia,correct=pstr(Vf,Va,'V','V',2);
+  return hwmc('L7','Hard','HW7 P2 — dynamic field and armature voltages','HW7 Problem 2',
+    `DC machine: rf=${rf} Ω, p=${p}, LFF=${LFF} H, ra=${ra} Ω, LAA=${LAA} H, ωr=${wr}, LAF=${LAF} H, if=${iff} A, ia=${ia} A. Calculate [Vf,Va].`,
+    correct,[pstr(rf*iff,ra*ia+wr*LAF*iff,'V','V',2),pstr(Va,Vf,'V','V',2),pstr(-Vf,Va,'V','V',2)],
+    `Keep the pL derivative terms because p is explicitly given. Result ${correct}.`,
+    'Vf=(rf+pLFF)if\nVa=ωrLAFif+(ra+pLAA)ia',
+    'Vf=(rf+p*LFF)*if; Va=wr*LAF*if+(ra+p*LAA)*ia.',
+    'The question gives p plus both self-inductances; that means it is the dynamic voltage problem.',
+    'Calculate field voltage and armature voltage separately.',
+    'Do not set p=0 unless the problem explicitly says steady state/separate excitation.');
+});
+add('L7','math',function(){
+  var LAF=pick([4,5]),If=pick([8,10]),Ia=pick([20,25]),Te=LAF*If*Ia;
+  return hwmc('L7','Easy','HW7 P3 — basic DC torque','HW7 Problem 3',
+    `DC machine: LAF=${LAF} H, field current If=${If} A, armature current Ia=${Ia} A. Find electrical torque.`,
+    numAns(Te,'N·m',1),near(Te).map(function(x){return numAns(x,'N·m',1)}),
+    `Te=LAFIfIa=${fmt(Te,1)} N·m.`,
+    'Te=LAF If Ia',
+    '=LAF*If*Ia',
+    'The problem gives only LAF, field current and armature current and asks for torque.',
+    'Multiply the three quantities directly.',
+    'Do not introduce ωr into this basic torque relation.');
+});
+add('L7','math',function(){
+  var Rf=pick([10,15]),ra=pick([10,15]),wr=pick([314,377]),LAF=pick([4,5]),If=pick([8,10]),Ia=pick([20,25]),Vf=Rf*If,Va=ra*Ia+wr*LAF*If,correct=pstr(Vf,Va,'V','V',2);
+  return hwmc('L7','Medium','HW7 P4 — separately excited DC voltages','HW7 Problem 4',
+    `Separately excited DC machine at steady state: Rf=${Rf} Ω, ra=${ra} Ω, ωr=${wr}, LAF=${LAF} H, If=${If} A, Ia=${Ia} A. Calculate [Vf,Va].`,
+    correct,[pstr(Va,Vf,'V','V',2),pstr(Rf*If,ra*Ia,'V','V',2),pstr(-Vf,Va,'V','V',2)],
+    `Separate excitation steady state means p=0. Use Vf=RfIf and Va=raIa+ωrLAFIf.`,
+    'p=0\nVf=RfIf\nVa=raIa+ωrLAFIf',
+    'Vf=Rf*If; Va=ra*Ia+wr*LAF*If.',
+    'The problem explicitly says separate exciter/separate winding excitation.',
+    'Set p=0 first, then evaluate the two steady-state voltage equations.',
+    'Do not carry the pL terms from HW7 Problem 2 into this steady-state problem.');
+});
+add('L7','math',function(){
+  var LAF=pick([4,5]),Va=pick([20000,25000]),Rf=pick([1500,2000]),ra=pick([800,1000]),wr=pick([15,20]),Te=LAF*Va*Va/(ra*Rf)*(1-(LAF/Rf)*wr);
+  return hwmc('L7','Hard','HW7 P5 — shunt DC torque','HW7 Problem 5',
+    `Shunt DC machine: LAF=${LAF}, Va=${Va} V, Rf=${Rf} Ω, ra=${ra} Ω, ωr=${wr}. Find Te.`,
+    numAns(Te,'N·m',3),near(Te).map(function(x){return numAns(x,'N·m',3)}),
+    `Use the shunt-specific torque equation. Te=${fmt(Te,3)} N·m.`,
+    'Te=LAF Va²/(raRf)[1−(LAF/Rf)ωr]',
+    '=LAF*Va^2/(ra*Rf)*(1-(LAF/Rf)*wr)',
+    'The problem explicitly says shunt DC machine.',
+    'Calculate the Va²/(raRf) factor and the bracket separately, then multiply by LAF.',
+    'This is not the basic Te=LAFIfIa form unless you first derive the currents.');
+});
+add('L7','math',function(){
+  var LAFs=pick([4,5]),Vt=pick([20000,25000]),rfs=pick([1500,2000]),ra=pick([800,1000]),wr=pick([314,377]),Te=LAFs*Vt*Vt/Math.pow(ra+rfs+LAFs*wr,2);
+  return hwmc('L7','Hard','HW7 P6 — series DC torque','HW7 Problem 6',
+    `Series DC machine: LAFs=${LAFs}, Vt=${Vt} V, rfs=${rfs} Ω, ra=${ra} Ω, ωr=${wr}. Find Te.`,
+    numAns(Te,'N·m',3),near(Te).map(function(x){return numAns(x,'N·m',3)}),
+    `Use the series-machine torque relation with the entire denominator squared.`,
+    'Te=LAFs Vt²/(ra+rfs+LAFsωr)²',
+    '=LAFs*Vt^2/(ra+rfs+LAFs*wr)^2',
+    'The problem explicitly says series DC machine.',
+    'Build the denominator first, square it, then divide LAFs·Vt² by it.',
+    'The square applies to the whole denominator.');
+});
+
+// Keep a small Excel-only drill mode focused on actual course-entry rules.
+add('L2','excel',function(){return hwmc('L2','Easy','Excel radians','Course Excel rule','The problem gives θ=π/2. Which Excel entry should you use?','=PI()/2',['=RADIANS(PI()/2)','=90','=SIN(PI()/2)'],'π/2 is already radians.','=PI()/2','=PI()/2','Angle contains π.','Enter the radian expression directly.','Do not wrap a π expression in RADIANS().')});
+add('L2','excel',function(){return hwmc('L2','Easy','Excel degrees','Course Excel rule','The problem gives α=35°. Which Excel entry should you use before SIN/COS?','=RADIANS(35)',['=35','=PI()/35','=DEGREES(35)'],'Convert degree input to radians.','αrad=RADIANS(αdeg)','=RADIANS(35)','Angle is explicitly in degrees.','Convert once, then use the radian cell in trig formulas.','SIN/COS in Excel use radians.')});
+add('L6','excel',function(){return hwmc('L6','Medium','Excel complex phasor','Course Excel rule','Which Excel expression creates Z=8+j3?','=COMPLEX(8,3,"j")',['=8+j3','=IMSUM(8,3)','=POLAR(8,3)'],'Use COMPLEX(real,imaginary,"j").','z=COMPLEX(real,imag,"j")','=COMPLEX(8,3,"j")','The problem requires a rectangular complex number.','Use Excel COMPLEX or keep real/imag parts in separate cells.','Typing j directly into arithmetic cells will not work as ordinary math.')});
+
+
+function renderQuizFormulaDrawer(){
+ var box=document.getElementById('quizFormulaScroll'),title=document.getElementById('quizFormulaTitle'),label=document.getElementById('quizFormulaLabel'),search=document.getElementById('quizFormulaSearch');
+ if(!box||!q)return;
+ var mod=MODS.find(function(m){return m.id===q.mod});
+ if(title)title.textContent=(mod?mod.name:q.mod)+' equations';
+ if(label)label.textContent='Show '+q.mod+' equations';
+ var term=(search&&search.value||'').trim().toLowerCase();
+ box.innerHTML='';
+ if(q.eq){
+   var cur=document.createElement('div');cur.className='quizfxcurrent';
+   cur.innerHTML='<b>CURRENT QUESTION EQUATION</b><code>'+escapeHtml(q.eq)+'</code>'+(q.why?'<div class="qfxwhen">'+escapeHtml(q.why)+'</div>':'');
+   box.appendChild(cur);
+ }
+ var rows=F.filter(function(x){return x[0]===q.mod}).map(function(x){return {x:x,score:formulaRelevanceScore(x[1],q.concept,x[2])}}).filter(function(o){
+   if(!term)return true;var g=GUIDE[o.x[1]]||{};return (o.x.join(' ')+' '+(g.when||'')+' '+(g.how||'')).toLowerCase().indexOf(term)>=0;
+ }).sort(function(a,b){return b.score-a.score});
+ rows.forEach(function(o){var x=o.x,g=GUIDE[x[1]]||{},d=document.createElement('div');d.className='quizfxitem'+(o.score>=4?' relevant':'');d.innerHTML='<div class="qfxtitle"><strong>'+escapeHtml(x[1])+'</strong>'+(o.score>=4?'<span class="pill">Relevant</span>':'')+'</div><div class="qfxeq">'+escapeHtml(x[2])+'</div>'+(g.when?'<div class="qfxwhen"><b>Use when:</b> '+escapeHtml(g.when)+'</div>':'');box.appendChild(d)});
+ if(!rows.length&&!q.eq){box.innerHTML='<div class="quizfxempty">No matching equations.</div>'}
+}
+function closeQuizFormulaDrawer(){var d=document.getElementById('quizFormulaDrawer'),b=document.getElementById('quizFormulaToggle');if(d)d.classList.add('hidden');if(b)b.classList.remove('open')}
+function toggleQuizFormulaDrawer(){var d=document.getElementById('quizFormulaDrawer'),b=document.getElementById('quizFormulaToggle');if(!d||!b)return;var opening=d.classList.contains('hidden');d.classList.toggle('hidden',!opening);b.classList.toggle('open',opening);if(opening){renderQuizFormulaDrawer();setTimeout(function(){var input=document.getElementById('quizFormulaSearch');if(input)input.blur()},0)}}
+
+var QUESTION_GUIDE_ALIAS={
+ 'Electrical angle':'Electrical/mechanical angle',
+ 'Electrical speed':'Electrical/mechanical angle',
+ 'Air-gap H':'Air-gap field',
+ 'Air-gap B':'Air-gap field',
+ 'Two-winding flux linkage':'Flux linkage',
+ 'abc → q':'abc → qd0',
+ 'abc → d':'abc → qd0',
+ 'Balanced transient qd':'Balanced transient',
+ 'Full PMAC Vabc':'Full PMAC abc voltage',
+ 'Full phase-current torque':'Full phase-current PMAC torque',
+ 'Rotor-frame Vq':'Rotor-frame PMAC voltage',
+ 'Rotor-frame Vd':'Rotor-frame PMAC voltage',
+ 'PMAC qd torque':'PMAC torque',
+ 'Source Vqd':'Terminal voltage',
+ 'PMAC derivative convention':'Full PMAC abc voltage',
+ 'Torque from rotor angle':'Rotor mechanics torque',
+ 'Torque from rotor speed':'Rotor mechanics torque',
+ 'Steady-state Vqd':'Synchronous steady Vqd',
+ 'Es / power factor':'Power-factor example',
+ 'Referred current':'Turns-ratio referrals',
+ 'Referred voltage':'Turns-ratio referrals',
+ 'Referred flux linkage':'Turns-ratio referrals',
+ 'Referred resistance':'Turns-ratio referrals',
+ 'Lms / Lmr':'Mutual inductance relations',
+ 'Subtransient phase current':'Subtransient phase fault',
+ 'Subtransient qd current':'Subtransient qd fault',
+ 'α/β reconstruction':'α/β phase reconstruction',
+ 'Full α/β → abc':'α/β phase reconstruction',
+ 'Full stator VqABCD':'Full stator VqABCD workflow',
+ 'Full sequence workflow':'Positive / negative / zero sequence',
+ 'Symmetrical components':'Positive / negative / zero sequence',
+ 'Unbalanced Egabc → qd':'Simple unbalanced stator qd',
+ 'Zero sequence α/β':'Zero sequence from α/β',
+ 'Unbalanced rotor qd':'Rotor unbalanced Vq/Vd',
+ 'Dynamic armature voltage':'Dynamic DC voltages',
+ 'Full field/armature matrix':'Dynamic DC voltages',
+ 'DC field voltage':'Dynamic DC voltages',
+ 'Complex number entry':'Excel complex numbers',
+ 'Complex angle':'Excel complex numbers',
+ 'Excel radians':'Excel angle rule',
+ 'Excel degrees':'Excel angle rule'
+};
+
+function guideForQuestion(qobj){
+ var key=QUESTION_GUIDE_ALIAS[qobj.concept]||qobj.concept;
+ var g=GUIDE[key]||{};
+ var f=F.find(function(x){return x[1]===key}) || F.find(function(x){return x[0]===qobj.mod && (String(qobj.eq||'').indexOf(x[2])>=0 || x[2].indexOf(String(qobj.eq||''))>=0)});
+ return {
+   when:qobj.when||g.when||('This is a '+qobj.concept+' problem. Match the givens in the question to the class relationship below.'),
+   how:qobj.how||g.how||qobj.why||'Identify the givens, substitute them into the equation, and solve the requested quantity.',
+   watch:qobj.watch||g.watch||'Use the exact lecture sign, angle, and reference-frame convention shown in class.',
+   eq:qobj.eq||(f?f[2]:'Use the governing '+qobj.concept+' relationship from '+qobj.source+'.'),
+   excel:qobj.excel||'Use separate cells for the givens, then replace the variable names in the equation with those cell references.',
+   source:qobj.source+(f&&f[3]&&f[3]!==qobj.source?' · '+f[3]:'')
+ };
+}
+function renderPreSolveCoach(){
+ if(!q)return;
+ var g=guideForQuestion(q);
+ var w=document.getElementById('preSolveWhen'),e=document.getElementById('preSolveEq'),h=document.getElementById('preSolveHow'),xl=document.getElementById('preSolveExcel'),x=document.getElementById('preSolveWatch'),s=document.getElementById('preSolveSource');
+ if(w)w.textContent=g.when;
+ if(e)e.textContent=g.eq;
+ if(h)h.textContent=g.how;
+ if(xl)xl.textContent=g.excel;
+ if(x)x.textContent=g.watch;
+ if(s)s.textContent='Course source: '+g.source;
+}
+
+function renderQ(){closeQuizFormulaDrawer();var qfs=document.getElementById('quizFormulaSearch');if(qfs)qfs.value='';document.getElementById('cat').textContent=MODS.find(function(x){return x.id===q.mod}).short;document.getElementById('diff').textContent=q.diff;document.getElementById('source').textContent=q.source+' · '+q.concept;document.getElementById('question').textContent=q.prompt;renderPreSolveCoach();document.getElementById('count').textContent='Question '+session.count+(session.limit?' of '+session.limit:'');document.getElementById('fill').style.width=(session.limit?Math.min(100,session.a/session.limit*100):Math.min(100,(session.a%10)*10))+'%';var a=document.getElementById('answers');a.innerHTML='';q.a.forEach(function(x,i){var b=document.createElement('button');b.className='ans';b.innerHTML='<span class="letter">'+'ABCD'[i]+'</span><span>'+escapeHtml(x)+'</span>';b.onclick=function(){answer(i)};a.appendChild(b)});document.getElementById('feedback').className='feedback hidden';document.getElementById('next').classList.add('hidden')}
+function finish(){clearInterval(tick);var msg='Session complete\n'+session.c+'/'+session.a+' correct'+(session.a?' ('+Math.round(session.c/session.a*100)+'%)':'');alert(msg);exit()}
+function exit(){clearInterval(tick);session=null;document.querySelector('.nav').style.display='grid';show('home');renderAll()}
+function show(id,nav){document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active')});document.getElementById(id).classList.add('active');if(nav!==false)document.querySelectorAll('.nav button').forEach(function(b){b.classList.toggle('active',b.dataset.view===id)});window.scrollTo(0,0)}
+function moduleItem(m,full){var s=S.mods[m.id],d=document.createElement(full?'button':'div');d.className='listitem';d.innerHTML='<div class="topline"><div><b>'+m.name+'</b><div class="muted" style="font-size:12px;margin-top:2px">'+m.title+'</div></div><span class="muted">'+s.m+'%</span></div><div class="bar"><div style="width:'+s.m+'%"></div></div>'+(full?'<div><span class="tag">'+by[m.id].length+' question types</span><span class="tag">'+s.a+' attempts</span></div>':'');if(full)d.onclick=function(){start('topic',m.id)};return d}
+function studyDay(){var a=new Date(S.firstDay+'T12:00:00'),b=new Date(day()+'T12:00:00');return Math.max(0,Math.min(6,Math.floor((b-a)/86400000)))}
+function renderAll(){if(S.today.d!==day())S.today={d:day(),a:0,c:0};var sorted=MODS.slice().sort(function(a,b){return mastery(a.id)-mastery(b.id)});document.getElementById('focus').textContent=sorted[0].name+' — '+sorted[0].title;document.getElementById('streak').textContent=S.streak;document.getElementById('today').textContent=S.today.a;document.getElementById('acc').textContent=S.today.a?Math.round(S.today.c/S.today.a*100)+'%':'—';document.getElementById('mastery').textContent=Math.round(MODS.reduce(function(t,m){return t+mastery(m.id)},0)/MODS.length)+'%';var plan=document.getElementById('plan');plan.innerHTML='';var sd=studyDay();MODS.forEach(function(m,i){var x=document.createElement('div');x.className='day'+(i===sd?' on':'');x.innerHTML='<b>D'+(i+1)+'</b>'+m.short;plan.appendChild(x)});var w=document.getElementById('weak');w.innerHTML='';sorted.slice(0,4).forEach(function(m){w.appendChild(moduleItem(m,false))});var tl=document.getElementById('topicList');tl.innerHTML='';MODS.forEach(function(m){tl.appendChild(moduleItem(m,true))});document.getElementById('totalA').textContent=S.ta;document.getElementById('totalC').textContent=S.tc;document.getElementById('totalP').textContent=S.ta?Math.round(S.tc/S.ta*100)+'%':'—';var pl=document.getElementById('progressList');pl.innerHTML='';sorted.forEach(function(m){pl.appendChild(moduleItem(m,false))});renderFormulaGuide()}
+
+var refFilter='ALL';
+function renderFormulaGuide(){
+ var fl=document.getElementById('formulaList'), search=document.getElementById('refSearch'), chips=document.getElementById('refChips'), count=document.getElementById('refCount');
+ if(!fl)return;
+ if(chips && !chips.dataset.ready){
+   ['ALL','L1','L2','L3','L4','L5','L6','L7','X'].forEach(function(id){
+     var b=document.createElement('button');b.type='button';b.className='refchip'+(id==='ALL'?' active':'');b.textContent=id==='ALL'?'All':(id==='X'?'Excel':id);b.dataset.ref=id;
+     b.onclick=function(){refFilter=id;chips.querySelectorAll('.refchip').forEach(function(c){c.classList.toggle('active',c.dataset.ref===id)});renderFormulaGuide()};
+     chips.appendChild(b);
+   });chips.dataset.ready='1';
+ }
+ if(search && !search.dataset.ready){search.oninput=renderFormulaGuide;search.dataset.ready='1'}
+ var q=(search&&search.value||'').trim().toLowerCase(),shown=0;fl.innerHTML='';
+ F.forEach(function(x){
+   var g=GUIDE[x[1]]||{},hay=(x.join(' ')+' '+(g.when||'')+' '+(g.how||'')+' '+(g.watch||'')).toLowerCase();
+   if(refFilter!=='ALL'&&x[0]!==refFilter)return;
+   if(q&&hay.indexOf(q)===-1)return;
+   shown++;
+   var d=document.createElement('div');d.className='formula';
+   var ex=EXAMPLE[x[1]]||('Problem trigger: '+(g.when||'match the givens and requested output to this equation.'));
+   d.innerHTML='<div class="topline"><b>'+escapeHtml(x[1])+'</b><span class="pill">'+escapeHtml(x[0])+'</span></div>'+
+   '<div class="coachgrid">'+
+   '<div class="coachblock"><b>1 · WHEN DO I USE THIS?</b><div>'+escapeHtml(g.when||'Match the problem wording and givens to this equation.')+'</div></div>'+
+   '<div class="coachblock"><b>2 · WHAT SHOULD I RECOGNIZE?</b><div>'+escapeHtml(ex)+'</div></div>'+
+   '</div>'+
+   '<code>'+escapeHtml(x[2])+'</code>'+
+   '<div class="coachgrid">'+
+   '<div class="coachblock"><b>3 · HOW DO I WORK IT?</b><div>'+escapeHtml(g.how||'Identify givens, substitute carefully, then check units and sign.')+'</div></div>'+
+   '<div class="coachblock warnbox"><b>4 · WHAT WILL SCREW ME UP?</b><div>'+escapeHtml(g.watch||'Use the exact lecture convention shown.')+'</div></div>'+
+   '<div class="coachblock"><b>COURSE SOURCE</b><div>'+escapeHtml(x[3])+'</div></div>'+
+   '</div>'+
+   '<button class="practicebtn" type="button">Practice '+escapeHtml(x[0])+' problems →</button>';
+   d.querySelector('.practicebtn').onclick=function(){start('topic',x[0])};
+   fl.appendChild(d);
+ });
+ if(count)count.textContent=shown+' equation guide'+(shown===1?'':'s');
+}
+function escapeHtml(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+document.querySelectorAll('.mode').forEach(function(b){b.onclick=function(){start(b.dataset.mode)}});document.querySelectorAll('.nav button').forEach(function(b){b.onclick=function(){show(b.dataset.view)}});document.getElementById('seeProgress').onclick=function(){show('progress')};document.getElementById('exit').onclick=exit;document.getElementById('next').onclick=nextQ;var qft=document.getElementById('quizFormulaToggle');if(qft)qft.onclick=toggleQuizFormulaDrawer;var qfs=document.getElementById('quizFormulaSearch');if(qfs)qfs.oninput=renderQuizFormulaDrawer;document.getElementById('reset').onclick=function(){if(confirm('Reset all ECE 6610 progress?')){S=fresh();save();renderAll()}};
+renderAll();
+})();
+</script>
+</body>
+</html>
